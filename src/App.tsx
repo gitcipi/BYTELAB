@@ -1,8 +1,11 @@
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Menu from './pages/Menu';
 import Lab from './pages/Lab';
 import { Navbar } from './components/Navbar';
+import { CartProvider } from './context/CartContext';
+import { CartDropdown } from './components/CartDrawer';
 
 const Footer = () => {
   return (
@@ -52,22 +55,33 @@ const Footer = () => {
 };
 
 function App() {
+  const [currency, setCurrency] = useState(localStorage.getItem('currency') || 'EUR');
+
+  useEffect(() => {
+    const handleCurrencyChange = () => setCurrency(localStorage.getItem('currency') || 'EUR');
+    window.addEventListener('currencyChange', handleCurrencyChange);
+    return () => window.removeEventListener('currencyChange', handleCurrencyChange);
+  }, []);
+
   return (
     <Router>
-      <div className="relative min-h-screen bg-transparent">
-        <div className="fixed inset-0 -z-50 bg-[#070707]" style={{ 
-          background: 'radial-gradient(circle at top right, rgba(0,229,255,0.06), transparent 40%), #070707' 
-        }} />
-        <Navbar />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/menu" element={<Menu />} />
-            <Route path="/lab" element={<Lab />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <CartProvider>
+        <div className="relative min-h-screen bg-transparent">
+          <div className="fixed inset-0 -z-50 bg-[#070707]" style={{ 
+            background: 'radial-gradient(circle at top right, rgba(46,71,255,0.06), transparent 40%), #070707' 
+          }} />
+          <Navbar />
+          <CartDropdown currency={currency} />
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/menu" element={<Menu />} />
+              <Route path="/lab" element={<Lab />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </CartProvider>
     </Router>
   );
 }

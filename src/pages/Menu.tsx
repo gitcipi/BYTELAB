@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, Info, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ALL_MEALS } from '../data/meals';
 import { type Meal } from '../types';
+import { useCart } from '../context/CartContext';
 
 const fadeUpVariant = {
   hidden: { opacity: 0, y: 30 },
@@ -94,7 +95,7 @@ const MealCard = ({ meal, onClick }: { meal: Meal, onClick: () => void }) => (
   </motion.div>
 );
 
-const MealModal = ({ meals, currentIndex, onClose, onNavigate }: { meals: Meal[], currentIndex: number, onClose: () => void, onNavigate: (index: number) => void }) => {
+const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { meals: Meal[], currentIndex: number, onClose: () => void, onNavigate: (index: number) => void, addToCart: (item: any) => void }) => {
   const meal = meals[currentIndex];
   
   if (!meal) return null;
@@ -185,8 +186,17 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate }: { meals: Meal[]
             </div>
           </div>
 
-          <button className="mt-12 w-full py-5 rounded-[24px] bg-accent-light dark:bg-accent text-white dark:text-black text-sm font-bold tracking-widest uppercase transition-all hover:scale-[1.02] active:scale-[0.98]">
-            Add to Selection
+          <button 
+            onClick={() => addToCart({
+              id: meal.id,
+              name: meal.title,
+              price: 8.50,
+              quantity: 1,
+              type: 'standard'
+            })}
+            className="mt-12 w-full py-5 rounded-[24px] bg-accent-light dark:bg-accent text-white dark:text-black text-sm font-bold tracking-widest uppercase transition-all hover:scale-[1.02] active:scale-[0.98]"
+          >
+            Add to Basket
           </button>
         </div>
       </motion.div>
@@ -195,6 +205,7 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate }: { meals: Meal[]
 };
 
 const Menu = () => {
+  const { addToCart } = useCart();
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activeProtein, setActiveProtein] = useState<string | null>(null);
@@ -361,6 +372,7 @@ const Menu = () => {
             currentIndex={selectedMealIndex} 
             onClose={() => setSelectedMealIndex(null)} 
             onNavigate={(index) => setSelectedMealIndex(index)}
+            addToCart={addToCart}
           />
         )}
       </AnimatePresence>

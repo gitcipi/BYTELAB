@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Leaf, Activity, Truck, Zap, CircleSlash, Timer, MapPin, Gauge } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { ALL_MEALS } from '../data/meals';
+import { About } from '../components/About';
 
 const fadeUpVariant = {
   hidden: { opacity: 0, y: 30 },
@@ -19,30 +21,11 @@ const staggerContainer = {
   }
 };
 
-const ALL_MEALS = [
-  { id: "CORE-01", label: "BYTE / CORE / 01", category: "CORE", title: "CORE 01", subtitle: "Chicken Nasi Goreng", desc: "chicken breast, jasmine rice, fried egg, veggies", macros: { energy: "540", protein: "42g", carbs: "58g", fats: "12g" }, img: "/chicken-nasi.png", goals: ["Balanced", "High Protein"], proteinSource: "Chicken" },
-  { id: "CORE-02", label: "BYTE / CORE / 02", category: "CORE", title: "CORE 02", subtitle: "Beef Bolognese Pasta", desc: "lean beef, wholewheat pasta, tomato sauce", macros: { energy: "580", protein: "38g", carbs: "62g", fats: "14g" }, img: "/beef-bolognese.png", goals: ["Balanced", "High Protein"], proteinSource: "Beef" },
-  { id: "CORE-03", label: "BYTE / CORE / 03", category: "CORE", title: "CORE 03", subtitle: "Tuna Poke Bowl", desc: "fresh tuna, brown rice, avocado, edamame", macros: { energy: "490", protein: "35g", carbs: "48g", fats: "16g" }, img: "/tuna-poke.png", goals: ["Balanced", "Fresh"], proteinSource: "Tuna" },
-  { id: "LEAN-01", label: "BYTE / LEAN / 01", category: "LEAN", title: "LEAN 01", subtitle: "Shrimp Crunch Salad", desc: "shrimp, kale, nuts, lemon vinaigrette", macros: { energy: "320", protein: "28g", carbs: "12g", fats: "18g" }, img: "/shrimp-salad.png", goals: ["Low Carb", "Lean"], proteinSource: "Shrimp" },
-  { id: "LEAN-02", label: "BYTE / LEAN / 02", category: "LEAN", title: "LEAN 02", subtitle: "Lemon Herb Chicken", desc: "chicken breast, asparagus, zucchini", macros: { energy: "310", protein: "45g", carbs: "8g", fats: "6g" }, img: "/lemon-chicken.png", goals: ["Low Carb", "High Protein"], proteinSource: "Chicken" },
-  { id: "LEAN-03", label: "BYTE / LEAN / 03", category: "LEAN", title: "LEAN 03", subtitle: "Egg White Omelette Box", desc: "egg whites, spinach, mushrooms, cottage cheese", macros: { energy: "260", protein: "34g", carbs: "8g", fats: "10g" }, img: "/egg-white-omelette.png", goals: ["Low Carb", "Lean"], proteinSource: "Egg" },
-  { id: "ZERO-01", label: "BYTE / ZERO / 01", category: "ZERO", title: "ZERO 01", subtitle: "Cottage Power Bowl", desc: "cottage cheese, walnuts, berries", macros: { energy: "290", protein: "24g", carbs: "6g", fats: "18g" }, img: "/cottage-bowl.png", goals: ["Keto", "High Protein"], proteinSource: "Cottage Cheese" },
-  { id: "ZERO-02", label: "BYTE / ZERO / 02", category: "ZERO", title: "ZERO 02", subtitle: "Garlic Butter Shrimp", desc: "shrimp, butter, garlic, broccoli", macros: { energy: "340", protein: "30g", carbs: "4g", fats: "24g" }, img: "/garlic-shrimp.png", goals: ["Keto", "High Fat"], proteinSource: "Shrimp" },
-  { id: "ZERO-03", label: "BYTE / ZERO / 03", category: "ZERO", title: "ZERO 03", subtitle: "Herb Butter Beef", desc: "lean beef, herb butter, green beans", macros: { energy: "420", protein: "32g", carbs: "2g", fats: "32g" }, img: "/herb-beef.png", goals: ["Keto", "Zero Carb"], proteinSource: "Beef" },
-  { id: "MASS-01", label: "BYTE / MASS / 01", category: "MASS", title: "MASS 01", subtitle: "Protein Burrito Beef", desc: "lean beef, beans, rice, wholewheat wrap", macros: { energy: "720", protein: "48g", carbs: "85g", fats: "22g" }, img: "/beef-burrito.png", goals: ["Bulk", "High Calorie"], proteinSource: "Beef" },
-  { id: "MASS-02", label: "BYTE / MASS / 02", category: "MASS", title: "MASS 02", subtitle: "Chicken Alfredo Pasta", desc: "chicken breast, cream sauce, pasta", macros: { energy: "750", protein: "52g", carbs: "78g", fats: "26g" }, img: "/chicken-alfredo.png", goals: ["Bulk", "Muscle Growth"], proteinSource: "Chicken" },
-  { id: "MASS-03", label: "BYTE / MASS / 03", category: "MASS", title: "MASS 03", subtitle: "Double Beef Bowl", desc: "300g beef, jasmine rice, veggies", macros: { energy: "810", protein: "65g", carbs: "60g", fats: "35g" }, img: "/double-beef.png", goals: ["Bulk", "Ultra Protein"], proteinSource: "Beef" },
-  { id: "BOOST-01", label: "BYTE / BOOST / 01", category: "BOOST", title: "BOOST 01", subtitle: "Greek Protein Bowl", desc: "greek yoghurt, protein powder, nuts", macros: { energy: "450", protein: "38g", carbs: "25g", fats: "22g" }, img: "/greek-bowl.png", goals: ["Performance", "High Protein"], proteinSource: "Yoghurt" },
-  { id: "BOOST-02", label: "BYTE / BOOST / 02", category: "BOOST", title: "BOOST 02", subtitle: "Berry Oat Power", desc: "oats, whey, berries, honey", macros: { energy: "410", protein: "30g", carbs: "55g", fats: "8g" }, img: "/berry-oat.png", goals: ["Performance", "Pre-workout"], proteinSource: "Mixed" },
-  { id: "READY-01", label: "BYTE / READY / 01", category: "READY", title: "READY 01", subtitle: "Overnight Protein Oats", desc: "oats, chia seeds, protein powder", macros: { energy: "380", protein: "32g", carbs: "42g", fats: "10g" }, img: "/overnight-oats.png", goals: ["Grab & Go", "Balanced"], proteinSource: "Mixed" },
-  { id: "READY-02", label: "BYTE / READY / 02", category: "READY", title: "READY 02", subtitle: "Chicken Caesar Wrap", desc: "chicken breast, lettuce, light dressing", macros: { energy: "420", protein: "35g", carbs: "38g", fats: "14g" }, img: "/chicken-wrap.png", goals: ["Grab & Go", "High Protein"], proteinSource: "Chicken" },
-];
-
 const MealCard = ({ label, title, subtitle, desc, macros, img }: any) => {
   return (
     <motion.div 
       variants={fadeUpVariant}
-      className="rounded-[32px] overflow-hidden bg-white border border-black/5 transition-all duration-500 hover:shadow-2xl group h-full flex flex-col"
+      className="rounded-[32px] overflow-hidden bg-white border border-black transition-all duration-500 group h-full flex flex-col"
     >
       <div className="relative h-[300px] overflow-hidden bg-gray-100">
         <img 
@@ -51,7 +34,7 @@ const MealCard = ({ label, title, subtitle, desc, macros, img }: any) => {
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
         <div className="absolute top-6 left-6 z-10">
-          <span className="text-[10px] font-mono tracking-widest text-black/60 uppercase border border-black/10 px-3 py-1 rounded-full backdrop-blur-md bg-white/30">
+          <span className="text-[10px] font-mono tracking-widest text-black font-bold uppercase border border-black/10 px-4 py-1.5 rounded-full shadow-lg bg-white/95">
             {label}
           </span>
         </div>
@@ -73,7 +56,7 @@ const MealCard = ({ label, title, subtitle, desc, macros, img }: any) => {
             <span className="text-xs font-mono text-black">{macros.energy}</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-[9px] font-mono tracking-wider text-accent-light font-bold mb-1 uppercase">PROTEIN</span>
+            <span className="text-[9px] font-mono tracking-wider text-accent font-bold mb-1 uppercase">PROTEIN</span>
             <span className="text-xs font-mono text-black">{macros.protein}</span>
           </div>
           <div className="flex flex-col">
@@ -108,21 +91,21 @@ const MenuGrid = () => {
   };
 
   return (
-    <section id="menu" className="section-padding bg-[#0b0b0b] relative overflow-hidden group border-y border-white/5">
+    <section id="menu" className="section-padding bg-white relative overflow-hidden group border-y border-black/5">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
           <div>
             <span className="text-[10px] font-mono tracking-[0.4em] text-accent uppercase mb-4 block">Engineered Selection</span>
-            <h2 className="text-4xl md:text-5xl font-heading font-light tracking-tight text-white">Precision Meals</h2>
+            <h2 className="text-4xl md:text-5xl font-heading font-light tracking-tight text-black">Precision Meals</h2>
           </div>
-          <Link to="/menu" className="text-[10px] font-mono tracking-widest text-accent hover:text-white transition-colors uppercase border-b border-accent/20 pb-1">View Catalog</Link>
+          <Link to="/menu" className="text-[10px] font-mono tracking-widest text-accent hover:text-black transition-colors uppercase border-b border-accent/20 pb-1">View Catalog</Link>
         </motion.div>
         
         <div className="relative">
           <div 
             ref={scrollRef}
             onScroll={handleScroll}
-            className="flex gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-12 marquee-mask"
+            className="flex gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-12"
           >
             {ALL_MEALS.map((dish) => (
               <motion.div key={dish.id} className="min-w-[85vw] md:min-w-[450px] snap-center">
@@ -135,20 +118,35 @@ const MenuGrid = () => {
             {showLeftArrow && (
               <button 
                 onClick={() => scroll('left')}
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-14 h-14 rounded-full bg-white/10 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white shadow-2xl transition-all hover:bg-white/20 hover:scale-110 active:scale-95"
+                className="absolute -left-4 md:-left-16 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/5 backdrop-blur-xl border border-black/10 flex items-center justify-center text-black transition-all hover:bg-black/10 hover:scale-110 active:scale-95 shadow-none"
               >
-                <ArrowRight className="rotate-180" size={24} />
+                <ArrowRight className="rotate-180" size={20} />
               </button>
             )}
           </AnimatePresence>
 
           <button 
             onClick={() => scroll('right')}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-14 h-14 rounded-full bg-white/10 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white shadow-2xl transition-all hover:bg-white/20 hover:scale-110 active:scale-95"
+            className="absolute -right-4 md:-right-16 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/5 backdrop-blur-xl border border-black/10 flex items-center justify-center text-black transition-all hover:bg-black/10 hover:scale-110 active:scale-95 shadow-none"
           >
-            <ArrowRight size={24} />
+            <ArrowRight size={20} />
           </button>
         </div>
+
+        <motion.div 
+          initial="hidden" 
+          whileInView="visible" 
+          viewport={{ once: true }} 
+          variants={fadeUpVariant}
+          className="mt-16 flex justify-center"
+        >
+          <Link 
+            to="/menu" 
+            className="px-12 py-5 bg-white text-black border border-black rounded-full text-[12px] tracking-[0.2em] uppercase font-bold hover:bg-black hover:text-white transition-all text-center"
+          >
+            View Meals
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
@@ -293,28 +291,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section id="about" className="section-padding relative overflow-hidden border-y border-black/5 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={staggerContainer}>
-              <span className="text-[10px] font-mono tracking-widest text-accent-light uppercase mb-6 block">The BYTE Standard</span>
-              <h2 className="text-4xl md:text-5xl font-heading font-light tracking-tight mb-8 text-black">Engineered for excellence.</h2>
-              <p className="text-lg text-gray-600 font-light leading-relaxed mb-12">We source the finest local ingredients and assemble them with scientific accuracy. No generic fillers. No seed oils. Just clean, powerful nutrition.</p>
-              <ul className="space-y-4">
-                {["Premium ingredients", "Macro tracked", "Chef prepared", "Local delivery", "Consistent quality"].map((point, idx) => (
-                  <li key={idx} className="flex items-center gap-4 text-black/80">
-                    <div className="w-1.5 h-1.5 rounded-full bg-accent-light"></div>
-                    <span className="font-mono text-sm tracking-wide">{point}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-            <div className="relative h-[600px] rounded-[24px] overflow-hidden border border-black/10 shadow-none">
-              <img src="/hero-bg.png" alt="Chef preparing meals" className="w-full h-full object-cover opacity-60" />
-            </div>
-          </div>
-        </div>
-      </section>
+      <About />
 
       <section className="section-padding bg-white relative border-y border-black/5">
         <div className="max-w-7xl mx-auto px-6 md:px-12 text-center">

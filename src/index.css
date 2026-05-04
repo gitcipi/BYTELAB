@@ -77,6 +77,4 @@
   animation: marquee 40s linear infinite;
 }
 
-.marquee-mask {
-  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-}
+

@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useScroll } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
+import { ShoppingBag } from 'lucide-react';
+import { useCart } from '../context/CartContext';
 
 export const Navbar = () => {
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
   const [currency, setCurrency] = useState(localStorage.getItem('currency') || 'EUR');
+  const { items, setIsOpen, isOpen } = useCart();
   const location = useLocation();
+
+  const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
 
   useEffect(() => {
     return scrollY.on('change', (latest) => {
@@ -86,6 +91,21 @@ export const Navbar = () => {
                 </button>
               ))}
             </div>
+
+            <button 
+              onClick={() => setIsOpen(!isOpen)}
+              className={`relative p-2 transition-colors cart-toggle ${
+                isDarkHero ? 'text-white' : isBrightBackground ? 'text-black' : 'text-white'
+              }`}
+            >
+              <ShoppingBag size={20} />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-accent text-white text-[8px] font-mono font-bold w-4 h-4 rounded-full flex items-center justify-center animate-in zoom-in duration-300">
+                  {totalItems}
+                </span>
+              )}
+            </button>
+
             <button className={`px-8 py-3 rounded-full text-[11px] font-mono font-bold tracking-[0.15em] uppercase transition-all duration-300 ${
               (isDarkHero || !isBrightBackground) ? 'bg-white text-black' : 'bg-black text-white'
             }`}>

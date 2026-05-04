@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useCart } from '../context/CartContext';
 
 
 const fadeUpVariant = {
@@ -48,6 +49,7 @@ const RangeSlider = ({ label, value, min, max, onChange, unit = 'G' }: any) => {
 };
 
 const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
+  const { addToCart } = useCart();
   const [currency, setCurrency] = useState(initialCurrency);
   const [selections, setSelections] = useState({
     protein: 'Skip',
@@ -185,9 +187,9 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
       }
     });
 
-    const prepFee = 0.90;
-    const packaging = 0.35;
-    const total = subtotal + prepFee + packaging;
+    const prepFee = subtotal > 0 ? 0.90 : 0;
+    const packaging = subtotal > 0 ? 0.35 : 0;
+    const total = subtotal > 0 ? subtotal + prepFee + packaging : 0;
 
     return { p, f, c, cal, subtotal, prepFee, packaging, total };
   }, [selections, weights]);
@@ -200,6 +202,23 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
     if (p === 'Skip') return 'Custom Engineering Build';
     return `${p} Performance Bowl`;
   }, [selections.protein]);
+
+  const handleEngineerOrder = () => {
+    const carbUnit = (options.carb.find(o => o.name === selections.carb) as any)?.unit || 'G';
+    addToCart({
+      id: `lab-${Date.now()}`,
+      name: dynamicMealName,
+      price: totals.total,
+      quantity: 1,
+      type: 'lab',
+      details: {
+        protein: { name: selections.protein, weight: weights.protein },
+        carb: { name: selections.carb, weight: weights.carb, unit: carbUnit },
+        veggies: { name: selections.veggies, weight: weights.veggies },
+        sauce: { name: selections.sauce, weight: weights.sauce },
+      }
+    });
+  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
@@ -370,8 +389,10 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
           <div className="space-y-4 pt-4 border-t border-black/5">
             <button 
               onClick={() => {
-                setSelections({ protein: 'Skip', carb: 'Skip', veggies: 'Skip', sauce: 'No Sauce' });
-                setWeights({ protein: 200, carb: 150, veggies: 100, sauce: 50 });
+                if (window.confirm("Are you sure you want to reset your custom build?")) {
+                  setSelections({ protein: 'Skip', carb: 'Skip', veggies: 'Skip', sauce: 'No Sauce' });
+                  setWeights({ protein: 200, carb: 150, veggies: 100, sauce: 50 });
+                }
               }}
               className="w-full py-4 rounded-2xl border border-black/10 text-[10px] font-mono font-bold tracking-[0.3em] text-black hover:bg-black hover:text-white transition-all uppercase"
             >
@@ -379,10 +400,11 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
             </button>
             <div className="grid grid-cols-1 gap-4">
               <button 
+                onClick={handleEngineerOrder}
                 disabled={selections.protein === 'Skip' || isBelowMin}
                 className="py-5 rounded-[24px] bg-black text-white text-sm font-bold tracking-[0.2em] uppercase transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-20 disabled:cursor-not-allowed"
               >
-                Engineer Order
+                Add to Basket
               </button>
             </div>
           </div>
