@@ -188,16 +188,21 @@ const Home = () => {
 
             <motion.div 
               variants={fadeUpVariant}
-              className="flex flex-wrap justify-center gap-3 mb-12"
+              className="flex flex-col items-center gap-3 mb-12"
             >
-              {['High Protein', 'Macro Tracked', 'Delivered Fresh'].map((text) => (
-                <div 
-                  key={text}
-                  className="px-4 py-1.5 rounded-full border border-black/10 bg-black/5 text-[9px] font-mono font-bold tracking-[0.2em] text-black/40 uppercase"
-                >
-                  {text}
-                </div>
-              ))}
+              <div className="flex flex-wrap justify-center gap-3">
+                {['High Protein', 'Macro Tracked', 'Delivered Fresh'].map((text) => (
+                  <div 
+                    key={text}
+                    className="px-4 py-1.5 rounded-full border border-black/10 bg-black/5 text-[9px] font-mono font-bold tracking-[0.2em] text-black/40 uppercase"
+                  >
+                    {text}
+                  </div>
+                ))}
+              </div>
+              <div className="px-4 py-1.5 rounded-full bg-[#00B14F] text-[9px] font-mono font-bold tracking-[0.2em] text-white uppercase shadow-lg shadow-green-500/20">
+                Delivered by Grab/Gojek
+              </div>
             </motion.div>
 
             <motion.div 
