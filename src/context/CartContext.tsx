@@ -32,7 +32,7 @@ const CART_EXPIRY_DAYS = 7;
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [restored, setRestored] = useState(false);
+
 
   // Load from localStorage
   useEffect(() => {
@@ -45,7 +45,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       if (now - parseInt(savedTime) < expiry) {
         setItems(JSON.parse(savedCart));
-        setRestored(true);
       } else {
         localStorage.removeItem('byte_cart');
         localStorage.removeItem('byte_cart_timestamp');
@@ -100,11 +99,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   return (
     <CartContext.Provider value={{ items, addToCart, removeFromCart, updateQuantity, clearCart, total, isOpen, setIsOpen }}>
       {children}
-      {restored && (
-        <div className="fixed bottom-8 left-8 z-[100] bg-black text-white px-6 py-3 rounded-full text-[10px] font-mono tracking-widest uppercase border border-white/10 animate-fade-out pointer-events-none">
-          Basket Restored
-        </div>
-      )}
     </CartContext.Provider>
   );
 };
