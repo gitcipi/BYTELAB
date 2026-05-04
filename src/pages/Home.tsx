@@ -163,40 +163,24 @@ const Home = () => {
 
   return (
     <div className="relative">
-      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-[#070707]">
-        <div className="absolute inset-0 z-0 bg-background">
-          {/* Realistic premium meal prep photography */}
-          <div className="absolute inset-0 z-0">
-            <img 
-              src="/meal-prep-hero.png" 
-              alt="Premium Meal Prep" 
-              className="w-full h-full object-cover opacity-25 mix-blend-luminosity scale-105"
-            />
-          </div>
-          
-          {/* Subtle luxury gradients & cobalt ambient glow */}
-          <div className="absolute inset-0 bg-gradient-to-br from-background via-background/90 to-background/50"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(46,91,255,0.08),transparent_70%)]"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
-        </div>
-
+      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-white">
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 text-center">
           <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="max-w-4xl mx-auto pt-20">
             <motion.div variants={fadeUpVariant} className="flex flex-col mb-8">
-              <h1 className="text-4xl md:text-6xl lg:text-[72px] font-heading font-semibold text-white tracking-tight leading-[1.1]">
+              <h1 className="text-4xl md:text-6xl lg:text-[72px] font-heading font-semibold text-black tracking-tight leading-[1.1]">
                 Eat clean.
               </h1>
-              <h1 className="text-4xl md:text-6xl lg:text-[72px] font-heading font-semibold text-white tracking-tight leading-[1.1]">
+              <h1 className="text-4xl md:text-6xl lg:text-[72px] font-heading font-semibold text-black tracking-tight leading-[1.1]">
                 Think sharp.
               </h1>
-              <h1 className="text-4xl md:text-6xl lg:text-[72px] font-heading font-semibold text-white tracking-tight leading-[1.1]">
+              <h1 className="text-4xl md:text-6xl lg:text-[72px] font-heading font-semibold text-black tracking-tight leading-[1.1]">
                 Stay fit.
               </h1>
             </motion.div>
 
             <motion.p 
               variants={fadeUpVariant}
-              className="text-lg md:text-xl text-white/50 font-sans font-normal tracking-wide mb-8 max-w-xl mx-auto leading-relaxed"
+              className="text-lg md:text-xl text-black/50 font-sans font-normal tracking-wide mb-8 max-w-xl mx-auto leading-relaxed"
             >
               Takeout convenience. Engineered nutrition.
             </motion.p>
@@ -208,7 +192,7 @@ const Home = () => {
               {['High Protein', 'Macro Tracked', 'Delivered Fresh'].map((text) => (
                 <div 
                   key={text}
-                  className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-[9px] font-mono font-bold tracking-[0.2em] text-white/40 uppercase"
+                  className="px-4 py-1.5 rounded-full border border-black/10 bg-black/5 text-[9px] font-mono font-bold tracking-[0.2em] text-black/40 uppercase"
                 >
                   {text}
                 </div>
@@ -219,10 +203,10 @@ const Home = () => {
               variants={fadeUpVariant}
               className="flex flex-col sm:flex-row items-center justify-center gap-6"
             >
-              <Link to="/lab" className="w-full sm:w-auto px-12 py-5 bg-white text-black rounded-full text-[12px] tracking-[0.2em] uppercase font-bold hover:bg-gray-100 transition-all text-center shadow-2xl shadow-white/5">
+              <Link to="/lab" className="w-full sm:w-auto px-12 py-5 bg-black text-white rounded-full text-[12px] tracking-[0.2em] uppercase font-bold hover:bg-black/90 transition-all text-center">
                 Build Yours
               </Link>
-              <Link to="/menu" className="w-full sm:w-auto px-12 py-5 bg-transparent border border-white/20 text-white rounded-full text-[12px] tracking-[0.2em] uppercase font-bold hover:bg-white hover:text-black transition-all text-center">
+              <Link to="/menu" className="w-full sm:w-auto px-12 py-5 bg-transparent border border-black/20 text-black rounded-full text-[12px] tracking-[0.2em] uppercase font-bold hover:bg-black hover:text-white transition-all text-center">
                 Explore Menu
               </Link>
             </motion.div>

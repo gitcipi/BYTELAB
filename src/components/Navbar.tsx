@@ -30,8 +30,9 @@ export const Navbar = () => {
 
 
 
-  const isDarkHero = location.pathname === '/' && !isScrolled;
-  const isBrightBackground = !isDarkHero && (location.pathname !== '/' || isScrolled);
+  // Since hero is now white, we don't need a special dark mode for it
+  const isDarkHero = false; 
+  const isBrightBackground = true; // Most of the app is now white-themed
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ${
@@ -59,7 +60,7 @@ export const Navbar = () => {
           </Link>
 
           {/* Center: Links */}
-          <div className="hidden lg:flex items-center gap-10">
+          <div className="hidden lg:flex items-center gap-14">
             {[
               { name: 'MENU', path: '/menu' },
               { name: 'PLANS', path: '/#plans' },
@@ -69,7 +70,7 @@ export const Navbar = () => {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`text-[10px] font-mono font-bold tracking-[0.2em] transition-all duration-300 hover:text-accent ${
+                className={`text-[12px] font-mono font-bold tracking-[0.2em] transition-all duration-300 hover:text-accent ${
                   isDarkHero ? 'text-white/60' : isBrightBackground ? 'text-black/60' : 'text-white/60'
                 }`}
               >
