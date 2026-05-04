@@ -182,7 +182,8 @@ const Home = () => {
               variants={fadeUpVariant}
               className="text-lg md:text-xl text-black/50 font-sans font-normal tracking-wide mb-8 max-w-xl mx-auto leading-relaxed"
             >
-              Engineered Nutrition based in Ubud. Sourced from Ubud.
+              Engineered Nutrition based in Ubud. <br />
+              Sourced from Ubud.
             </motion.p>
 
             <motion.div 
