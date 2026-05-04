@@ -67,7 +67,7 @@ export const CartDropdown = ({ currency }: { currency: string }) => {
     message += "Please confirm availability.";
 
     const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/6285333527965?text=${encodedMessage}`, '_blank');
+    window.open(`https://wa.me/4917684262753?text=${encodedMessage}`, '_blank');
   };
 
   return (
