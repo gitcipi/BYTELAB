@@ -18,7 +18,7 @@
   html,
   body,
   #root {
-    background: #070707;
+    background: #ffffff;
     min-height: 100%;
     margin: 0;
   }
@@ -75,6 +75,10 @@
 
 .animate-marquee {
   animation: marquee 40s linear infinite;
+}
+
+.marquee-mask-white {
+  background: linear-gradient(to right, #ffffff, transparent 20%, transparent 80%, #ffffff);
 }
 
 

@@ -214,24 +214,24 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="h-24 md:h-32 bg-[#0b0b0b] border-y border-white/5 relative overflow-hidden flex items-center">
-        <div className="absolute inset-0 marquee-mask z-10 pointer-events-none"></div>
+      <section className="h-24 md:h-32 bg-white border-y border-black/5 relative overflow-hidden flex items-center">
+        <div className="absolute inset-0 marquee-mask-white z-10 pointer-events-none"></div>
         <div className="flex animate-marquee whitespace-nowrap items-center hover:pause">
           {[...Array(2)].map((_, i) => (
             <div key={i} className="flex items-center">
               {[
-                { icon: <Leaf size={14} />, text: "CLEAN INGREDIENTS" },
-                { icon: <Activity size={14} />, text: "MACRO TRACKED" },
-                { icon: <Truck size={14} />, text: "DELIVERED FRESH" },
-                { icon: <Zap size={14} />, text: "HIGH PROTEIN" },
-                { icon: <CircleSlash size={14} />, text: "NO PROCESSED SUGAR" },
-                { icon: <Timer size={14} />, text: "DAILY PREP" },
-                { icon: <MapPin size={14} />, text: "LOCAL DELIVERY" },
-                { icon: <Gauge size={14} />, text: "PERFORMANCE FOCUSED" }
+                { icon: <Leaf size={18} />, text: "CLEAN INGREDIENTS" },
+                { icon: <Activity size={18} />, text: "MACRO TRACKED" },
+                { icon: <Truck size={18} />, text: "DELIVERED FRESH" },
+                { icon: <Zap size={18} />, text: "HIGH PROTEIN" },
+                { icon: <CircleSlash size={18} />, text: "NO PROCESSED SUGAR" },
+                { icon: <Timer size={18} />, text: "DAILY PREP" },
+                { icon: <MapPin size={18} />, text: "LOCAL DELIVERY" },
+                { icon: <Gauge size={18} />, text: "PERFORMANCE FOCUSED" }
               ].map((item, idx) => (
                 <div key={idx} className="flex items-center mx-12 group transition-all">
-                  <span className="text-accent mr-3 group-hover:scale-125 transition-transform">{item.icon}</span>
-                  <span className="text-[10px] font-mono tracking-[0.2em] text-white/50 group-hover:text-white transition-colors">{item.text}</span>
+                  <span className="text-accent-light mr-4 group-hover:scale-125 transition-transform">{item.icon}</span>
+                  <span className="text-[12px] font-mono tracking-[0.2em] text-black/40 group-hover:text-black transition-colors">{item.text}</span>
                 </div>
               ))}
             </div>

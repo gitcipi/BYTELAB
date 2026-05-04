@@ -9,7 +9,7 @@ export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [currency, setCurrency] = useState(localStorage.getItem('currency') || 'EUR');
   const { items, setIsOpen, isOpen } = useCart();
-  const location = useLocation();
+
 
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
 
