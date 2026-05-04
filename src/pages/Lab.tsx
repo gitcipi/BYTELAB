@@ -280,7 +280,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
               </div>
               
               {(isSkip || isAdding[cat]) && (
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3 items-center">
                   {categoryOptions.filter(o => !selectedItems.includes(o.name)).map(item => {
                     const isGhost = item.name === 'Skip' || item.name === 'No Sauce';
                     return (
@@ -300,6 +300,14 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                       </button>
                     );
                   })}
+                  {!isSkip && isAdding[cat] && (
+                    <button 
+                      onClick={() => setIsAdding(prev => ({ ...prev, [cat]: false }))}
+                      className="p-3 rounded-full border border-black/10 text-black/40 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-all"
+                    >
+                      <X size={14} />
+                    </button>
+                  )}
                 </div>
               )}
 
@@ -308,7 +316,14 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                   {selectedItems.map(selectedName => {
                     const unit = (options[cat as keyof typeof options].find((o: any) => o.name === selectedName) as any)?.unit || 'G';
                     return (
-                      <div key={selectedName} className="bg-black/[0.03] p-6 rounded-[24px] space-y-8 animate-in fade-in slide-in-from-top-2 duration-500 border border-black/5">
+                      <div key={selectedName} className="relative bg-black/[0.03] p-6 rounded-[24px] space-y-8 animate-in fade-in slide-in-from-top-2 duration-500 border border-black/5">
+                        <button 
+                          onClick={() => removeSelection(cat, selectedName)}
+                          className="absolute top-4 right-4 text-black/20 hover:text-red-500 hover:scale-110 transition-all p-2 z-10"
+                          title={`Remove ${selectedName}`}
+                        >
+                          <X size={14} />
+                        </button>
                         <RangeSlider 
                           label={selectedName} 
                           value={weights[cat]?.[selectedName] || 0} 
@@ -351,7 +366,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
               {!isSkip && !isAdding[cat] && categoryOptions.filter(o => !selectedItems.includes(o.name) && o.name !== 'Skip' && o.name !== 'No Sauce').length > 0 && (
                 <button 
                   onClick={() => setIsAdding(prev => ({ ...prev, [cat]: true }))}
-                  className="mt-4 flex items-center justify-center w-full max-w-[200px] gap-2 text-[10px] font-mono tracking-widest text-black/40 hover:text-black hover:bg-black/5 transition-all uppercase font-bold py-4 border border-black/10 rounded-[20px] border-dashed"
+                  className="mt-4 flex items-center justify-center w-full max-w-[200px] gap-2 text-[10px] font-mono tracking-widest text-accent hover:text-accent-light hover:bg-accent/5 transition-all uppercase font-bold py-4 border border-accent/20 rounded-[20px] border-dashed"
                 >
                   + Add another {cat}
                 </button>
@@ -421,7 +436,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                       <span className="text-black font-bold">{formatCurrency(price)}</span>
                       <button 
                         onClick={() => removeSelection(cat, selected)}
-                        className="text-black/20 hover:text-red-500 transition-colors p-1"
+                        className="text-red-500 hover:scale-110 transition-all p-1"
                         title={`Remove ${selected}`}
                       >
                         <X size={14} />
