@@ -73,6 +73,13 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
     sauce: false
   });
 
+  const [editingItems, setEditingItems] = useState<Record<string, string[]>>({
+    protein: [],
+    carb: [],
+    veggies: [],
+    sauce: []
+  });
+
   useEffect(() => {
     setCurrency(initialCurrency);
   }, [initialCurrency]);
@@ -91,6 +98,11 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
     });
 
     if (name !== 'Skip' && name !== 'No Sauce') {
+      setEditingItems(prev => ({
+        ...prev,
+        [cat]: [...prev[cat], name]
+      }));
+
       setWeights(prev => {
         if (!prev[cat][name]) {
           const defaultWeight = cat === 'protein' ? 200 : cat === 'carb' ? 150 : cat === 'veggies' ? 100 : 50;
@@ -112,6 +124,24 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
       }
       return { ...prev, [cat]: current };
     });
+    setEditingItems(prev => ({
+      ...prev,
+      [cat]: prev[cat].filter(n => n !== name)
+    }));
+  };
+
+  const minimizeItem = (cat: string, name: string) => {
+    setEditingItems(prev => ({
+      ...prev,
+      [cat]: prev[cat].filter(n => n !== name)
+    }));
+  };
+
+  const expandItem = (cat: string, name: string) => {
+    setEditingItems(prev => ({
+      ...prev,
+      [cat]: [...prev[cat], name]
+    }));
   };
 
   const options = {
@@ -313,14 +343,36 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
 
               {!isSkip && selectedItems.length > 0 && (
                 <div className="space-y-6 pt-4">
-                  {selectedItems.map(selectedName => {
+                  
+                  {/* Minimized Items */}
+                  {selectedItems.filter(name => !editingItems[cat].includes(name)).length > 0 && (
+                    <div className="flex flex-wrap gap-3">
+                      {selectedItems.filter(name => !editingItems[cat].includes(name)).map(selectedName => {
+                        const unit = (options[cat as keyof typeof options].find((o: any) => o.name === selectedName) as any)?.unit || 'G';
+                        const weight = weights[cat]?.[selectedName] || 0;
+                        return (
+                          <button
+                            key={selectedName}
+                            onClick={() => expandItem(cat, selectedName)}
+                            className="px-6 py-3 rounded-2xl border border-black/10 bg-black/5 text-[10px] font-mono tracking-widest text-black/60 hover:text-black hover:border-black/20 hover:bg-black/10 transition-all uppercase font-bold"
+                            title="Click to edit weight"
+                          >
+                            {selectedName} ({weight}{unit})
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {/* Expanded Items */}
+                  {selectedItems.filter(name => editingItems[cat].includes(name)).map(selectedName => {
                     const unit = (options[cat as keyof typeof options].find((o: any) => o.name === selectedName) as any)?.unit || 'G';
                     return (
                       <div key={selectedName} className="relative bg-black/[0.03] p-6 rounded-[24px] space-y-8 animate-in fade-in slide-in-from-top-2 duration-500 border border-black/5">
                         <button 
-                          onClick={() => removeSelection(cat, selectedName)}
-                          className="absolute top-4 right-4 text-black/20 hover:text-red-500 hover:scale-110 transition-all p-2 z-10"
-                          title={`Remove ${selectedName}`}
+                          onClick={() => minimizeItem(cat, selectedName)}
+                          className="absolute top-4 right-4 text-black/20 hover:text-black hover:scale-110 transition-all p-2 z-10"
+                          title={`Minimize ${selectedName}`}
                         >
                           <X size={14} />
                         </button>
@@ -356,6 +408,15 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                               </button>
                             );
                           })}
+                        </div>
+                        
+                        <div className="flex justify-center pt-2">
+                          <button 
+                            onClick={() => minimizeItem(cat, selectedName)}
+                            className="px-8 py-3 bg-black text-white text-[10px] font-mono font-bold tracking-[0.2em] uppercase rounded-full hover:bg-accent transition-all"
+                          >
+                            Confirm Selection
+                          </button>
                         </div>
                       </div>
                     );
@@ -485,6 +546,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                   setSelections({ protein: ['Skip'], carb: ['Skip'], veggies: ['Skip'], sauce: ['No Sauce'] });
                   setWeights({ protein: {}, carb: {}, veggies: {}, sauce: {} });
                   setIsAdding({ protein: false, carb: false, veggies: false, sauce: false });
+                  setEditingItems({ protein: [], carb: [], veggies: [], sauce: [] });
                 }
               }}
               className="w-full py-4 rounded-2xl border border-black/10 text-[10px] font-mono font-bold tracking-[0.3em] text-black hover:bg-black hover:text-white transition-all uppercase"
