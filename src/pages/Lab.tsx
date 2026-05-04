@@ -288,46 +288,50 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                 })}
               </div>
 
-              {!isSkip && selectedItems.map(selectedName => {
-                const unit = (options[cat as keyof typeof options].find((o: any) => o.name === selectedName) as any)?.unit || 'G';
-                return (
-                  <div key={selectedName} className="space-y-8 animate-in fade-in slide-in-from-top-2 duration-500 pt-4 border-t border-black/5">
-                    <RangeSlider 
-                      label={`${cat} / ${selectedName}`} 
-                      value={weights[cat]?.[selectedName] || 0} 
-                      min={cat === 'protein' ? 100 : 1} 
-                      max={cat === 'protein' ? 400 : cat === 'carb' && selectedName === 'English Muffin' ? 2 : 500} 
-                      unit={unit}
-                      onChange={(val: number) => setWeights(prev => ({
-                        ...prev,
-                        [cat]: { ...prev[cat], [selectedName]: val }
-                      }))}
-                    />
+              {!isSkip && selectedItems.length > 0 && (
+                <div className="space-y-6 pt-4">
+                  {selectedItems.map(selectedName => {
+                    const unit = (options[cat as keyof typeof options].find((o: any) => o.name === selectedName) as any)?.unit || 'G';
+                    return (
+                      <div key={selectedName} className="bg-black/[0.03] p-6 rounded-[24px] space-y-8 animate-in fade-in slide-in-from-top-2 duration-500 border border-black/5">
+                        <RangeSlider 
+                          label={selectedName} 
+                          value={weights[cat]?.[selectedName] || 0} 
+                          min={cat === 'protein' ? 100 : 1} 
+                          max={cat === 'protein' ? 400 : cat === 'carb' && selectedName === 'English Muffin' ? 2 : 500} 
+                          unit={unit}
+                          onChange={(val: number) => setWeights(prev => ({
+                            ...prev,
+                            [cat]: { ...prev[cat], [selectedName]: val }
+                          }))}
+                        />
 
-                    <div className="grid grid-cols-5 gap-3">
-                      {(cat === 'sauce' ? [25, 50, 75, 100] : cat === 'carb' && selectedName === 'English Muffin' ? [1, 2] : [100, 150, 200, 250, 300]).map(q => {
-                        if (cat === 'protein' && (q < 100 || q > 400)) return null;
-                        return (
-                          <button
-                            key={q}
-                            onClick={() => setWeights(prev => ({
-                              ...prev,
-                              [cat]: { ...prev[cat], [selectedName]: q }
-                            }))}
-                            className={`py-4 rounded-xl border text-[11px] font-mono transition-all ${
-                              weights[cat]?.[selectedName] === q
-                                ? 'bg-black text-white border-black scale-105 shadow-lg shadow-black/10'
-                                : 'bg-white border-black/5 text-gray-400 hover:border-black/20'
-                            }`}
-                          >
-                            {q}{unit}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
+                        <div className="grid grid-cols-5 gap-3">
+                          {(cat === 'sauce' ? [25, 50, 75, 100] : cat === 'carb' && selectedName === 'English Muffin' ? [1, 2] : [100, 150, 200, 250, 300]).map(q => {
+                            if (cat === 'protein' && (q < 100 || q > 400)) return null;
+                            return (
+                              <button
+                                key={q}
+                                onClick={() => setWeights(prev => ({
+                                  ...prev,
+                                  [cat]: { ...prev[cat], [selectedName]: q }
+                                }))}
+                                className={`py-4 rounded-xl border text-[11px] font-mono transition-all ${
+                                  weights[cat]?.[selectedName] === q
+                                    ? 'bg-black text-white border-black scale-105 shadow-lg shadow-black/10'
+                                    : 'bg-white border-black/5 text-gray-500 hover:border-black/20'
+                                }`}
+                              >
+                                {q}{unit}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           );
         })}
