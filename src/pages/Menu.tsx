@@ -61,7 +61,7 @@ const MealCard = ({ meal, onClick }: { meal: Meal, onClick: () => void }) => (
         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
       />
       <div className="absolute top-4 left-4 z-20">
-        <span className="text-[10px] font-mono tracking-widest text-black/60 dark:text-white/80 uppercase border border-black/10 dark:border-white/20 px-3 py-1 rounded-full backdrop-blur-md bg-white/30 dark:bg-black/30">
+        <span className="text-[10px] font-mono tracking-widest text-black font-bold uppercase border border-black/10 px-4 py-1.5 rounded-full shadow-lg bg-white/95">
           {meal.label}
         </span>
       </div>
@@ -142,7 +142,7 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { me
         <div className="w-full md:w-1/2 h-[300px] md:h-auto relative overflow-hidden bg-gray-100 dark:bg-black">
           <img src={meal.img} alt={meal.title} className="w-full h-full object-cover" />
           <div className="absolute top-8 left-8">
-            <span className="text-xs font-mono tracking-[0.4em] text-white uppercase border border-white/20 px-4 py-2 rounded-full backdrop-blur-md bg-black/30">
+            <span className="text-xs font-mono tracking-[0.4em] text-black font-bold uppercase border border-black/10 px-6 py-2.5 rounded-full shadow-2xl bg-white/95">
               {meal.label}
             </span>
           </div>

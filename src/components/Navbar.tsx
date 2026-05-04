@@ -106,11 +106,14 @@ export const Navbar = () => {
               )}
             </button>
 
-            <button className={`px-8 py-3 rounded-full text-[11px] font-mono font-bold tracking-[0.15em] uppercase transition-all duration-300 ${
-              (isDarkHero || !isBrightBackground) ? 'bg-white text-black' : 'bg-black text-white'
-            }`}>
-              ORDER NOW
-            </button>
+            <Link 
+              to="/lab" 
+              className={`px-6 py-3 rounded-full text-[11px] font-mono font-bold tracking-[0.15em] uppercase transition-all duration-300 ${
+                (isDarkHero || !isBrightBackground) ? 'bg-white text-black' : 'bg-black text-white'
+              }`}
+            >
+              Build Your Menu
+            </Link>
           </div>
         </div>
       </div>
