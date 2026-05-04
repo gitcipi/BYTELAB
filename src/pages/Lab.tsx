@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useCart } from '../context/CartContext';
+import { X } from 'lucide-react';
 
 
 const fadeUpVariant = {
@@ -65,6 +66,13 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
     sauce: {}
   });
 
+  const [isAdding, setIsAdding] = useState<Record<string, boolean>>({
+    protein: false,
+    carb: false,
+    veggies: false,
+    sauce: false
+  });
+
   useEffect(() => {
     setCurrency(initialCurrency);
   }, [initialCurrency]);
@@ -76,16 +84,10 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
         return { ...prev, [cat]: [name] };
       }
       
-      const newSelections = current.includes(name) 
-        ? current.filter(n => n !== name) 
-        : [...current.filter(n => n !== 'Skip' && n !== 'No Sauce'), name];
+      const withoutSkip = current.filter(n => n !== 'Skip' && n !== 'No Sauce');
+      if (withoutSkip.includes(name)) return prev;
         
-      // If nothing is left, default back to Skip/No Sauce
-      if (newSelections.length === 0) {
-         return { ...prev, [cat]: cat === 'sauce' ? ['No Sauce'] : ['Skip'] };
-      }
-        
-      return { ...prev, [cat]: newSelections };
+      return { ...prev, [cat]: [...withoutSkip, name] };
     });
 
     if (name !== 'Skip' && name !== 'No Sauce') {
@@ -100,6 +102,16 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
         return prev;
       });
     }
+  };
+
+  const removeSelection = (cat: string, name: string) => {
+    setSelections(prev => {
+      const current = prev[cat].filter(n => n !== name);
+      if (current.length === 0) {
+        return { ...prev, [cat]: cat === 'sauce' ? ['No Sauce'] : ['Skip'] };
+      }
+      return { ...prev, [cat]: current };
+    });
   };
 
   const options = {
@@ -267,26 +279,29 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                 <span className="text-sm font-mono tracking-[0.3em] text-black font-bold uppercase">{cat} Selection</span>
               </div>
               
-              <div className="flex flex-wrap gap-3">
-                {categoryOptions.map(item => {
-                  const isGhost = item.name === 'Skip' || item.name === 'No Sauce';
-                  return (
-                    <button
-                      key={item.name}
-                      onClick={() => toggleSelection(cat, item.name)}
-                      className={`px-6 py-3 rounded-2xl border text-[10px] font-mono tracking-widest transition-all duration-300 ${
-                        selectedItems.includes(item.name)
-                          ? 'bg-accent-light text-white border-accent-light scale-105 shadow-lg shadow-accent/20' 
-                          : isGhost 
+              {(isSkip || isAdding[cat]) && (
+                <div className="flex flex-wrap gap-3">
+                  {categoryOptions.filter(o => !selectedItems.includes(o.name)).map(item => {
+                    const isGhost = item.name === 'Skip' || item.name === 'No Sauce';
+                    return (
+                      <button
+                        key={item.name}
+                        onClick={() => {
+                          toggleSelection(cat, item.name);
+                          setIsAdding(prev => ({ ...prev, [cat]: false }));
+                        }}
+                        className={`px-6 py-3 rounded-2xl border text-[10px] font-mono tracking-widest transition-all duration-300 ${
+                          isGhost 
                             ? 'bg-transparent border-black/10 text-gray-400 hover:border-black/20'
                             : 'bg-white border-black/20 text-black font-bold hover:border-black/40'
-                      }`}
-                    >
-                      {item.name.toUpperCase()}
-                    </button>
-                  );
-                })}
-              </div>
+                        }`}
+                      >
+                        {item.name.toUpperCase()}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
 
               {!isSkip && selectedItems.length > 0 && (
                 <div className="space-y-6 pt-4">
@@ -331,6 +346,15 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                     );
                   })}
                 </div>
+              )}
+
+              {!isSkip && !isAdding[cat] && categoryOptions.filter(o => !selectedItems.includes(o.name) && o.name !== 'Skip' && o.name !== 'No Sauce').length > 0 && (
+                <button 
+                  onClick={() => setIsAdding(prev => ({ ...prev, [cat]: true }))}
+                  className="mt-4 flex items-center justify-center w-full max-w-[200px] gap-2 text-[10px] font-mono tracking-widest text-black/40 hover:text-black hover:bg-black/5 transition-all uppercase font-bold py-4 border border-black/10 rounded-[20px] border-dashed"
+                >
+                  + Add another {cat}
+                </button>
               )}
             </div>
           );
@@ -388,12 +412,21 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                 const unit = (options[cat as keyof typeof options].find((o: any) => o.name === selected) as any)?.unit || 'G';
                 
                 return (
-                  <div key={`${cat}-${selected}`} className="flex justify-between items-center text-xs font-mono group">
+                  <div key={`${cat}-${selected}`} className="flex justify-between items-center text-xs font-mono group py-1.5 border-b border-black/5 last:border-0 last:pb-0">
                     <div className="flex items-center gap-2">
                       <span className="text-black font-bold uppercase">{selected}</span>
                       <span className="text-[10px] opacity-30">{weight}{unit}</span>
                     </div>
-                    <span className="text-black font-bold">{formatCurrency(price)}</span>
+                    <div className="flex items-center gap-4">
+                      <span className="text-black font-bold">{formatCurrency(price)}</span>
+                      <button 
+                        onClick={() => removeSelection(cat, selected)}
+                        className="text-black/20 hover:text-red-500 transition-colors p-1"
+                        title={`Remove ${selected}`}
+                      >
+                        <X size={14} />
+                      </button>
+                    </div>
                   </div>
                 );
               });
@@ -436,6 +469,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                 if (window.confirm("Are you sure you want to reset your custom build?")) {
                   setSelections({ protein: ['Skip'], carb: ['Skip'], veggies: ['Skip'], sauce: ['No Sauce'] });
                   setWeights({ protein: {}, carb: {}, veggies: {}, sauce: {} });
+                  setIsAdding({ protein: false, carb: false, veggies: false, sauce: false });
                 }
               }}
               className="w-full py-4 rounded-2xl border border-black/10 text-[10px] font-mono font-bold tracking-[0.3em] text-black hover:bg-black hover:text-white transition-all uppercase"
