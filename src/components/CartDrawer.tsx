@@ -48,10 +48,16 @@ export const CartDropdown = ({ currency }: { currency: string }) => {
       message += "Custom Builds:\n";
       labItems.forEach(i => {
         message += `- ${i.name}:\n`;
-        message += `  Protein: ${i.details?.protein.name} (${i.details?.protein.weight}g)\n`;
-        message += `  Carb: ${i.details?.carb.name} (${i.details?.carb.weight}${i.details?.carb.unit})\n`;
-        message += `  Veggies: ${i.details?.veggies.name} (${i.details?.veggies.weight}g)\n`;
-        message += `  Sauce: ${i.details?.sauce.name} (${i.details?.sauce.weight}g)\n`;
+        const renderCat = (label: string, catItems: any[]) => {
+          if (catItems && catItems.length > 0) {
+            const itemsStr = catItems.map(item => `${item.name} (${item.weight}${item.unit || 'g'})`).join(' & ');
+            message += `  ${label}: ${itemsStr}\n`;
+          }
+        };
+        renderCat('Protein', i.details?.protein || []);
+        renderCat('Carb', i.details?.carb || []);
+        renderCat('Veggies', i.details?.veggies || []);
+        renderCat('Sauce', i.details?.sauce || []);
         message += `  Quantity: x${i.quantity}\n`;
         message += `  Price: ${formatCurrency(i.price * i.quantity)}\n\n`;
       });
@@ -122,22 +128,18 @@ export const CartDropdown = ({ currency }: { currency: string }) => {
                   {item.type === 'lab' && item.details && (
                     <div className="bg-black/5 rounded-xl p-4 space-y-3">
                       <div className="grid grid-cols-1 gap-2.5 text-[10px] font-mono uppercase tracking-widest text-black/40">
-                        <div className="flex justify-between border-b border-black/5 pb-1.5">
-                          <span className="text-accent/60">Protein:</span>
-                          <span className="text-black/60 font-medium">{item.details.protein.name} ({item.details.protein.weight}g)</span>
-                        </div>
-                        <div className="flex justify-between border-b border-black/5 pb-1.5">
-                          <span className="text-accent/60">Carb:</span>
-                          <span className="text-black/60 font-medium">{item.details.carb.name} ({item.details.carb.weight}{item.details.carb.unit})</span>
-                        </div>
-                        <div className="flex justify-between border-b border-black/5 pb-1.5">
-                          <span className="text-accent/60">Veggies:</span>
-                          <span className="text-black/60 font-medium">{item.details.veggies.name} ({item.details.veggies.weight}g)</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-accent/60">Sauce:</span>
-                          <span className="text-black/60 font-medium">{item.details.sauce.name} ({item.details.sauce.weight}g)</span>
-                        </div>
+                        {['protein', 'carb', 'veggies', 'sauce'].map(cat => {
+                           const catItems = item.details![cat as keyof typeof item.details];
+                           if (!catItems || catItems.length === 0) return null;
+                           return (
+                             <div key={cat} className="flex justify-between border-b border-black/5 pb-1.5 last:border-0 last:pb-0">
+                               <span className="text-accent/60">{cat}:</span>
+                               <span className="text-black/60 font-medium text-right max-w-[70%] leading-relaxed">
+                                 {catItems.map((c: any) => `${c.name} (${c.weight}${c.unit || 'g'})`).join(' & ')}
+                               </span>
+                             </div>
+                           );
+                        })}
                       </div>
                     </div>
                   )}

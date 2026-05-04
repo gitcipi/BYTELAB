@@ -51,23 +51,56 @@ const RangeSlider = ({ label, value, min, max, onChange, unit = 'G' }: any) => {
 const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
   const { addToCart } = useCart();
   const [currency, setCurrency] = useState(initialCurrency);
-  const [selections, setSelections] = useState({
-    protein: 'Skip',
-    carb: 'Skip',
-    veggies: 'Skip',
-    sauce: 'No Sauce',
+  const [selections, setSelections] = useState<Record<string, string[]>>({
+    protein: ['Skip'],
+    carb: ['Skip'],
+    veggies: ['Skip'],
+    sauce: ['No Sauce'],
   });
 
-  const [weights, setWeights] = useState({
-    protein: 200,
-    carb: 150,
-    veggies: 100,
-    sauce: 50
+  const [weights, setWeights] = useState<Record<string, Record<string, number>>>({
+    protein: {},
+    carb: {},
+    veggies: {},
+    sauce: {}
   });
 
   useEffect(() => {
     setCurrency(initialCurrency);
   }, [initialCurrency]);
+
+  const toggleSelection = (cat: string, name: string) => {
+    setSelections(prev => {
+      const current = prev[cat];
+      if (name === 'Skip' || name === 'No Sauce') {
+        return { ...prev, [cat]: [name] };
+      }
+      
+      const newSelections = current.includes(name) 
+        ? current.filter(n => n !== name) 
+        : [...current.filter(n => n !== 'Skip' && n !== 'No Sauce'), name];
+        
+      // If nothing is left, default back to Skip/No Sauce
+      if (newSelections.length === 0) {
+         return { ...prev, [cat]: cat === 'sauce' ? ['No Sauce'] : ['Skip'] };
+      }
+        
+      return { ...prev, [cat]: newSelections };
+    });
+
+    if (name !== 'Skip' && name !== 'No Sauce') {
+      setWeights(prev => {
+        if (!prev[cat][name]) {
+          const defaultWeight = cat === 'protein' ? 200 : cat === 'carb' ? 150 : cat === 'veggies' ? 100 : 50;
+          return {
+            ...prev,
+            [cat]: { ...prev[cat], [name]: defaultWeight }
+          };
+        }
+        return prev;
+      });
+    }
+  };
 
   const options = {
     protein: [
@@ -115,14 +148,9 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
     if (!opt) return 0;
 
     if (opt.pricing) {
-      // Find nearest tier or linear interpolate? 
-      // User gave specific tiers: 100, 150, 200, 250, 300.
-      // I'll use linear interpolation between those points for gram-precision, 
-      // or just a fixed rate based on the nearest points.
       const tiers = Object.keys(opt.pricing).map(Number).sort((a, b) => a - b);
       if (opt.pricing[weight]) return opt.pricing[weight];
       
-      // For weights between tiers, we interpolate
       if (weight <= tiers[0]) return (opt.pricing[tiers[0]] / tiers[0]) * weight;
       if (weight >= tiers[tiers.length - 1]) return (opt.pricing[tiers[tiers.length - 1]] / tiers[tiers.length - 1]) * weight;
       
@@ -173,18 +201,19 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
     let p = 0, f = 0, c = 0, cal = 0, subtotal = 0;
     
     ['protein', 'carb', 'veggies', 'sauce'].forEach(cat => {
-      const selected = selections[cat as keyof typeof selections];
-      const weight = weights[cat as keyof typeof weights];
-      const opt = options[cat as keyof typeof options].find((o: any) => o.name === selected) as any;
-      
-      if (opt && selected !== 'Skip' && selected !== 'No Sauce') {
-        const factor = opt.unit === 'PC' ? weight : weight / 100;
-        p += opt.p * factor;
-        f += opt.f * factor;
-        c += opt.c * factor;
-        cal += opt.cal * factor;
-        subtotal += calculateItemPrice(cat, selected, weight);
-      }
+      selections[cat].forEach(selected => {
+        const weight = weights[cat]?.[selected] || 0;
+        const opt = options[cat as keyof typeof options].find((o: any) => o.name === selected) as any;
+        
+        if (opt && selected !== 'Skip' && selected !== 'No Sauce') {
+          const factor = opt.unit === 'PC' ? weight : weight / 100;
+          p += opt.p * factor;
+          f += opt.f * factor;
+          c += opt.c * factor;
+          cal += opt.cal * factor;
+          subtotal += calculateItemPrice(cat, selected, weight);
+        }
+      });
     });
 
     const prepFee = subtotal > 0 ? 0.90 : 0;
@@ -199,24 +228,28 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
 
   const dynamicMealName = useMemo(() => {
     const p = selections.protein;
-    if (p === 'Skip') return 'Custom Engineering Build';
-    return `${p} Performance Bowl`;
+    if (p.length === 0 || p.includes('Skip')) return 'Custom Engineering Build';
+    return `${p.join(' & ')} Performance Bowl`;
   }, [selections.protein]);
 
   const handleEngineerOrder = () => {
-    const carbUnit = (options.carb.find(o => o.name === selections.carb) as any)?.unit || 'G';
+    const details: any = {};
+    ['protein', 'carb', 'veggies', 'sauce'].forEach(cat => {
+      details[cat] = selections[cat as keyof typeof selections]
+        .filter(name => name !== 'Skip' && name !== 'No Sauce')
+        .map(name => {
+          const unit = (options[cat as keyof typeof options].find((o: any) => o.name === name) as any)?.unit || 'G';
+          return { name, weight: weights[cat]?.[name] || 0, unit };
+        });
+    });
+
     addToCart({
       id: `lab-${Date.now()}`,
       name: dynamicMealName,
       price: totals.total,
       quantity: 1,
       type: 'lab',
-      details: {
-        protein: { name: selections.protein, weight: weights.protein },
-        carb: { name: selections.carb, weight: weights.carb, unit: carbUnit },
-        veggies: { name: selections.veggies, weight: weights.veggies },
-        sauce: { name: selections.sauce, weight: weights.sauce },
-      }
+      details
     });
   };
 
@@ -225,16 +258,13 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
       <div className="lg:col-span-7 space-y-20">
         {['protein', 'carb', 'veggies', 'sauce'].map((cat) => {
           const categoryOptions = options[cat as keyof typeof options] as any[];
-          const isSkip = selections[cat as keyof typeof selections] === 'Skip' || selections[cat as keyof typeof selections] === 'No Sauce';
-          const unit = (options[cat as keyof typeof options].find((o: any) => o.name === selections[cat as keyof typeof selections]) as any)?.unit || 'G';
+          const selectedItems = selections[cat];
+          const isSkip = selectedItems.includes('Skip') || selectedItems.includes('No Sauce');
 
           return (
             <div key={cat} className="space-y-10">
               <div className="flex justify-between items-end border-b border-black/10 pb-4">
                 <span className="text-sm font-mono tracking-[0.3em] text-black font-bold uppercase">{cat} Selection</span>
-                {!isSkip && (
-                  <span className="text-sm font-mono text-accent-light font-bold">{weights[cat as keyof typeof weights]}{unit}</span>
-                )}
               </div>
               
               <div className="flex flex-wrap gap-3">
@@ -243,9 +273,9 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                   return (
                     <button
                       key={item.name}
-                      onClick={() => setSelections(prev => ({ ...prev, [cat]: item.name }))}
+                      onClick={() => toggleSelection(cat, item.name)}
                       className={`px-6 py-3 rounded-2xl border text-[10px] font-mono tracking-widest transition-all duration-300 ${
-                        selections[cat as keyof typeof selections] === item.name 
+                        selectedItems.includes(item.name)
                           ? 'bg-accent-light text-white border-accent-light scale-105 shadow-lg shadow-accent/20' 
                           : isGhost 
                             ? 'bg-transparent border-black/10 text-gray-400 hover:border-black/20'
@@ -258,37 +288,46 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                 })}
               </div>
 
-              {!isSkip && (
-                <div className="space-y-8 animate-in fade-in slide-in-from-top-2 duration-500">
-                  <RangeSlider 
-                    label={cat} 
-                    value={weights[cat as keyof typeof weights]} 
-                    min={cat === 'protein' ? 100 : 1} 
-                    max={cat === 'protein' ? 400 : cat === 'carb' && selections.carb === 'English Muffin' ? 2 : 500} 
-                    unit={unit}
-                    onChange={(val: number) => setWeights(prev => ({ ...prev, [cat]: val }))}
-                  />
+              {!isSkip && selectedItems.map(selectedName => {
+                const unit = (options[cat as keyof typeof options].find((o: any) => o.name === selectedName) as any)?.unit || 'G';
+                return (
+                  <div key={selectedName} className="space-y-8 animate-in fade-in slide-in-from-top-2 duration-500 pt-4 border-t border-black/5">
+                    <RangeSlider 
+                      label={`${cat} / ${selectedName}`} 
+                      value={weights[cat]?.[selectedName] || 0} 
+                      min={cat === 'protein' ? 100 : 1} 
+                      max={cat === 'protein' ? 400 : cat === 'carb' && selectedName === 'English Muffin' ? 2 : 500} 
+                      unit={unit}
+                      onChange={(val: number) => setWeights(prev => ({
+                        ...prev,
+                        [cat]: { ...prev[cat], [selectedName]: val }
+                      }))}
+                    />
 
-                  <div className="grid grid-cols-5 gap-3">
-                    {(cat === 'sauce' ? [25, 50, 75, 100] : cat === 'carb' && selections.carb === 'English Muffin' ? [1, 2] : [100, 150, 200, 250, 300]).map(q => {
-                      if (cat === 'protein' && (q < 100 || q > 400)) return null;
-                      return (
-                        <button
-                          key={q}
-                          onClick={() => setWeights(prev => ({ ...prev, [cat]: q }))}
-                          className={`py-4 rounded-xl border text-[11px] font-mono transition-all ${
-                            weights[cat as keyof typeof weights] === q
-                              ? 'bg-black text-white border-black scale-105 shadow-lg shadow-black/10'
-                              : 'bg-white border-black/5 text-gray-400 hover:border-black/20'
-                          }`}
-                        >
-                          {q}{unit}
-                        </button>
-                      );
-                    })}
+                    <div className="grid grid-cols-5 gap-3">
+                      {(cat === 'sauce' ? [25, 50, 75, 100] : cat === 'carb' && selectedName === 'English Muffin' ? [1, 2] : [100, 150, 200, 250, 300]).map(q => {
+                        if (cat === 'protein' && (q < 100 || q > 400)) return null;
+                        return (
+                          <button
+                            key={q}
+                            onClick={() => setWeights(prev => ({
+                              ...prev,
+                              [cat]: { ...prev[cat], [selectedName]: q }
+                            }))}
+                            className={`py-4 rounded-xl border text-[11px] font-mono transition-all ${
+                              weights[cat]?.[selectedName] === q
+                                ? 'bg-black text-white border-black scale-105 shadow-lg shadow-black/10'
+                                : 'bg-white border-black/5 text-gray-400 hover:border-black/20'
+                            }`}
+                          >
+                            {q}{unit}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              )}
+                );
+              })}
             </div>
           );
         })}
@@ -338,21 +377,22 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
           <div className="space-y-3 py-2">
             <span className="block text-[10px] font-mono text-black font-bold uppercase tracking-widest mb-4 opacity-40">Itemized Build</span>
             {['protein', 'carb', 'veggies', 'sauce'].map(cat => {
-              const selected = selections[cat as keyof typeof selections];
-              if (selected === 'Skip' || selected === 'No Sauce') return null;
-              const weight = weights[cat as keyof typeof weights];
-              const price = calculateItemPrice(cat, selected, weight);
-              const unit = (options[cat as keyof typeof options].find((o: any) => o.name === selected) as any)?.unit || 'G';
-              
-              return (
-                <div key={cat} className="flex justify-between items-center text-xs font-mono group">
-                  <div className="flex items-center gap-2">
-                    <span className="text-black font-bold uppercase">{selected}</span>
-                    <span className="text-[10px] opacity-30">{weight}{unit}</span>
+              return selections[cat].map(selected => {
+                if (selected === 'Skip' || selected === 'No Sauce') return null;
+                const weight = weights[cat]?.[selected] || 0;
+                const price = calculateItemPrice(cat, selected, weight);
+                const unit = (options[cat as keyof typeof options].find((o: any) => o.name === selected) as any)?.unit || 'G';
+                
+                return (
+                  <div key={`${cat}-${selected}`} className="flex justify-between items-center text-xs font-mono group">
+                    <div className="flex items-center gap-2">
+                      <span className="text-black font-bold uppercase">{selected}</span>
+                      <span className="text-[10px] opacity-30">{weight}{unit}</span>
+                    </div>
+                    <span className="text-black font-bold">{formatCurrency(price)}</span>
                   </div>
-                  <span className="text-black font-bold">{formatCurrency(price)}</span>
-                </div>
-              );
+                );
+              });
             })}
             
             {totals.subtotal > 0 && (
@@ -390,8 +430,8 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
             <button 
               onClick={() => {
                 if (window.confirm("Are you sure you want to reset your custom build?")) {
-                  setSelections({ protein: 'Skip', carb: 'Skip', veggies: 'Skip', sauce: 'No Sauce' });
-                  setWeights({ protein: 200, carb: 150, veggies: 100, sauce: 50 });
+                  setSelections({ protein: ['Skip'], carb: ['Skip'], veggies: ['Skip'], sauce: ['No Sauce'] });
+                  setWeights({ protein: {}, carb: {}, veggies: {}, sauce: {} });
                 }
               }}
               className="w-full py-4 rounded-2xl border border-black/10 text-[10px] font-mono font-bold tracking-[0.3em] text-black hover:bg-black hover:text-white transition-all uppercase"
@@ -401,7 +441,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
             <div className="grid grid-cols-1 gap-4">
               <button 
                 onClick={handleEngineerOrder}
-                disabled={selections.protein === 'Skip' || isBelowMin}
+                disabled={selections.protein.includes('Skip') || isBelowMin}
                 className="py-5 rounded-[24px] bg-black text-white text-sm font-bold tracking-[0.2em] uppercase transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-20 disabled:cursor-not-allowed"
               >
                 Add to Basket
