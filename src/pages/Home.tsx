@@ -105,10 +105,10 @@ const MenuGrid = () => {
           <div 
             ref={scrollRef}
             onScroll={handleScroll}
-            className="flex gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-12"
+            className="flex gap-8 overflow-x-auto scrollbar-hide pb-12"
           >
             {ALL_MEALS.map((dish) => (
-              <motion.div key={dish.id} className="min-w-[85vw] md:min-w-[450px] snap-center">
+              <motion.div key={dish.id} className="min-w-[85vw] md:min-w-[450px]">
                 <MealCard {...dish} />
               </motion.div>
             ))}
