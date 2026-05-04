@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useScroll } from 'framer-motion';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
