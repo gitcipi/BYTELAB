@@ -75,7 +75,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const entryId = newItem.type === 'lab' ? `${newItem.id}-${Date.now()}` : newItem.id;
       return [...prev, { ...newItem, id: entryId }];
     });
-    setIsOpen(true);
   };
 
   const removeFromCart = (id: string) => {

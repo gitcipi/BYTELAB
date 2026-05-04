@@ -555,7 +555,13 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
             </button>
             <div className="grid grid-cols-1 gap-4">
               <button 
-                onClick={handleEngineerOrder}
+                onClick={() => {
+                  handleEngineerOrder();
+                  setSelections({ protein: ['Skip'], carb: ['Skip'], veggies: ['Skip'], sauce: ['No Sauce'] });
+                  setWeights({ protein: {}, carb: {}, veggies: {}, sauce: {} });
+                  setIsAdding({ protein: false, carb: false, veggies: false, sauce: false });
+                  setEditingItems({ protein: [], carb: [], veggies: [], sauce: [] });
+                }}
                 disabled={selections.protein.includes('Skip') || isBelowMin}
                 className="py-5 rounded-[24px] bg-black text-white text-sm font-bold tracking-[0.2em] uppercase transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-20 disabled:cursor-not-allowed"
               >
