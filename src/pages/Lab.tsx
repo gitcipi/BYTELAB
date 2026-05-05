@@ -172,8 +172,9 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
     protein: [
       { name: 'Chicken', p: 25, f: 3, c: 0, cal: 130, pricing: { 100: 1.0, 150: 1.5, 200: 2.0, 250: 2.5, 300: 3.0 } },
       { name: 'Beef', p: 22, f: 12, c: 0, cal: 190, pricing: { 100: 1.6, 150: 2.4, 200: 3.2, 250: 4.0, 300: 4.8 } },
-      { name: 'Shrimp', p: 20, f: 1, c: 0, cal: 95, pricing: { 100: 1.8, 150: 2.7, 200: 3.6, 250: 4.5, 300: 5.4 } },
-      { name: 'Tuna', p: 26, f: 1, c: 0, cal: 116, pricing: { 100: 2.0, 150: 3.0, 200: 4.0, 250: 5.0, 300: 6.0 } },
+      { name: 'Peeled Shrimps', p: 20, f: 1, c: 0, cal: 95, pricing: { 100: 1.8, 150: 2.7, 200: 3.6, 250: 4.5, 300: 5.4 } },
+      { name: 'Tuna Saku', p: 26, f: 1, c: 0, cal: 116, pricing: { 100: 2.0, 150: 3.0, 200: 4.0, 250: 5.0, 300: 6.0 } },
+      { name: 'Canned Tuna', p: 24, f: 1, c: 0, cal: 110, pricing: { 100: 1.2, 150: 1.8, 200: 2.4, 250: 3.0, 300: 3.6 } },
       { name: 'Egg Whites', p: 11, f: 0, c: 1, cal: 52, pricing: { 100: 0.7, 150: 1.0, 200: 1.3, 250: 1.6, 300: 1.9 } },
       { name: 'Fried Tofu', p: 15, f: 8, c: 10, cal: 180, pricing: { 100: 0.8, 150: 1.0, 200: 1.3, 250: 1.6, 300: 1.9 } },
       { name: 'Skip', p: 0, f: 0, c: 0, cal: 0, pricing: {} },
