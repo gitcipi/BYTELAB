@@ -131,10 +131,6 @@ const MacroGenerator = () => {
             animate={{ opacity: 1, y: 0 }}
             className="flex flex-col items-center gap-4"
           >
-            <div className="flex items-center gap-3 px-3 py-1.5 bg-[#00aff0]/10 rounded-full border border-[#00aff0]/20 mb-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00aff0] animate-pulse" />
-              <span className="text-[9px] font-mono font-black tracking-[0.4em] text-[#00aff0] uppercase">Engine Status: Ready</span>
-            </div>
             <h1 className="text-5xl md:text-7xl font-heading font-black tracking-tighter text-black leading-none">
               GENERATE<span className="text-[#00aff0]">MEAL.</span>
             </h1>
