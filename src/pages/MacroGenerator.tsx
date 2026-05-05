@@ -231,9 +231,7 @@ const MacroGenerator = () => {
                           <span className={`text-xl font-mono font-black ${stat.color}`}>{stat.val}<span className="text-[10px] opacity-40 ml-1 font-normal">{stat.unit}</span></span>
                         </div>
                       ))}
-                    </div>
-
-                    <div className="space-y-4 mb-12 flex-grow">
+                    </div>                    <div className="space-y-4 mb-12 flex-grow">
                       <span className="text-[9px] font-mono tracking-[0.5em] uppercase text-black/20 font-black block mb-4">Synthesis Profile</span>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {[
@@ -241,17 +239,20 @@ const MacroGenerator = () => {
                           { icon: <Wheat size={14}/>, label: 'Carb Payload', name: generatedMeal.details.carb[0].name, weight: generatedMeal.details.carb[0].weight },
                           { icon: <Droplets size={14}/>, label: 'Enzyme / Sauce', name: generatedMeal.details.sauce[0].name, weight: generatedMeal.details.sauce[0].weight },
                           { icon: <Zap size={14}/>, label: 'Micros / Veg', name: generatedMeal.details.veggies[0].name, weight: generatedMeal.details.veggies[0].weight },
-                        ].map((item, i) => (
+                        ].filter(item => item.name !== 'Skip' && item.name !== 'No Sauce').map((item, i) => (
                           <div key={i} className="flex items-center gap-3 p-4 bg-white rounded-[20px] border border-black/5 shadow-sm">
-                            <div className="p-2.5 bg-black text-white rounded-xl">{item.icon}</div>
+                            <div className="p-2.5 bg-black text-white rounded-xl">
+                              {item.icon}
+                            </div>
                             <div>
-                              <span className="block text-[7px] font-mono text-black/20 uppercase tracking-widest leading-none mb-1.5">{item.label}</span>
+                              <span className="block text-[7px] font-mono text-black/60 uppercase tracking-widest leading-none mb-1.5">{item.label}</span>
                               <p className="text-[11px] font-mono font-black text-black uppercase line-clamp-1">{item.name} <span className="text-[#00aff0] ml-1.5">{item.weight}{typeof item.weight === 'number' ? 'G' : ''}</span></p>
                             </div>
                           </div>
                         ))}
                       </div>
                     </div>
+>
 
                     <div className="flex gap-4">
                       <button 
