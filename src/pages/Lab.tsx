@@ -9,21 +9,23 @@ const fadeUpVariant = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } }
 };
 
-const RangeSlider = ({ label, value, min, max, onChange, unit = 'G' }: any) => {
+const RangeSlider = ({ label, value, min, max, onChange, unit = 'G', isDark = false }: any) => {
   const percentage = ((value - min) / (max - min)) * 100;
 
   return (
     <div className="space-y-4 pt-2">
       <div className="flex justify-between items-center">
-        <span className="text-[10px] font-mono tracking-widest text-black/40 uppercase font-bold">Fine Tune / {label}</span>
+        <span className={`text-[10px] font-mono tracking-widest uppercase font-bold ${isDark ? 'text-white/40' : 'text-black/40'}`}>Fine Tune / {label}</span>
         <div className="flex items-center gap-2">
           <input 
             type="number" 
             value={value}
             onChange={(e) => onChange(Math.max(min, Math.min(max, parseInt(e.target.value) || 0)))}
-            className="w-16 bg-transparent border-b border-black/10 text-right font-mono text-sm focus:border-accent-light outline-none transition-colors"
+            className={`w-16 bg-transparent border-b text-right font-mono text-sm outline-none transition-colors ${
+              isDark ? 'border-white/10 text-white focus:border-accent' : 'border-black/10 text-black focus:border-accent-light'
+            }`}
           />
-          <span className="text-xs font-mono text-black font-bold">{unit}</span>
+          <span className={`text-xs font-mono font-bold ${isDark ? 'text-white' : 'text-black'}`}>{unit}</span>
         </div>
       </div>
       <div className="relative h-12 flex flex-col justify-end">
@@ -31,7 +33,9 @@ const RangeSlider = ({ label, value, min, max, onChange, unit = 'G' }: any) => {
           className="absolute top-0 mb-2 transition-all duration-75"
           style={{ left: `calc(${percentage}% - 12px)` }}
         >
-          <span className="text-[10px] font-mono font-bold text-accent-light bg-accent/5 px-2 py-1 rounded border border-accent/10 whitespace-nowrap">
+          <span className={`text-[10px] font-mono font-bold px-2 py-1 rounded border whitespace-nowrap ${
+            isDark ? 'text-accent bg-accent/10 border-accent/20' : 'text-accent-light bg-accent/5 border-accent/10'
+          }`}>
             {value}{unit}
           </span>
         </div>
@@ -42,7 +46,9 @@ const RangeSlider = ({ label, value, min, max, onChange, unit = 'G' }: any) => {
           step={1}
           value={value}
           onChange={(e) => onChange(parseInt(e.target.value))}
-          className="w-full h-1 bg-black/5 rounded-full appearance-none cursor-pointer accent-accent-light relative z-10"
+          className={`w-full h-1 rounded-full appearance-none cursor-pointer accent-accent relative z-10 ${
+            isDark ? 'bg-white/10' : 'bg-black/5'
+          }`}
         />
       </div>
     </div>
@@ -342,8 +348,6 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
         {['protein', 'carb', 'veggies', 'sauce'].map((cat) => {
           const categoryOptions = options[cat as keyof typeof options] as any[];
           const selectedItems = selections[cat];
-          const isSkip = selectedItems.includes('Skip') || selectedItems.includes('No Sauce');
-          const activeTuning = editingItems[cat][editingItems[cat].length - 1]; // Tune the most recently clicked/selected
 
           return (
             <div key={cat} id={`cat-${cat}`} className="space-y-8 mb-20 scroll-mt-40">
@@ -363,116 +367,119 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
               </div>
               
               {!collapsedCats[cat] && (
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-                  {/* Selection Grid */}
-                  <div className="md:col-span-7 grid grid-cols-2 gap-3">
-                    {categoryOptions.map(item => {
-                      const isSelected = selectedItems.includes(item.name);
-                      const isTuning = activeTuning === item.name;
-                      const isGhost = item.name === 'Skip' || item.name === 'No Sauce';
-                      
-                      return (
-                        <button
-                          key={item.name}
-                          onClick={() => {
-                            toggleSelection(cat, item.name);
-                            if (!isSelected && !isGhost) expandItem(cat, item.name);
-                          }}
-                          className={`relative px-4 py-5 rounded-2xl border text-[10px] font-mono tracking-widest transition-all duration-300 flex flex-col items-center gap-2 group ${
-                            isSelected 
-                              ? 'bg-black border-black text-white shadow-xl' 
-                              : isGhost 
-                                ? 'bg-transparent border-black/10 text-gray-400 hover:border-black/20'
-                                : 'bg-white border-black/10 text-black font-bold hover:border-black/30'
-                          } ${isTuning ? 'ring-2 ring-accent ring-offset-2' : ''}`}
-                        >
-                          {isSelected && (
-                            <div className="absolute top-2 right-2 flex gap-1">
-                              {!isGhost && (
-                                <div className="text-[8px] bg-accent px-1.5 py-0.5 rounded text-white uppercase">
-                                  {weights[cat]?.[item.name] || 0}g
-                                </div>
-                              )}
-                              <div className="w-2 h-2 rounded-full bg-accent" />
-                            </div>
-                          )}
-                          {item.name.toUpperCase()}
-                          {!isGhost && <span className="opacity-40 text-[8px]">{item.cal} cal / 100g</span>}
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {/* Tuning Panel */}
-                  <div className="md:col-span-5 h-full">
-                    {activeTuning && activeTuning !== 'Skip' && activeTuning !== 'No Sauce' ? (
-                      <motion.div 
-                        key={activeTuning}
-                        initial={{ opacity: 0, x: 10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className="bg-black/[0.02] p-6 rounded-[28px] border border-black/5 space-y-6 sticky top-48"
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                  {categoryOptions.map(item => {
+                    const isSelected = selectedItems.includes(item.name);
+                    const isEditing = editingItems[cat].includes(item.name);
+                    const isGhost = item.name === 'Skip' || item.name === 'No Sauce';
+                    
+                    return (
+                      <div
+                        key={item.name}
+                        className={`relative rounded-[32px] border transition-all duration-500 overflow-hidden ${
+                          isSelected 
+                            ? 'bg-black border-black shadow-2xl' 
+                            : isGhost 
+                              ? 'bg-transparent border-black/10'
+                              : 'bg-white border-black/10'
+                        } ${isEditing ? 'col-span-1 md:col-span-2' : 'col-span-1'}`}
                       >
-                        <div className="flex justify-between items-center">
-                          <span className="text-[10px] font-mono font-bold text-black/40 uppercase">Fine Tuning / {activeTuning}</span>
-                          <button onClick={() => minimizeItem(cat, activeTuning)} className="text-black/20 hover:text-black transition-all">
-                            <X size={14} />
-                          </button>
+                        <div 
+                          className={`p-6 cursor-pointer flex justify-between items-center ${isSelected ? 'text-white' : 'text-black'}`}
+                          onClick={() => {
+                            if (!isSelected) {
+                              toggleSelection(cat, item.name);
+                              if (!isGhost) expandItem(cat, item.name);
+                            } else if (!isEditing && !isGhost) {
+                              expandItem(cat, item.name);
+                            } else if (isEditing) {
+                              minimizeItem(cat, item.name);
+                            } else {
+                              toggleSelection(cat, item.name);
+                            }
+                          }}
+                        >
+                          <div className="space-y-1">
+                            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em]">{item.name}</span>
+                            {!isGhost && <p className={`text-[8px] opacity-40 ${isSelected ? 'text-white' : 'text-black'}`}>{item.cal} cal / 100g</p>}
+                          </div>
+                          <div className="flex items-center gap-4">
+                            {isSelected && !isGhost && (
+                              <span className="text-xs font-mono font-bold text-accent">{weights[cat]?.[item.name]}g</span>
+                            )}
+                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
+                              isSelected ? 'bg-accent border-accent' : 'border-black/10'
+                            }`}>
+                              {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                            </div>
+                          </div>
                         </div>
-                        
-                        <RangeSlider 
-                          label={activeTuning} 
-                          value={weights[cat]?.[activeTuning] || 0} 
-                          min={cat === 'protein' ? 100 : 1} 
-                          max={cat === 'protein' ? 400 : cat === 'carb' && activeTuning === 'English Muffin' ? 2 : 500} 
-                          unit={(options[cat as keyof typeof options].find((o: any) => o.name === activeTuning) as any)?.unit || 'G'}
-                          onChange={(val: number) => setWeights(prev => ({
-                            ...prev,
-                            [cat]: { ...prev[cat], [activeTuning]: val }
-                          }))}
-                        />
 
-                        <div className="grid grid-cols-4 gap-2">
-                          {(cat === 'sauce' ? [25, 50, 75, 100] : (options[cat as keyof typeof options].find((o: any) => o.name === activeTuning) as any)?.unit === 'PC' ? [1, 2] : [100, 150, 200, 250]).map(q => {
-                            if (cat === 'protein' && q < 100) return null;
-                            const isActive = weights[cat]?.[activeTuning] === q;
-                            const unit = (options[cat as keyof typeof options].find((o: any) => o.name === activeTuning) as any)?.unit || 'G';
-                            return (
-                              <button
-                                key={q}
-                                onClick={() => setWeights(prev => ({
-                                  ...prev,
-                                  [cat]: { ...prev[cat], [activeTuning]: q }
-                                }))}
-                                className={`py-3 rounded-xl border text-[10px] font-mono transition-all ${
-                                  isActive
-                                    ? 'bg-black text-white border-black shadow-lg shadow-black/10'
-                                    : 'bg-white border-black/5 text-gray-500 hover:border-black/20'
-                                }`}
+                        {isEditing && !isGhost && (
+                          <motion.div 
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            className="px-8 pb-8 space-y-8 border-t border-white/10 pt-8"
+                          >
+                            <RangeSlider 
+                              label={item.name} 
+                              value={weights[cat]?.[item.name] || 0} 
+                              min={cat === 'protein' ? 100 : 1} 
+                              max={cat === 'protein' ? 400 : cat === 'carb' && item.name === 'English Muffin' ? 2 : 500} 
+                              unit={item.unit || 'G'}
+                              onChange={(val: number) => setWeights(prev => ({
+                                ...prev,
+                                [cat]: { ...prev[cat], [item.name]: val }
+                              }))}
+                              // Injecting custom styling for RangeSlider when inside black card
+                              isDark={true}
+                            />
+
+                            <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
+                              {(cat === 'sauce' ? [25, 50, 75, 100] : item.unit === 'PC' ? [1, 2] : [100, 150, 200, 250, 300, 350, 400]).map(q => {
+                                if (cat === 'protein' && q < 100) return null;
+                                if (cat === 'protein' && q > 400) return null;
+                                const isActive = weights[cat]?.[item.name] === q;
+                                return (
+                                  <button
+                                    key={q}
+                                    onClick={() => setWeights(prev => ({
+                                      ...prev,
+                                      [cat]: { ...prev[cat], [item.name]: q }
+                                    }))}
+                                    className={`py-3 rounded-xl border text-[10px] font-mono transition-all ${
+                                      isActive
+                                        ? 'bg-accent text-white border-accent'
+                                        : 'bg-white/5 border-white/10 text-white/40 hover:border-white/20 hover:text-white'
+                                    }`}
+                                  >
+                                    {q}{item.unit || 'G'}
+                                  </button>
+                                );
+                              })}
+                            </div>
+
+                            <div className="flex justify-center">
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  minimizeItem(cat, item.name);
+                                }}
+                                className="px-12 py-4 bg-accent text-white text-[10px] font-mono font-bold tracking-[0.3em] uppercase rounded-full hover:bg-accent-light transition-all shadow-xl shadow-accent/20"
                               >
-                                {q}{unit}
+                                Confirm Selection
                               </button>
-                            );
-                          })}
-                        </div>
-                      </motion.div>
-                    ) : (
-                      <div className="h-full border border-dashed border-black/10 rounded-[28px] p-8 flex flex-col items-center justify-center text-center space-y-4 opacity-40 grayscale group hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-                        <div className="p-4 rounded-full bg-black/5">
-                          {cat === 'protein' ? <Beef size={24} /> : cat === 'carb' ? <Wheat size={24} /> : cat === 'veggies' ? <Leaf size={24} /> : <Droplets size={24} />}
-                        </div>
-                        <p className="text-[10px] font-mono font-bold uppercase tracking-widest leading-relaxed">
-                          Select an ingredient<br/>to engineer portions
-                        </p>
+                            </div>
+                          </motion.div>
+                        )}
                       </div>
-                    )}
-                  </div>
+                    );
+                  })}
                 </div>
               )}
             </div>
           );
         })}
-        })}
-
       </div>
 
       <div className="lg:col-span-5">
