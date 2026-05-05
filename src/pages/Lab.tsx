@@ -162,24 +162,24 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
 
   const options = {
     protein: [
-      { name: 'Chicken Breast', p: 25, f: 3, c: 0, cal: 130, pricing: { 100: 1.0, 150: 1.5, 200: 2.0, 250: 2.5, 300: 3.0 } },
-      { name: 'Chicken Thigh', p: 21, f: 9, c: 0, cal: 170, pricing: { 100: 1.1, 150: 1.65, 200: 2.2, 250: 2.75, 300: 3.3 } },
-      { name: 'Ground Beef', p: 22, f: 12, c: 0, cal: 190, pricing: { 100: 1.6, 150: 2.4, 200: 3.2, 250: 4.0, 300: 4.8 } },
-      { name: 'Peeled Shrimps', p: 20, f: 1, c: 0, cal: 95, pricing: { 100: 1.8, 150: 2.7, 200: 3.6, 250: 4.5, 300: 5.4 } },
-      { name: 'Tuna Saku', p: 26, f: 1, c: 0, cal: 116, pricing: { 100: 2.0, 150: 3.0, 200: 4.0, 250: 5.0, 300: 6.0 } },
-      { name: 'Canned Tuna', p: 24, f: 1, c: 0, cal: 110, pricing: { 100: 1.2, 150: 1.8, 200: 2.4, 250: 3.0, 300: 3.6 } },
-      { name: 'Egg Whites', p: 11, f: 0, c: 1, cal: 52, pricing: { 100: 0.7, 150: 1.0, 200: 1.3, 250: 1.6, 300: 1.9 } },
-      { name: 'Fried Tofu', p: 15, f: 8, c: 10, cal: 180, pricing: { 100: 0.8, 150: 1.0, 200: 1.3, 250: 1.6, 300: 1.9 } },
+      { name: 'Chicken Breast', p: 25, f: 3, c: 0, cal: 130, pricing: { 100: 1.40, 150: 2.10, 200: 2.80, 250: 3.50, 300: 4.20 } },
+      { name: 'Chicken Thigh', p: 21, f: 9, c: 0, cal: 170, pricing: { 100: 1.50, 150: 2.25, 200: 3.00, 250: 3.75, 300: 4.50 } },
+      { name: 'Ground Beef', p: 22, f: 12, c: 0, cal: 190, pricing: { 100: 2.20, 150: 3.30, 200: 4.40, 250: 5.50, 300: 6.60 } },
+      { name: 'Peeled Shrimps', p: 20, f: 1, c: 0, cal: 95, pricing: { 100: 2.50, 150: 3.75, 200: 5.00, 250: 6.25, 300: 7.50 } },
+      { name: 'Tuna Saku', p: 26, f: 1, c: 0, cal: 116, pricing: { 100: 2.80, 150: 4.20, 200: 5.60, 250: 7.00, 300: 8.40 } },
+      { name: 'Canned Tuna', p: 24, f: 1, c: 0, cal: 110, pricing: { 100: 1.60, 150: 2.40, 200: 3.20, 250: 4.00, 300: 4.80 } },
+      { name: 'Egg Whites', p: 11, f: 0, c: 1, cal: 52, pricing: { 100: 1.00, 150: 1.50, 200: 2.00, 250: 2.50, 300: 3.00 } },
+      { name: 'Fried Tofu', p: 15, f: 8, c: 10, cal: 180, pricing: { 100: 1.20, 150: 1.80, 200: 2.40, 250: 3.00, 300: 3.60 } },
       { name: 'Skip', p: 0, f: 0, c: 0, cal: 0, pricing: {} },
     ],
     carb: [
-      { name: 'White Rice', p: 3, f: 0, c: 28, cal: 130, pricing: { 100: 0.35, 150: 0.5, 200: 0.65, 250: 0.8, 300: 0.95 } },
-      { name: 'Sweet Potato', p: 2, f: 0, c: 20, cal: 90, pricing: { 100: 0.45, 150: 0.65, 200: 0.85, 250: 1.0, 300: 1.2 } },
-      { name: 'Potato', p: 2, f: 0, c: 17, cal: 77, pricing: { 100: 0.4, 150: 0.55, 200: 0.7, 250: 0.85, 300: 1.0 } },
-      { name: 'Sweet Corn', p: 3, f: 1, c: 19, cal: 86, pricing: { 100: 0.8, 150: 1.1, 200: 1.4, 250: 1.7, 300: 2.0 } },
-      { name: 'English Muffin', p: 6, f: 1, c: 45, cal: 220, pricing: { 1: 0.75, 2: 1.3 }, unit: 'PC' },
-      { name: 'Cauli Rice', p: 2, f: 0, c: 4, cal: 25, pricing: { 100: 0.55, 150: 0.75, 200: 0.95, 250: 1.15, 300: 1.35 } },
-      { name: 'Pasta', p: 6, f: 1, c: 25, cal: 140, pricing: { 100: 0.55, 150: 0.8, 200: 1.0, 250: 1.25, 300: 1.5 } },
+      { name: 'White Rice', p: 3, f: 0, c: 28, cal: 130, pricing: { 100: 0.50, 150: 0.75, 200: 1.00, 250: 1.25, 300: 1.50 } },
+      { name: 'Sweet Potato', p: 2, f: 0, c: 20, cal: 90, pricing: { 100: 0.70, 150: 1.05, 200: 1.40, 250: 1.75, 300: 2.10 } },
+      { name: 'Potato', p: 2, f: 0, c: 17, cal: 77, pricing: { 100: 0.60, 150: 0.90, 200: 1.20, 250: 1.50, 300: 1.80 } },
+      { name: 'Sweet Corn', p: 3, f: 1, c: 19, cal: 86, pricing: { 100: 0.90, 150: 1.35, 200: 1.80, 250: 2.25, 300: 2.70 } },
+      { name: 'English Muffin', p: 6, f: 1, c: 45, cal: 220, pricing: { 1: 1.20, 2: 2.00 }, unit: 'PC' },
+      { name: 'Cauli Rice', p: 2, f: 0, c: 4, cal: 25, pricing: { 100: 0.90, 150: 1.35, 200: 1.80, 250: 2.25, 300: 2.70 } },
+      { name: 'Pasta', p: 6, f: 1, c: 25, cal: 140, pricing: { 100: 0.80, 150: 1.20, 200: 1.60, 250: 2.00, 300: 2.40 } },
       { name: 'Skip', p: 0, f: 0, c: 0, cal: 0, pricing: {} },
     ],
     veggies: [
@@ -222,16 +222,16 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
     }
 
     if (cat === 'veggies') {
-      const rate = opt.tier === 'premium' ? 0.75 / 100 : 0.50 / 100;
+      const rate = opt.tier === 'premium' ? 0.90 / 100 : 0.60 / 100;
       return weight * rate;
     }
 
     if (cat === 'sauce') {
-      if (opt.tier === 'flat') return 0.40;
+      if (opt.tier === 'flat') return 0.50;
       let price = 0;
       const basePricing = opt.tier === 'tomato' 
-        ? { 25: 0.35, 50: 0.55, 75: 0.75, 100: 0.95 }
-        : { 25: 0.50, 50: 0.80, 75: 1.10, 100: 1.40 };
+        ? { 25: 0.40, 50: 0.60, 75: 0.80, 100: 1.00 }
+        : { 25: 0.75, 50: 1.20, 75: 1.65, 100: 2.10 };
       
       const tiers = Object.keys(basePricing).map(Number).sort((a, b) => a - b);
       const castPricing = basePricing as Record<number, number>;
@@ -244,7 +244,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
         price = lowerPrice + (upperPrice - lowerPrice) * ((weight - lower) / (upper - lower));
       }
       
-      if (opt.tier === 'premium') price += 0.20;
+      if (opt.tier === 'premium') price += 0.50;
       return price;
     }
 
