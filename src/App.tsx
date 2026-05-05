@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Menu from './pages/Menu';
 import Lab from './pages/Lab';
+import Plans from './pages/Plans';
 import { Navbar } from './components/Navbar';
 import { CartProvider } from './context/CartContext';
 import { CartDropdown } from './components/CartDrawer';
@@ -36,7 +38,7 @@ const Footer = () => {
             <h4 className="font-mono text-xs text-black uppercase tracking-widest mb-6">Navigation</h4>
             <ul className="space-y-4 text-sm text-gray-600">
               <li><a href="/menu" className="hover:text-black transition-colors">Menu</a></li>
-              <li><a href="/#plans" className="hover:text-black transition-colors">Plans</a></li>
+              <li><Link to="/plans" className="hover:text-black transition-colors">OnlyPlans</Link></li>
               <li><a href="/lab" className="hover:text-black transition-colors">Lab</a></li>
               <li><a href="/#about" className="hover:text-black transition-colors">About</a></li>
             </ul>
@@ -88,6 +90,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/menu" element={<Menu />} />
               <Route path="/lab" element={<Lab />} />
+              <Route path="/plans" element={<Plans />} />
             </Routes>
           </main>
           <Footer />

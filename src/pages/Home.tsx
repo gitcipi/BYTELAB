@@ -261,37 +261,22 @@ const Home = () => {
 
       <MenuGrid />
 
-      <section id="plans" className="section-padding bg-white relative border-t border-black/5">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant} className="mb-16 text-center">
-            <h2 className="text-4xl md:text-5xl font-heading font-light tracking-tight mb-4 text-black">Weekly Protocols</h2>
-            <p className="text-gray-600 tracking-wide">Automated nutrition delivery.</p>
+      <section className="py-32 bg-gray-50 relative overflow-hidden border-t border-black/5">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 text-center">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant} className="max-w-3xl mx-auto">
+            <span className="text-[10px] font-mono tracking-[0.4em] text-[#00aff0] uppercase mb-4 block font-bold">Protocol Subscription</span>
+            <h2 className="text-4xl md:text-6xl font-heading font-black tracking-tight mb-6 text-black">Only<span className="text-[#00aff0]">Plans</span></h2>
+            <p className="text-lg text-gray-500 font-light mb-12 leading-relaxed">
+              Unlock exclusive weekly meal protocols. Engineered for consistency, delivered for performance. Save up to 25% with our subscription packages.
+            </p>
+            <Link 
+              to="/plans" 
+              className="inline-flex items-center gap-3 bg-black text-white px-12 py-5 rounded-full text-[12px] tracking-[0.2em] uppercase font-bold hover:bg-[#00aff0] transition-all group"
+            >
+              Explore Exclusive Plans
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { name: "The Core Reset", desc: "Balanced macro profile for sustained energy. Perfect for daily performance.", meals: "10 meals / week", price: currency === 'USD' ? "$152" : "€145" },
-              { name: "Lean Protocol", desc: "High protein, low carb formulation. Optimized for cutting and muscle retention.", meals: "14 meals / week", price: currency === 'USD' ? "$205" : "€195" },
-              { name: "Zero State", desc: "Strict ketogenic profile. Ultimate mental clarity and fat adaptation.", meals: "21 meals / week", price: currency === 'USD' ? "$299" : "€285" }
-            ].map((plan, idx) => (
-              <motion.div key={idx} variants={fadeUpVariant} className="bg-gray-50 border border-black/5 p-8 flex flex-col group rounded-[32px] transition-all">
-                <h3 className="text-2xl font-heading font-medium tracking-wide text-black mb-2">{plan.name}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-8 flex-grow">{plan.desc}</p>
-                <div className="border-t border-black/5 pt-6 mb-8 flex justify-between items-end">
-                  <div>
-                    <span className="block text-[10px] font-mono tracking-widest text-gray-400 uppercase mb-1">Deliveries</span>
-                    <span className="text-sm font-mono text-black">{plan.meals}</span>
-                  </div>
-                  <div className="text-right">
-                    <span className="block text-[10px] font-mono tracking-widest text-gray-400 uppercase mb-1">Starting At</span>
-                    <span className="text-2xl font-mono text-black">{plan.price}</span>
-                  </div>
-                </div>
-                <button className="w-full py-4 rounded-[18px] bg-accent-light text-white text-sm font-medium tracking-wide transition-all duration-300 hover:scale-105 active:scale-95">
-                  Select Protocol
-                </button>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 
