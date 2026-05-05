@@ -5,10 +5,10 @@ import { useCart } from '../context/CartContext';
 import { INGREDIENTS } from '../data/ingredients';
 
 const RangeSlider = ({ label, value, max, onChange, unit = '' }: { label: string, value: number, max: number, onChange: (v: number) => void, unit?: string }) => (
-  <div className="space-y-4">
-    <div className="flex justify-between items-center">
-      <span className="text-[10px] font-mono tracking-widest text-black font-bold uppercase">{label}</span>
-      <span className="text-sm font-mono text-black">{value}{unit}</span>
+  <div className="space-y-6">
+    <div className="flex justify-between items-end">
+      <span className="text-[10px] font-mono tracking-[0.4em] text-white/40 font-black uppercase leading-none">{label}</span>
+      <span className="text-2xl font-mono text-white leading-none font-black">{value}<span className="text-[10px] text-amber-500 ml-1">{unit}</span></span>
     </div>
     <input
       type="range"
@@ -16,7 +16,7 @@ const RangeSlider = ({ label, value, max, onChange, unit = '' }: { label: string
       max={max}
       value={value}
       onChange={(e) => onChange(parseInt(e.target.value))}
-      className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-accent"
+      className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-amber-500"
     />
   </div>
 );
@@ -118,71 +118,74 @@ const MacroGenerator = () => {
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-24 bg-white relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[150px] -z-10 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent/3 rounded-full blur-[150px] -z-10 pointer-events-none" />
+    <div className="min-h-screen pt-32 pb-24 bg-[#050505] relative overflow-hidden text-white font-sans">
+      {/* Background decoration - Amber Glow */}
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-amber-500/10 rounded-full blur-[180px] -z-10 pointer-events-none opacity-50" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-amber-500/5 rounded-full blur-[150px] -z-10 pointer-events-none opacity-30" />
+      
+      {/* Scanline pattern */}
+      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none -z-5" />
 
       <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-20">
+        <div className="text-center mb-24">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex justify-center items-center gap-3 mb-6"
+            className="flex flex-col items-center gap-6"
           >
-            <div className="p-3 bg-accent/10 rounded-2xl text-accent">
-              <Zap size={28} fill="currentColor" />
+            <div className="flex items-center gap-4 px-4 py-2 bg-amber-500/10 rounded-full border border-amber-500/20 mb-4">
+              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+              <span className="text-[10px] font-mono font-black tracking-[0.4em] text-amber-500 uppercase">System Status: Ready</span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-heading font-black tracking-tighter text-black">
-              Meal<span className="text-accent text-[#00aff0]">Generator</span>
+            <h1 className="text-7xl md:text-9xl font-heading font-black tracking-tighter text-white leading-none">
+              PROTOCOL<span className="text-amber-500">ENGINE.</span>
             </h1>
+            <p className="text-gray-500 max-w-xl mx-auto text-lg font-light leading-relaxed mt-4">
+              AI-driven synthesis of high-performance meal protocols. <br />
+              <span className="text-amber-500/60 font-mono text-sm tracking-widest uppercase">Input targets. Synthesize results.</span>
+            </p>
           </motion.div>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-gray-500 max-w-2xl mx-auto text-lg font-light leading-relaxed"
-          >
-            Define your targets. Our algorithm will engineer a random high-performance protocol based on your exact macro requirements.
-          </motion.p>
         </div>
 
-        <div className="bg-white p-10 md:p-16 rounded-[48px] border border-black/5 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.05)]">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-            <div className="lg:col-span-5 space-y-12">
-              <div className="grid grid-cols-1 gap-10">
-                <div className="p-8 bg-gray-50 rounded-3xl border border-black/5 flex justify-between items-center">
-                  <div className="space-y-1">
-                    <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-accent font-bold block mb-1">Total Payload</span>
-                    <div className="text-[10px] font-mono text-black/40 space-y-0.5 leading-tight uppercase tracking-wider">
-                      <p>1g protein = 4 kcal</p>
-                      <p>1g carb = 4 kcal</p>
-                      <p>1g fat = 9 kcal</p>
+        <div className="bg-[#0f0f0f] p-10 md:p-20 rounded-[64px] border border-white/5 shadow-2xl relative overflow-hidden group">
+          {/* Internal Glow */}
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-amber-500/5 rounded-full blur-[100px] group-hover:bg-amber-500/10 transition-all duration-700" />
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center relative z-10">
+            <div className="lg:col-span-5 space-y-16">
+              <div className="space-y-12">
+                <div className="p-10 bg-white/[0.02] rounded-[40px] border border-white/5 flex justify-between items-center relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-1 h-full bg-amber-500/40" />
+                  <div className="space-y-2">
+                    <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-amber-500 font-bold block">Energy Payload</span>
+                    <div className="text-[9px] font-mono text-white/20 space-y-0.5 leading-tight uppercase tracking-wider">
+                      <p>P: 4kcal/g | C: 4kcal/g | F: 9kcal/g</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-5xl font-mono font-black text-black">{calculatedCals} <span className="text-xl opacity-20">kcal</span></span>
+                    <span className="text-6xl font-mono font-black text-white">{calculatedCals}</span>
+                    <span className="text-xl font-mono text-amber-500 ml-2">KCAL</span>
                   </div>
                 </div>
                 
-                <div className="space-y-10">
+                <div className="space-y-12">
                   <RangeSlider label="Protein" value={targets.p} max={200} onChange={v => setTargets({...targets, p: v})} unit="g" />
-                  <RangeSlider label="Carbs" value={targets.c} max={300} onChange={v => setTargets({...targets, c: v})} unit="g" />
-                  <RangeSlider label="Fats" value={targets.f} max={100} onChange={v => setTargets({...targets, f: v})} unit="g" />
+                  <RangeSlider label="Carbohydrates" value={targets.c} max={300} onChange={v => setTargets({...targets, c: v})} unit="g" />
+                  <RangeSlider label="Lipids / Fats" value={targets.f} max={100} onChange={v => setTargets({...targets, f: v})} unit="g" />
                 </div>
               </div>
 
               <button 
                 onClick={generate}
                 disabled={isGenerating}
-                className="w-full py-6 bg-black text-white rounded-3xl text-xs font-mono font-bold tracking-[0.3em] uppercase hover:bg-accent hover:text-black transition-all flex items-center justify-center gap-4 disabled:opacity-50"
+                className="w-full py-7 bg-amber-500 text-black rounded-[24px] text-xs font-mono font-black tracking-[0.4em] uppercase hover:bg-white transition-all flex items-center justify-center gap-4 disabled:opacity-50 shadow-[0_0_50px_rgba(251,191,36,0.2)]"
               >
-                {isGenerating ? <RotateCcw className="animate-spin" size={18} /> : <Calculator size={18} />}
-                {isGenerating ? 'Engineering...' : 'Generate New Protocol'}
+                {isGenerating ? <RotateCcw className="animate-spin" size={20} /> : <Calculator size={20} />}
+                {isGenerating ? 'SYNTHESIZING...' : 'START GENERATION'}
               </button>
             </div>
 
-            <div className="lg:col-span-7 relative min-h-[500px] flex items-center justify-center bg-gray-50 rounded-[40px] p-10 border border-black/5 overflow-hidden">
+            <div className="lg:col-span-7 relative min-h-[600px] flex items-center justify-center bg-black/40 rounded-[56px] p-12 border border-white/5 overflow-hidden">
               <AnimatePresence mode="wait">
                 {!generatedMeal ? (
                   <motion.div 
@@ -190,70 +193,72 @@ const MacroGenerator = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="text-center space-y-4"
+                    className="text-center space-y-6"
                   >
-                    <div className="w-20 h-20 rounded-full border-2 border-dashed border-black/10 flex items-center justify-center mx-auto mb-6">
-                      <Wand2 size={32} className="text-black/10" />
+                    <div className="w-24 h-24 rounded-[32px] border-2 border-dashed border-white/10 flex items-center justify-center mx-auto mb-8">
+                      <Wand2 size={36} className="text-white/5" />
                     </div>
-                    <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-black/20 font-bold">Awaiting Input Parameters</p>
+                    <p className="text-[10px] font-mono uppercase tracking-[0.5em] text-white/10 font-black">Awaiting System Input</p>
                   </motion.div>
                 ) : (
                   <motion.div 
                     key="result"
-                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                    initial={{ opacity: 0, scale: 0.98, y: 10 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     className="w-full h-full flex flex-col"
                   >
-                    <div className="flex justify-between items-start mb-10">
+                    <div className="flex justify-between items-start mb-12">
                       <div>
-                        <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-accent font-bold block mb-4">Protocol Result</span>
-                        <h4 className="text-4xl font-heading font-black tracking-tighter text-black">{generatedMeal.name}</h4>
+                        <div className="flex items-center gap-3 mb-4">
+                          <span className="w-2 h-2 rounded-full bg-amber-500" />
+                          <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-amber-500 font-bold block">Protocol Synthesized</span>
+                        </div>
+                        <h4 className="text-5xl font-heading font-black tracking-tighter text-white uppercase italic">{generatedMeal.name.replace('AI Protocol:', '')}</h4>
                       </div>
                       <div className="text-right">
-                        <span className="text-[10px] font-mono tracking-widest text-black/40 uppercase block mb-1">Est. Price</span>
-                        <span className="text-3xl font-mono font-bold text-black">€{generatedMeal.price.toFixed(2)}</span>
+                        <span className="text-[10px] font-mono tracking-widest text-white/20 uppercase block mb-1">Synthesis Cost</span>
+                        <span className="text-4xl font-mono font-black text-white">€{generatedMeal.price.toFixed(2)}</span>
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
                       {[
-                        { label: 'Energy', val: Math.round(generatedMeal.macros.cal), unit: 'kcal', color: 'text-black' },
-                        { label: 'Protein', val: Math.round(generatedMeal.macros.p), unit: 'g', color: 'text-accent' },
-                        { label: 'Carbs', val: Math.round(generatedMeal.macros.c), unit: 'g', color: 'text-orange-500' },
-                        { label: 'Fats', val: Math.round(generatedMeal.macros.f), unit: 'g', color: 'text-emerald-500' },
+                        { label: 'Energy', val: Math.round(generatedMeal.macros.cal), unit: 'kcal', color: 'text-white' },
+                        { label: 'Protein', val: Math.round(generatedMeal.macros.p), unit: 'g', color: 'text-amber-500' },
+                        { label: 'Carbs', val: Math.round(generatedMeal.macros.c), unit: 'g', color: 'text-white/60' },
+                        { label: 'Fats', val: Math.round(generatedMeal.macros.f), unit: 'g', color: 'text-white/40' },
                       ].map(stat => (
-                        <div key={stat.label} className="p-4 bg-white rounded-2xl border border-black/5">
-                          <span className="block text-[8px] font-mono tracking-widest text-black/40 uppercase font-bold mb-1">{stat.label}</span>
-                          <span className={`text-xl font-mono font-bold ${stat.color}`}>{stat.val}<span className="text-[10px] opacity-40 ml-0.5">{stat.unit}</span></span>
+                        <div key={stat.label} className="p-6 bg-white/[0.02] rounded-[24px] border border-white/5">
+                          <span className="block text-[8px] font-mono tracking-widest text-white/20 uppercase font-bold mb-2">{stat.label}</span>
+                          <span className={`text-2xl font-mono font-black ${stat.color}`}>{stat.val}<span className="text-[12px] opacity-40 ml-1 font-normal">{stat.unit}</span></span>
                         </div>
                       ))}
                     </div>
 
-                    <div className="space-y-4 mb-12 flex-grow">
-                      <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-black/40 font-bold block mb-4">Engineered Selection</span>
+                    <div className="space-y-6 mb-16 flex-grow">
+                      <span className="text-[10px] font-mono tracking-[0.5em] uppercase text-white/20 font-black block mb-6">Component Breakdown</span>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {[
-                          { icon: <Beef size={14}/>, label: 'Protein', name: generatedMeal.details.protein[0].name, weight: generatedMeal.details.protein[0].weight },
-                          { icon: <Wheat size={14}/>, label: 'Carb', name: generatedMeal.details.carb[0].name, weight: generatedMeal.details.carb[0].weight },
-                          { icon: <Droplets size={14}/>, label: 'Sauce', name: generatedMeal.details.sauce[0].name, weight: generatedMeal.details.sauce[0].weight },
+                          { icon: <Beef size={16}/>, label: 'Amino Profile', name: generatedMeal.details.protein[0].name, weight: generatedMeal.details.protein[0].weight },
+                          { icon: <Wheat size={16}/>, label: 'Glycogen Load', name: generatedMeal.details.carb[0].name, weight: generatedMeal.details.carb[0].weight },
                         ].map((item, i) => (
-                          <div key={i} className="flex items-center gap-3 p-4 bg-white/60 rounded-2xl border border-black/5">
-                            <div className="p-2 bg-black text-white rounded-lg">{item.icon}</div>
+                          <div key={i} className="flex items-center gap-4 p-5 bg-white/[0.03] rounded-[24px] border border-white/5">
+                            <div className="p-3 bg-amber-500 text-black rounded-2xl">{item.icon}</div>
                             <div>
-                              <span className="block text-[8px] font-mono text-black/40 uppercase tracking-widest leading-none mb-1">{item.label}</span>
-                              <p className="text-[10px] font-mono font-bold text-black uppercase">{item.name} <span className="opacity-30">{item.weight}g</span></p>
+                              <span className="block text-[8px] font-mono text-white/20 uppercase tracking-widest leading-none mb-2">{item.label}</span>
+                              <p className="text-[12px] font-mono font-black text-white uppercase">{item.name} <span className="text-amber-500 ml-2">{item.weight}G</span></p>
                             </div>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    <div className="flex gap-4">
+                    <div className="flex gap-6">
                       <button 
                         onClick={handleCustomize}
-                        className="flex-1 py-5 rounded-2xl border border-black/10 text-[10px] font-mono font-bold tracking-[0.2em] uppercase hover:bg-black hover:text-white transition-all flex items-center justify-center gap-3"
+                        className="flex-1 py-5 rounded-[20px] border border-white/10 text-[10px] font-mono font-bold tracking-[0.3em] uppercase hover:bg-white hover:text-black transition-all flex items-center justify-center gap-3"
                       >
-                        <X size={14} className="rotate-45" /> Customize in Lab
+                        <X size={14} className="rotate-45" /> Lab Adjust
                       </button>
                       <button 
                         onClick={() => {
@@ -266,9 +271,9 @@ const MacroGenerator = () => {
                             details: generatedMeal.details
                           });
                         }}
-                        className="flex-1 py-5 rounded-2xl bg-[#00aff0] text-black text-[10px] font-mono font-bold tracking-[0.2em] uppercase hover:bg-black hover:text-white transition-all flex items-center justify-center gap-3"
+                        className="flex-1 py-5 rounded-[20px] bg-white text-black text-[10px] font-mono font-black tracking-[0.3em] uppercase hover:bg-amber-500 transition-all flex items-center justify-center gap-3"
                       >
-                        <ShoppingCart size={14} /> Add to Basket
+                        <ShoppingCart size={14} /> Add to Ops
                       </button>
                     </div>
                   </motion.div>

@@ -38,8 +38,7 @@ export const Navbar = () => {
     { name: 'MENU', path: '/menu' },
     { name: 'MEAL GENERATOR', path: '/macro-generator' },
     { name: 'OnlyPlans', path: '/plans' },
-    { name: 'LAB', path: '/lab' },
-    { name: 'ABOUT', path: '/#about' }
+    { name: 'LAB', path: '/lab' }
   ];
 
   return (
