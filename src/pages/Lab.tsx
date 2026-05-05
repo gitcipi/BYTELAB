@@ -368,7 +368,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
               </div>
               
               {!collapsedCats[cat] && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
                   {categoryOptions.map(item => {
                     const isSelected = selectedItems.includes(item.name);
                     const isEditing = editingItems[cat].includes(item.name);
@@ -380,10 +380,8 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                         className={`relative rounded-[32px] border transition-all duration-500 overflow-hidden ${
                           isSelected 
                             ? 'bg-white border-accent shadow-xl' 
-                            : isGhost 
-                              ? 'bg-transparent border-black/10'
-                              : 'bg-white border-black/10'
-                        } ${isEditing ? 'col-span-1 md:col-span-2' : 'col-span-1'}`}
+                            : 'bg-white border-black/10 hover:border-black/20'
+                        } ${isEditing ? 'col-span-1 md:col-span-3' : 'col-span-1'}`}
                       >
                         <div 
                           className="p-6 cursor-pointer flex justify-between items-center text-black"
@@ -395,6 +393,8 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                               expandItem(cat, item.name);
                             } else if (isEditing) {
                               minimizeItem(cat, item.name);
+                            } else {
+                              toggleSelection(cat, item.name);
                             }
                           }}
                         >
