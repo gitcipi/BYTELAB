@@ -4,7 +4,7 @@ import { Zap, Calculator, RotateCcw, ShoppingCart, Wand2, Beef, Wheat, Droplets,
 import { useCart } from '../context/CartContext';
 import { INGREDIENTS } from '../data/ingredients';
 
-const RangeSlider = ({ label, value, max, onChange, unit = '', color = '#00aff0' }: { label: string, value: number, max: number, onChange: (v: number) => void, unit?: string, color?: string }) => (
+const RangeSlider = ({ label, value, min = 0, max, onChange, unit = '', color = '#00aff0' }: { label: string, value: number, min?: number, max: number, onChange: (v: number) => void, unit?: string, color?: string }) => (
   <div className="space-y-6">
     <div className="flex justify-between items-end">
       <span className="text-[10px] font-mono tracking-[0.4em] text-black/40 font-black uppercase leading-none">{label}</span>
@@ -12,7 +12,7 @@ const RangeSlider = ({ label, value, max, onChange, unit = '', color = '#00aff0'
     </div>
     <input
       type="range"
-      min="0"
+      min={min}
       max={max}
       value={value}
       onChange={(e) => onChange(parseInt(e.target.value))}
@@ -24,7 +24,7 @@ const RangeSlider = ({ label, value, max, onChange, unit = '', color = '#00aff0'
 
 const MacroGenerator = () => {
   const { addToCart } = useCart();
-  const [targets, setTargets] = useState({ p: 50, c: 60, f: 15 });
+  const [targets, setTargets] = useState({ p: 25, c: 50, f: 15 });
   const [generatedMeal, setGeneratedMeal] = useState<any>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -49,16 +49,20 @@ const MacroGenerator = () => {
       let minCalDiff = Infinity;
 
       // Try multiple combinations to find the best macro/calorie fit
-      for (let attempt = 0; attempt < 50; attempt++) {
+      for (let attempt = 0; attempt < 100; attempt++) {
         const pOpt = pPool[Math.floor(Math.random() * pPool.length)];
         const cOpt = cPool[Math.floor(Math.random() * cPool.length)];
-        const vOpt = INGREDIENTS.veggies.filter(i => i.name !== 'Skip')[Math.floor(Math.random() * (INGREDIENTS.veggies.length - 1))];
-        const sOpt = INGREDIENTS.sauce.filter(i => i.name !== 'No Sauce')[Math.floor(Math.random() * (INGREDIENTS.sauce.length - 1))];
+        
+        // Allow skipping veggies/sauce for low calorie targets
+        const vPool = INGREDIENTS.veggies;
+        const sPool = INGREDIENTS.sauce;
+        const vOpt = vPool[Math.floor(Math.random() * vPool.length)];
+        const sOpt = sPool[Math.floor(Math.random() * sPool.length)];
 
-        const fixedP = (vOpt.p * 1) + (sOpt.p * 0.25);
-        const fixedC = (vOpt.c * 1) + (sOpt.c * 0.25);
-        const fixedF = (vOpt.f * 1) + (sOpt.f * 0.25);
-        const fixedCal = (vOpt.cal * 1) + (sOpt.cal * 0.25);
+        const fixedP = (vOpt.name === 'Skip' ? 0 : vOpt.p) + (sOpt.name === 'No Sauce' ? 0 : sOpt.p * 0.25);
+        const fixedC = (vOpt.name === 'Skip' ? 0 : vOpt.c) + (sOpt.name === 'No Sauce' ? 0 : sOpt.c * 0.25);
+        const fixedF = (vOpt.name === 'Skip' ? 0 : vOpt.f) + (sOpt.name === 'No Sauce' ? 0 : sOpt.f * 0.25);
+        const fixedCal = (vOpt.name === 'Skip' ? 0 : vOpt.cal) + (sOpt.name === 'No Sauce' ? 0 : sOpt.cal * 0.25);
 
         const remP = Math.max(0, targets.p - fixedP);
         const remC = Math.max(0, targets.c - fixedC);
@@ -77,12 +81,16 @@ const MacroGenerator = () => {
           Wc = (remC * Pp - remP * Cp) / det;
         }
 
-        let finalWp = pOpt.name === 'Skip' ? 0 : Math.max(100, Math.min(400, Math.round(Wp * 100 / 5) * 5));
-        let finalWc = cOpt.name === 'Skip' ? 0 : Math.max(100, Math.min(400, Math.round(Wc * 100 / 5) * 5));
+        // Weight constraints
+        let finalWp = pOpt.name === 'Skip' ? 0 : Math.max(targets.p > 0 ? 50 : 0, Math.min(400, Math.round(Wp * 100 / 5) * 5));
+        let finalWc = cOpt.name === 'Skip' ? 0 : Math.max(targets.c > 0 ? 50 : 0, Math.min(400, Math.round(Wc * 100 / 5) * 5));
 
-        if (targets.c < 10 && Cc > 10) finalWc = 0;
-        if (cOpt.name === 'Skip') finalWc = 0;
-        if (pOpt.name === 'Skip') finalWp = 0;
+        // If target is very low, force zero for heavy components
+        if (targets.p < 5) finalWp = 0;
+        if (targets.c < 5) finalWc = 0;
+        if (calculatedCals < 100 && (vOpt.cal + sOpt.cal * 0.25 > calculatedCals)) {
+          // If forced components exceed target, this attempt is bad, but we'll let the minCalDiff handle it
+        }
 
         const currentMacros = {
           p: (pOpt.p * finalWp / 100) + (cOpt.p * finalWc / 100) + fixedP,
@@ -92,32 +100,37 @@ const MacroGenerator = () => {
         };
 
         const calDiff = Math.abs(currentMacros.cal - calculatedCals);
+        const pDiff = Math.abs(currentMacros.p - targets.p);
+        const cDiff = Math.abs(currentMacros.c - targets.c);
         
-        if (calDiff < minCalDiff) {
-          minCalDiff = calDiff;
-          const finalMealPrice = (pOpt.pricing ? (pOpt.pricing[finalWp] || (pOpt.pricing[Object.keys(pOpt.pricing).map(Number).sort((a,b)=>a-b).reverse().find(k => k <= finalWp) || 100]) || 0) : 0) + 
-                                (cOpt.pricing ? (cOpt.pricing[finalWc] || (cOpt.pricing[Object.keys(cOpt.pricing).map(Number).sort((a,b)=>a-b).reverse().find(k => k <= finalWc) || 100]) || 0) : 0) + 
-                                (vOpt.tier === 'premium' ? 0.90 : 0.60) + 
-                                (sOpt.tier === 'premium' ? 1.10 : 0.65) + 0.90;
+        // Balanced score: weight calorie accuracy and protein/carb accuracy
+        const score = calDiff + (pDiff * 4) + (cDiff * 4);
+        
+        if (score < minScore) {
+          minScore = score;
+          const finalMealPrice = (pOpt.pricing ? (pOpt.pricing[finalWp] || 0) : 0) + 
+                                (cOpt.pricing ? (cOpt.pricing[finalWc] || 0) : 0) + 
+                                (vOpt.name === 'Skip' ? 0 : (vOpt.tier === 'premium' ? 0.90 : 0.60)) + 
+                                (sOpt.name === 'No Sauce' ? 0 : (sOpt.tier === 'premium' ? 1.10 : 0.65)) + 0.90;
 
-          const pName = pOpt.name === 'Skip' ? '' : pOpt.name;
-          const cName = cOpt.name === 'Skip' ? '' : cOpt.name;
-          const mealName = `${pName}${pName && cName ? ' + ' : ''}${cName}`.trim();
+          const pName = pOpt.name === 'Skip' || finalWp === 0 ? '' : pOpt.name;
+          const cName = cOpt.name === 'Skip' || finalWc === 0 ? '' : cOpt.name;
+          const vName = vOpt.name === 'Skip' ? '' : vOpt.name;
+          const mealName = [pName, cName, vName].filter(Boolean).join(' + ') || 'Pure Macros Engineering';
 
           bestMeal = {
             name: mealName,
             details: {
               protein: [{ name: pOpt.name, weight: finalWp, cal: Math.round(pOpt.cal * finalWp / 100) }],
               carb: [{ name: cOpt.name, weight: finalWc, cal: Math.round(cOpt.cal * finalWc / 100) }],
-              veggies: [{ name: vOpt.name, weight: 100, cal: Math.round(vOpt.cal) }],
-              sauce: [{ name: sOpt.name, weight: 25, cal: Math.round(sOpt.cal * 0.25) }],
+              veggies: [{ name: vOpt.name, weight: vOpt.name === 'Skip' ? 0 : 100, cal: Math.round(vOpt.cal || 0) }],
+              sauce: [{ name: sOpt.name, weight: sOpt.name === 'No Sauce' ? 0 : 25, cal: Math.round((sOpt.cal || 0) * 0.25) }],
             },
             macros: currentMacros,
             price: finalMealPrice
           };
 
-          // If we're within the user's requested range, stop and use this one
-          if (calDiff <= 50) break;
+          if (score <= 10) break; // Excellent fit
         }
       }
 
@@ -175,7 +188,7 @@ const MacroGenerator = () => {
                 </div>
                 
                 <div className="space-y-10 px-2">
-                  <RangeSlider label="Protein" value={targets.p} max={80} onChange={v => setTargets({...targets, p: v})} unit="g" color="#00aff0" />
+                  <RangeSlider label="Protein" value={targets.p} min={20} max={80} onChange={v => setTargets({...targets, p: v})} unit="g" color="#00aff0" />
                   <RangeSlider label="Carbohydrates" value={targets.c} max={75} onChange={v => setTargets({...targets, c: v})} unit="g" color="#f97316" />
                   <RangeSlider label="Lipids / Fats" value={targets.f} max={30} onChange={v => setTargets({...targets, f: v})} unit="g" color="#10b981" />
                 </div>
