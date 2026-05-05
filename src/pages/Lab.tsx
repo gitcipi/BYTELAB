@@ -100,13 +100,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
       return { ...prev, [cat]: [...withoutSkip, name] };
     });
 
-    if (!isSkip) {
-      setWeights(prev => {
-        const currentCat = prev[cat];
-        // If we are currently DESELECTING (it was in selections), then we might want to remove the weight.
-        // But we need to know if we are selecting or deselecting.
-        return prev; // Let's keep weights persistent as per user request
-      });
+
 
       setEditingItems(prev => {
         const currentCat = prev[cat];
