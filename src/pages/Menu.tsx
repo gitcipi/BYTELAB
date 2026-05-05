@@ -170,41 +170,35 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { me
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center p-6 md:p-12"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12"
     >
       <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={onClose}></div>
       
       {/* Navigation Arrows */}
       <button 
         onClick={(e) => { e.stopPropagation(); onNavigate((currentIndex - 1 + meals.length) % meals.length); }}
-        className="absolute left-4 md:left-12 top-1/2 -translate-y-1/2 z-[110] w-14 h-14 rounded-full bg-white/10 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
+        className="absolute left-2 md:left-12 top-1/2 -translate-y-1/2 z-[110] w-10 h-10 md:w-14 md:h-14 rounded-full bg-white/10 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
       >
-        <ChevronLeft size={32} />
+        <ChevronLeft size={24} className="md:w-8 md:h-8" />
       </button>
 
       <button 
         onClick={(e) => { e.stopPropagation(); onNavigate((currentIndex + 1) % meals.length); }}
-        className="absolute right-4 md:right-12 top-1/2 -translate-y-1/2 z-[110] w-14 h-14 rounded-full bg-white/10 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
+        className="absolute right-2 md:right-12 top-1/2 -translate-y-1/2 z-[110] w-10 h-10 md:w-14 md:h-14 rounded-full bg-white/10 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
       >
-        <ChevronRight size={32} />
+        <ChevronRight size={24} className="md:w-8 md:h-8" />
       </button>
 
-      <motion.div 
-        key={meal.id}
-        initial={{ scale: 0.9, opacity: 0, y: 20 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.9, opacity: 0, y: 20 }}
-        transition={{ type: "spring", damping: 25, stiffness: 300 }}
-        className="relative w-full max-w-5xl bg-white dark:bg-card rounded-[40px] overflow-hidden flex flex-col md:flex-row border border-white/10 shadow-none"
+        className="relative w-full max-w-5xl max-h-[90vh] md:max-h-none overflow-y-auto md:overflow-visible bg-white dark:bg-card rounded-[32px] md:rounded-[40px] flex flex-col md:flex-row border border-white/10 shadow-none"
       >
         <button 
           onClick={onClose}
-          className="absolute top-6 right-6 z-50 w-12 h-12 rounded-full bg-black/50 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
+          className="absolute top-4 right-4 md:top-6 md:right-6 z-50 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/50 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
         >
-          <X size={24} />
+          <X size={20} className="md:w-6 md:h-6" />
         </button>
 
-        <div className="w-full md:w-1/2 h-[300px] md:h-auto relative overflow-hidden bg-gray-100 dark:bg-black">
+        <div className="w-full md:w-1/2 h-[200px] md:h-auto relative overflow-hidden bg-gray-100 dark:bg-black shrink-0">
           {meal.img ? (
             <img src={meal.img} alt={meal.title} className="w-full h-full object-cover" />
           ) : (
@@ -217,54 +211,54 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { me
               </div>
             </div>
           )}
-          <div className="absolute top-8 left-8">
-            <span className="text-xs font-mono tracking-[0.4em] text-black font-bold uppercase border border-black/10 px-6 py-2.5 rounded-full shadow-2xl bg-white/95">
+          <div className="absolute top-4 left-4 md:top-8 md:left-8">
+            <span className="text-[10px] md:text-xs font-mono tracking-[0.4em] text-black font-bold uppercase border border-black/10 px-4 py-1.5 md:px-6 md:py-2.5 rounded-full shadow-2xl bg-white/95">
               {meal.label}
             </span>
           </div>
         </div>
 
-        <div className="w-full md:w-1/2 p-10 md:p-16 flex flex-col justify-center">
-          <div className="mb-10 flex justify-between items-start">
+        <div className="w-full md:w-1/2 p-6 md:p-16 flex flex-col justify-center">
+          <div className="mb-6 md:mb-10 flex justify-between items-start">
             <div>
-              <h2 className="text-4xl md:text-5xl font-heading font-medium tracking-tight text-black dark:text-white mb-2">{meal.title}</h2>
-              <p className="text-xl text-accent-light dark:text-accent font-mono tracking-widest uppercase">{meal.subtitle}</p>
+              <h2 className="text-2xl md:text-5xl font-heading font-medium tracking-tight text-black dark:text-white mb-2 leading-tight">{meal.title}</h2>
+              <p className="text-sm md:text-xl text-accent-light dark:text-accent font-mono tracking-widest uppercase">{meal.subtitle}</p>
             </div>
             <div className="text-right">
-              <span className="text-[10px] font-mono tracking-widest text-gray-400 uppercase block mb-1">Price</span>
-              <span className="text-3xl font-mono font-bold text-black dark:text-white">€{mealPrice.toFixed(2)}</span>
+              <span className="text-[8px] md:text-[10px] font-mono tracking-widest text-gray-400 uppercase block mb-1">Price</span>
+              <span className="text-xl md:text-3xl font-mono font-bold text-black dark:text-white">€{mealPrice.toFixed(2)}</span>
             </div>
           </div>
 
-          <div className="space-y-6 mb-12">
-            <p className="text-lg text-gray-600 dark:text-secondary leading-relaxed font-light">
+          <div className="space-y-4 md:space-y-6 mb-8 md:mb-12">
+            <p className="text-sm md:text-lg text-gray-600 dark:text-secondary leading-relaxed font-light">
               {meal.desc}
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2 md:gap-3">
               {meal.goals.map(goal => (
-                <span key={goal} className="px-4 py-1.5 rounded-full border border-accent-light/20 dark:border-accent/20 bg-accent-light/5 dark:bg-accent/5 text-[10px] font-mono tracking-widest text-accent-light dark:text-accent uppercase">
+                <span key={goal} className="px-3 py-1 md:px-4 md:py-1.5 rounded-full border border-accent-light/20 dark:border-accent/20 bg-accent-light/5 dark:bg-accent/5 text-[8px] md:text-[10px] font-mono tracking-widest text-accent-light dark:text-accent uppercase">
                   {goal}
                 </span>
               ))}
             </div>
           </div>
 
-          <div className="grid grid-cols-4 gap-6 pt-10 border-t border-black/5 dark:border-border">
+          <div className="grid grid-cols-4 gap-4 md:gap-6 pt-6 md:pt-10 border-t border-black/5 dark:border-border">
             <div className="space-y-1">
-              <span className="block text-[10px] font-mono tracking-widest text-black dark:text-white font-bold uppercase">KCAL.</span>
-              <span className="text-xl font-mono text-black dark:text-white">{meal.macros.energy}</span>
+              <span className="block text-[8px] md:text-[10px] font-mono tracking-widest text-black dark:text-white font-bold uppercase">KCAL.</span>
+              <span className="text-sm md:text-xl font-mono text-black dark:text-white">{meal.macros.energy}</span>
             </div>
             <div className="space-y-1">
-              <span className="block text-[10px] font-mono tracking-widest text-accent font-bold uppercase">PROTEIN</span>
-              <span className="text-xl font-mono text-black dark:text-white">{meal.macros.protein}</span>
+              <span className="block text-[8px] md:text-[10px] font-mono tracking-widest text-accent font-bold uppercase">PROTEIN</span>
+              <span className="text-sm md:text-xl font-mono text-black dark:text-white">{meal.macros.protein}</span>
             </div>
             <div className="space-y-1">
-              <span className="block text-[10px] font-mono tracking-widest text-orange-500 font-bold uppercase">CARBS</span>
-              <span className="text-xl font-mono text-black dark:text-white">{meal.macros.carbs}</span>
+              <span className="block text-[8px] md:text-[10px] font-mono tracking-widest text-orange-500 font-bold uppercase">CARBS</span>
+              <span className="text-sm md:text-xl font-mono text-black dark:text-white">{meal.macros.carbs}</span>
             </div>
             <div className="space-y-1">
-              <span className="block text-[10px] font-mono tracking-widest text-emerald-500 font-bold uppercase">FATS</span>
-              <span className="text-xl font-mono text-black dark:text-white">{meal.macros.fats}</span>
+              <span className="block text-[8px] md:text-[10px] font-mono tracking-widest text-emerald-500 font-bold uppercase">FATS</span>
+              <span className="text-sm md:text-xl font-mono text-black dark:text-white">{meal.macros.fats}</span>
             </div>
           </div>
 
@@ -280,7 +274,7 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { me
               });
               onClose();
             }}
-            className="mt-12 w-full py-5 rounded-[24px] bg-accent-light dark:bg-accent text-white dark:text-black text-sm font-bold tracking-widest uppercase transition-all hover:scale-[1.02] active:scale-[0.98]"
+            className="mt-8 md:mt-12 w-full py-4 md:py-5 rounded-[20px] md:rounded-[24px] bg-accent-light dark:bg-accent text-white dark:text-black text-[11px] md:text-sm font-bold tracking-widest uppercase transition-all active:scale-[0.98]"
           >
             Add to Basket
           </button>
