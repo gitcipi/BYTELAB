@@ -203,6 +203,16 @@ const Home = () => {
 
               <motion.div 
                 variants={fadeUpVariant}
+                className="flex items-center gap-2 mb-6"
+              >
+                <div className="flex -space-x-2">
+                  <div className="w-6 h-6 rounded-full bg-accent-light/10 border border-accent-light/20 flex items-center justify-center text-[10px]">✨</div>
+                </div>
+                <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-accent-light uppercase">Weekly Protocols & OnlyPlans Available</span>
+              </motion.div>
+
+              <motion.div 
+                variants={fadeUpVariant}
                 className="flex flex-wrap gap-3 md:gap-4 mb-12 md:mb-16"
               >
                 <Link to="/menu" className="px-6 py-3.5 md:px-8 md:py-4 bg-black text-white rounded-full text-[10px] md:text-[11px] tracking-[0.2em] uppercase font-bold hover:bg-accent-light transition-all shadow-xl shadow-black/10">
@@ -213,6 +223,9 @@ const Home = () => {
                 </Link>
                 <Link to="/generate-meal" className="px-6 py-3.5 md:px-8 md:py-4 bg-white text-black border border-black/10 rounded-full text-[10px] md:text-[11px] tracking-[0.2em] uppercase font-bold hover:border-black transition-all">
                   Generate Meals
+                </Link>
+                <Link to="/plans" className="px-6 py-3.5 md:px-8 md:py-4 bg-accent-light/5 text-accent-light border border-accent-light/20 rounded-full text-[10px] md:text-[11px] tracking-[0.2em] uppercase font-bold hover:bg-accent-light hover:text-white transition-all">
+                  OnlyPlans
                 </Link>
               </motion.div>
 
