@@ -109,7 +109,6 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
         // because the card's onClick will handle the 'expand' if clicked on the box.
         return { ...prev, [cat]: currentCat.filter(n => n !== name) };
       });
-    }
   };
 
   const removeSelection = (cat: string, name: string) => {
