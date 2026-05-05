@@ -239,7 +239,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
   }, [selections.protein, currentSlot.name]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative pt-40 pb-20 overflow-hidden bg-gray-50 border-b border-black/5">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
