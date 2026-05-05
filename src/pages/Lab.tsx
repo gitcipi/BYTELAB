@@ -103,12 +103,9 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
     if (!isSkip) {
       setWeights(prev => {
         const currentCat = prev[cat];
-        if (currentCat[name]) {
-          const { [name]: _, ...rest } = currentCat;
-          return { ...prev, [cat]: rest };
-        }
-        const defaultWeight = (options[cat as keyof typeof options].find((o: any) => o.name === name) as any)?.unit === 'PC' ? 1 : 100;
-        return { ...prev, [cat]: { ...currentCat, [name]: defaultWeight } };
+        // If we are currently DESELECTING (it was in selections), then we might want to remove the weight.
+        // But we need to know if we are selecting or deselecting.
+        return prev; // Let's keep weights persistent as per user request
       });
 
       setEditingItems(prev => {
@@ -434,6 +431,11 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                               }))}
                               isDark={false}
                             />
+
+                            <div className="flex justify-between items-center px-2 pb-2">
+                              <span className="text-[10px] font-mono text-black/40 uppercase tracking-widest">Live Estimation</span>
+                              <span className="text-sm font-mono font-bold text-accent">{formatCurrency(calculateItemPrice(cat, item.name, weights[cat]?.[item.name] || 0))}</span>
+                            </div>
 
                             <div className="grid grid-cols-4 md:grid-cols-9 gap-2">
                               {/* Add 0g option */}
