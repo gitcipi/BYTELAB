@@ -41,7 +41,7 @@ const Plans = () => {
       discount: 10,
       basePrice: 60,
       tag: 'ESSENTIAL LOAD',
-      stats: '~1,100 Kcal / 90g Protein Daily',
+      stats: '2 Meals / Day: ~1,100 Kcal / 90g P',
       features: ['8 Precision Engineered Meals', 'Ideal for 4 Full Days', '2 Fresh Deliveries / Week', 'Microwaveable Tupperware'],
       color: 'accent'
     },
@@ -52,7 +52,7 @@ const Plans = () => {
       discount: 15,
       basePrice: 105,
       tag: 'PERFORMANCE SYNC',
-      stats: '~1,100 Kcal / 90g Protein Daily',
+      stats: '2 Meals / Day: ~1,100 Kcal / 90g P',
       features: ['14 Precision Engineered Meals', 'Complete 7-Day Protocol', '4 Fresh Deliveries / Week', 'Microwaveable Tupperware'],
       color: 'blue-500'
     },
@@ -63,7 +63,7 @@ const Plans = () => {
       discount: 25,
       basePrice: 150,
       tag: 'ULTIMATE STACK',
-      stats: '~1,650 Kcal / 135g Protein Daily',
+      stats: '~3 Meals / Day: ~1,650 Kcal / 135g P',
       features: ['20 Precision Engineered Meals', 'Elite Performance Load', 'Daily Fresh Deliveries', 'Microwaveable Tupperware'],
       color: 'emerald-500'
     }
