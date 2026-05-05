@@ -190,8 +190,8 @@ const Home = () => {
                 variants={fadeUpVariant}
                 className="text-5xl md:text-7xl lg:text-8xl font-heading font-light tracking-tight text-black mb-6 md:mb-8 leading-[0.95]"
               >
-                Food, <br />
-                <span className="italic font-medium text-accent-light">engineered.</span>
+                Food <br />
+                <span className="italic font-medium text-accent-light">engineered</span>
               </motion.h1>
 
               <motion.p
