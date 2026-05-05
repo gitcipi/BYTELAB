@@ -36,40 +36,37 @@ export const CartDropdown = ({ currency }: { currency: string }) => {
     const standardItems = items.filter(i => i.type === 'standard');
     const labItems = items.filter(i => i.type === 'lab');
 
-    let message = "Hello BYTE,\n\nI would like to place an order:\n\n";
+    let message = "Hello BYTE,%0A%0AI would like to place an order:%0A%0A";
 
     if (standardItems.length > 0) {
-      message += "Items:\n";
+      message += "*Items:*%0A";
       standardItems.forEach(i => {
-        message += `- ${i.name} x${i.quantity} (${formatCurrency(i.price * i.quantity)})\n`;
+        message += `  · ${i.name} x${i.quantity} (${formatCurrency(i.price * i.quantity)})%0A`;
       });
-      message += "\n";
+      message += "%0A";
     }
 
     if (labItems.length > 0) {
-      message += "Custom Builds:\n";
       labItems.forEach(i => {
-        message += `- ${i.name}:\n`;
+        message += `*Custom Build: ${i.name}*%0A`;
         const renderCat = (label: string, catItems: any[]) => {
           if (catItems && catItems.length > 0) {
-            const itemsStr = catItems.map(item => `${item.name} (${item.weight}${item.unit || 'g'})`).join(' & ');
-            message += `  ${label}: ${itemsStr}\n`;
+            const itemsStr = catItems.map(item => `${item.name} (${item.weight}${item.unit || 'g'})`).join(' %26 ');
+            message += `  · ${label}: ${itemsStr}%0A`;
           }
         };
         renderCat('Protein', i.details?.protein || []);
         renderCat('Carb', i.details?.carb || []);
         renderCat('Veggies', i.details?.veggies || []);
         renderCat('Sauce', i.details?.sauce || []);
-        message += `  Quantity: x${i.quantity}\n`;
-        message += `  Price: ${formatCurrency(i.price * i.quantity)}\n\n`;
+        message += `  · Quantity: x${i.quantity}%0A`;
+        message += `  · Price: ${formatCurrency(i.price * i.quantity)}%0A%0A`;
       });
     }
 
-    message += `Total: ${formatCurrency(total)}\n\n`;
-    message += "Please confirm availability.";
+    message += `*Total: ${formatCurrency(total)}*%0A%0APlease confirm availability.`;
 
-    const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/4917684262753?text=${encodedMessage}`, '_blank');
+    window.open(`https://wa.me/4917684262753?text=${message}`, '_blank');
   };
 
   return (
