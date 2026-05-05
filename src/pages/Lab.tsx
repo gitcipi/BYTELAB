@@ -377,14 +377,14 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                     return (
                       <div
                         key={item.name}
-                        className={`relative rounded-[32px] border transition-all duration-500 overflow-hidden ${
+                        className={`relative rounded-[28px] border transition-all duration-500 overflow-hidden ${
                           isSelected 
                             ? 'bg-white border-accent shadow-xl' 
                             : 'bg-white border-black/10 hover:border-black/20'
-                        } ${isEditing ? 'col-span-1 md:col-span-3' : 'col-span-1'}`}
+                        } ${isEditing ? 'col-span-1 md:col-span-3 h-auto' : 'col-span-1 h-[84px]'}`}
                       >
                         <div 
-                          className="p-6 cursor-pointer flex justify-between items-center text-black"
+                          className="h-full p-4 md:p-5 cursor-pointer flex justify-between items-center text-black"
                           onClick={() => {
                             if (!isSelected) {
                               toggleSelection(cat, item.name);
@@ -398,9 +398,9 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                             }
                           }}
                         >
-                          <div className="space-y-1.5">
-                            <span className="text-[12px] md:text-sm font-mono font-bold uppercase tracking-[0.2em]">{item.name}</span>
-                            {!isGhost && <p className="text-[10px] opacity-40 text-black font-mono font-bold">{item.cal} Kcal / 100g</p>}
+                          <div className="space-y-1">
+                            <span className="text-[11px] md:text-[13px] font-mono font-bold uppercase tracking-[0.15em]">{item.name}</span>
+                            {!isGhost && <p className="text-[9px] opacity-40 text-black font-mono font-bold">{item.cal} Kcal / 100g</p>}
                           </div>
                           <div className="flex items-center gap-4">
                             {isSelected && !isGhost && (
