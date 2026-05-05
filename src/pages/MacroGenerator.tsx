@@ -164,7 +164,7 @@ const MacroGenerator = () => {
                   <div className="absolute top-0 left-0 w-1 h-full bg-[#00aff0]/40" />
                   <div className="space-y-1">
                     <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[#00aff0] font-bold block">Energy Output</span>
-                    <div className="text-[8px] font-mono text-black/20 space-y-0.5 leading-tight uppercase tracking-wider">
+                    <div className="text-[8px] font-mono text-black/60 space-y-0.5 leading-tight uppercase tracking-wider">
                       <p>P: 4kcal/g | C: 4kcal/g | F: 9kcal/g</p>
                     </div>
                   </div>
@@ -202,9 +202,9 @@ const MacroGenerator = () => {
                     className="text-center space-y-4"
                   >
                     <div className="w-20 h-20 rounded-[28px] border-2 border-dashed border-black/10 flex items-center justify-center mx-auto mb-6">
-                      <Wand2 size={32} className="text-black/5" />
+                      <Wand2 size={32} className="text-black/20" />
                     </div>
-                    <p className="text-[9px] font-mono uppercase tracking-[0.5em] text-black/10 font-black">Awaiting System Input</p>
+                    <p className="text-[9px] font-mono uppercase tracking-[0.5em] text-black/40 font-black">Awaiting System Input</p>
                   </motion.div>
                 ) : (
                   <motion.div 
