@@ -39,73 +39,89 @@ const MacroGenerator = () => {
       let cPool = INGREDIENTS.carb.filter(i => i.name !== 'Skip');
       
       if (targets.c < 15) {
-        cPool = INGREDIENTS.carb.filter(i => i.name === 'Cauli Rice' || i.name === 'Skip');
+        cPool = INGREDIENTS.carb.filter(i => i.name === 'Cauliflower Rice' || i.name === 'Skip');
       }
       if (targets.p < 15) {
         pPool = INGREDIENTS.protein.filter(i => i.name === 'Egg Whites' || i.name === 'Skip');
       }
 
-      const pOpt = pPool[Math.floor(Math.random() * pPool.length)];
-      const cOpt = cPool[Math.floor(Math.random() * cPool.length)];
-      const vOpt = INGREDIENTS.veggies.filter(i => i.name !== 'Skip')[Math.floor(Math.random() * (INGREDIENTS.veggies.length - 1))];
-      const sOpt = INGREDIENTS.sauce.filter(i => i.name !== 'No Sauce')[Math.floor(Math.random() * (INGREDIENTS.sauce.length - 1))];
+      let bestMeal = null;
+      let minCalDiff = Infinity;
 
-      const fixedP = (vOpt.p * 1) + (sOpt.p * 0.25);
-      const fixedC = (vOpt.c * 1) + (sOpt.c * 0.25);
-      const fixedF = (vOpt.f * 1) + (sOpt.f * 0.25);
-      const fixedCal = (vOpt.cal * 1) + (sOpt.cal * 0.25);
+      // Try multiple combinations to find the best macro/calorie fit
+      for (let attempt = 0; attempt < 50; attempt++) {
+        const pOpt = pPool[Math.floor(Math.random() * pPool.length)];
+        const cOpt = cPool[Math.floor(Math.random() * cPool.length)];
+        const vOpt = INGREDIENTS.veggies.filter(i => i.name !== 'Skip')[Math.floor(Math.random() * (INGREDIENTS.veggies.length - 1))];
+        const sOpt = INGREDIENTS.sauce.filter(i => i.name !== 'No Sauce')[Math.floor(Math.random() * (INGREDIENTS.sauce.length - 1))];
 
-      const remP = Math.max(0, targets.p - fixedP);
-      const remC = Math.max(0, targets.c - fixedC);
+        const fixedP = (vOpt.p * 1) + (sOpt.p * 0.25);
+        const fixedC = (vOpt.c * 1) + (sOpt.c * 0.25);
+        const fixedF = (vOpt.f * 1) + (sOpt.f * 0.25);
+        const fixedCal = (vOpt.cal * 1) + (sOpt.cal * 0.25);
 
-      const Pp = pOpt.p; const Pc = cOpt.p;
-      const Cp = pOpt.c; const Cc = cOpt.c;
+        const remP = Math.max(0, targets.p - fixedP);
+        const remC = Math.max(0, targets.c - fixedC);
 
-      let Wp = 0, Wc = 0;
-      const det = (Pp * Cc) - (Pc * Cp);
+        const Pp = pOpt.p; const Pc = cOpt.p;
+        const Cp = pOpt.c; const Cc = cOpt.c;
 
-      if (Math.abs(det) < 0.1) {
-        Wp = remP / (Pp || 1);
-        Wc = remC / (Cc || 1);
-      } else {
-        Wp = (remP * Cc - remC * Pc) / det;
-        Wc = (remC * Pp - remP * Cp) / det;
+        let Wp = 0, Wc = 0;
+        const det = (Pp * Cc) - (Pc * Cp);
+
+        if (Math.abs(det) < 0.1) {
+          Wp = remP / (Pp || 1);
+          Wc = remC / (Cc || 1);
+        } else {
+          Wp = (remP * Cc - remC * Pc) / det;
+          Wc = (remC * Pp - remP * Cp) / det;
+        }
+
+        let finalWp = pOpt.name === 'Skip' ? 0 : Math.max(100, Math.min(400, Math.round(Wp * 100 / 5) * 5));
+        let finalWc = cOpt.name === 'Skip' ? 0 : Math.max(100, Math.min(400, Math.round(Wc * 100 / 5) * 5));
+
+        if (targets.c < 10 && Cc > 10) finalWc = 0;
+        if (cOpt.name === 'Skip') finalWc = 0;
+        if (pOpt.name === 'Skip') finalWp = 0;
+
+        const currentMacros = {
+          p: (pOpt.p * finalWp / 100) + (cOpt.p * finalWc / 100) + fixedP,
+          c: (pOpt.c * finalWp / 100) + (cOpt.c * finalWc / 100) + fixedC,
+          f: (pOpt.f * finalWp / 100) + (cOpt.f * finalWc / 100) + fixedF,
+          cal: (pOpt.cal * finalWp / 100) + (cOpt.cal * finalWc / 100) + fixedCal,
+        };
+
+        const calDiff = Math.abs(currentMacros.cal - calculatedCals);
+        
+        if (calDiff < minCalDiff) {
+          minCalDiff = calDiff;
+          const finalMealPrice = (pOpt.pricing ? (pOpt.pricing[finalWp] || (pOpt.pricing[Object.keys(pOpt.pricing).map(Number).sort((a,b)=>a-b).reverse().find(k => k <= finalWp) || 100]) || 0) : 0) + 
+                                (cOpt.pricing ? (cOpt.pricing[finalWc] || (cOpt.pricing[Object.keys(cOpt.pricing).map(Number).sort((a,b)=>a-b).reverse().find(k => k <= finalWc) || 100]) || 0) : 0) + 
+                                (vOpt.tier === 'premium' ? 0.90 : 0.60) + 
+                                (sOpt.tier === 'premium' ? 1.10 : 0.65) + 0.90;
+
+          const pName = pOpt.name === 'Skip' ? '' : pOpt.name;
+          const cName = cOpt.name === 'Skip' ? '' : cOpt.name;
+          const mealName = `${pName}${pName && cName ? ' + ' : ''}${cName}`.trim();
+
+          bestMeal = {
+            name: mealName,
+            details: {
+              protein: [{ name: pOpt.name, weight: finalWp, cal: Math.round(pOpt.cal * finalWp / 100) }],
+              carb: [{ name: cOpt.name, weight: finalWc, cal: Math.round(cOpt.cal * finalWc / 100) }],
+              veggies: [{ name: vOpt.name, weight: 100, cal: Math.round(vOpt.cal) }],
+              sauce: [{ name: sOpt.name, weight: 25, cal: Math.round(sOpt.cal * 0.25) }],
+            },
+            macros: currentMacros,
+            price: finalMealPrice
+          };
+
+          // If we're within the user's requested range, stop and use this one
+          if (calDiff <= 50) break;
+        }
       }
 
-      let finalWp = pOpt.name === 'Skip' ? 0 : Math.max(100, Math.min(400, Math.round(Wp * 100 / 5) * 5));
-      let finalWc = cOpt.name === 'Skip' ? 0 : Math.max(100, Math.min(400, Math.round(Wc * 100 / 5) * 5));
-
-      if (targets.c < 10 && Cc > 10) finalWc = 0;
-      if (cOpt.name === 'Skip') finalWc = 0;
-      if (pOpt.name === 'Skip') finalWp = 0;
-
-      const macros = {
-        p: (pOpt.p * finalWp / 100) + (cOpt.p * finalWc / 100) + fixedP,
-        c: (pOpt.c * finalWp / 100) + (cOpt.c * finalWc / 100) + fixedC,
-        f: (pOpt.f * finalWp / 100) + (cOpt.f * finalWc / 100) + fixedF,
-        cal: (pOpt.cal * finalWp / 100) + (cOpt.cal * finalWc / 100) + fixedCal,
-      };
-
-      const finalMealPrice = (pOpt.pricing ? (pOpt.pricing[finalWp] || 0) : 0) + 
-                            (cOpt.pricing ? (cOpt.pricing[finalWc] || 0) : 0) + 
-                            (vOpt.tier === 'premium' ? 0.90 : 0.60) + 
-                            (sOpt.tier === 'premium' ? 1.10 : 0.65) + 0.90;
-
-      const pName = pOpt.name === 'Skip' ? '' : pOpt.name;
-      const cName = cOpt.name === 'Skip' ? '' : cOpt.name;
-      const mealName = `${pName}${pName && cName ? ' + ' : ''}${cName}`.trim();
-
-      setGeneratedMeal({
-        name: mealName,
-        details: {
-          protein: [{ name: pOpt.name, weight: finalWp, cal: Math.round(pOpt.cal * finalWp / 100) }],
-          carb: [{ name: cOpt.name, weight: finalWc, cal: Math.round(cOpt.cal * finalWc / 100) }],
-          veggies: [{ name: vOpt.name, weight: 100, cal: Math.round(vOpt.cal) }],
-          sauce: [{ name: sOpt.name, weight: 25, cal: Math.round(sOpt.cal * 0.25) }],
-        },
-        macros,
-        price: finalMealPrice
-      });
+      setGeneratedMeal(bestMeal);
       setIsGenerating(false);
     }, 800);
   };
