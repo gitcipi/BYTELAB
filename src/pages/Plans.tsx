@@ -41,6 +41,7 @@ const Plans = () => {
       discount: 10,
       basePrice: 60,
       tag: 'ESSENTIAL LOAD',
+      stats: '~1,100 Kcal / 90g Protein Daily',
       features: ['8 Precision Engineered Meals', 'Ideal for 4 Full Days', '2 Fresh Deliveries / Week', 'Microwaveable Tupperware'],
       color: 'accent'
     },
@@ -51,6 +52,7 @@ const Plans = () => {
       discount: 15,
       basePrice: 105,
       tag: 'PERFORMANCE SYNC',
+      stats: '~1,100 Kcal / 90g Protein Daily',
       features: ['14 Precision Engineered Meals', 'Complete 7-Day Protocol', '4 Fresh Deliveries / Week', 'Microwaveable Tupperware'],
       color: 'blue-500'
     },
@@ -61,6 +63,7 @@ const Plans = () => {
       discount: 25,
       basePrice: 150,
       tag: 'ULTIMATE STACK',
+      stats: '~1,650 Kcal / 135g Protein Daily',
       features: ['20 Precision Engineered Meals', 'Elite Performance Load', 'Daily Fresh Deliveries', 'Microwaveable Tupperware'],
       color: 'emerald-500'
     }
@@ -120,8 +123,12 @@ const Plans = () => {
                   )}
                   
                   <div className="mb-8">
-                    <h3 className="text-2xl font-heading font-medium text-black mb-2">{pkg.name}</h3>
-                    <p className="text-sm text-gray-400 font-mono tracking-wide">{pkg.meals} Meals Per Week</p>
+                    <h3 className="text-2xl font-heading font-medium text-black mb-1">{pkg.name}</h3>
+                    <p className="text-sm text-gray-400 font-mono tracking-wide mb-3">{pkg.meals} Meals Per Week</p>
+                    <div className="flex items-center gap-2 px-3 py-2 bg-[#00aff0]/5 rounded-xl border border-[#00aff0]/10 w-fit">
+                      <Zap size={12} className="text-[#00aff0]" fill="currentColor" />
+                      <span className="text-[10px] font-mono font-bold text-[#00aff0] tracking-tighter">{pkg.stats}</span>
+                    </div>
                   </div>
 
                   <div className="mb-10">
