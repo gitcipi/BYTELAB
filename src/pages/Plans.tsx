@@ -61,7 +61,7 @@ const Plans = () => {
       name: 'Pro Pack',
       meals: 20,
       discount: 25,
-      basePrice: 150,
+      basePrice: 217.3333333, // Results in approx 163.00 after 25% discount
       tag: 'ULTIMATE STACK',
       stats: '~3 Meals / Day: ~1,650 Kcal / 135g P',
       features: ['20 Precision Engineered Meals', 'Elite Performance Load', 'Daily Fresh Deliveries', 'Microwaveable Tupperware'],
