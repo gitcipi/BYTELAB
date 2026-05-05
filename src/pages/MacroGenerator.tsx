@@ -167,9 +167,9 @@ const MacroGenerator = () => {
                 </div>
                 
                 <div className="space-y-12">
-                  <RangeSlider label="Protein" value={targets.p} max={200} onChange={v => setTargets({...targets, p: v})} unit="g" color="#00aff0" />
-                  <RangeSlider label="Carbohydrates" value={targets.c} max={300} onChange={v => setTargets({...targets, c: v})} unit="g" color="#f97316" />
-                  <RangeSlider label="Lipids / Fats" value={targets.f} max={100} onChange={v => setTargets({...targets, f: v})} unit="g" color="#10b981" />
+                  <RangeSlider label="Protein" value={targets.p} max={80} onChange={v => setTargets({...targets, p: v})} unit="g" color="#00aff0" />
+                  <RangeSlider label="Carbohydrates" value={targets.c} max={75} onChange={v => setTargets({...targets, c: v})} unit="g" color="#f97316" />
+                  <RangeSlider label="Lipids / Fats" value={targets.f} max={30} onChange={v => setTargets({...targets, f: v})} unit="g" color="#10b981" />
                 </div>
               </div>
 
