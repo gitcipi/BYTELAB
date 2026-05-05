@@ -493,7 +493,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                       <span className="text-[9px] font-mono text-black/40 font-bold uppercase tracking-wider">Service & Packaging</span>
                       <span className="text-[10px] font-mono font-bold text-black/60">{formatCurrency(0.90)}</span>
                     </div>
-                    <span className="block text-[8px] font-mono text-black font-bold uppercase tracking-tight mt-1 leading-none italic opacity-60">Includes a microwave tupperware</span>
+                    <span className="block text-[8px] font-mono text-black font-bold uppercase tracking-tight mt-1 leading-none italic opacity-60">Includes a tupperware microwave safe</span>
                   </div>
                 )}
                 <div className="flex justify-between items-end mb-6"><div><span className="text-[8px] font-mono text-black/40 font-bold uppercase block">Total</span><span className="text-3xl font-mono text-black font-bold">{formatCurrency(totals.total)}</span></div></div>
