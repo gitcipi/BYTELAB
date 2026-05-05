@@ -141,14 +141,14 @@ const MacroGenerator = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="relative pt-40 pb-20 overflow-hidden bg-gray-50 border-b border-black/5">
+      <section className="relative pt-32 pb-16 md:pt-40 md:pb-20 overflow-hidden bg-gray-50 border-b border-black/5">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }} className="max-w-3xl">
             <span className="text-[10px] font-mono tracking-[0.4em] text-accent-light uppercase mb-4 block">BYTE / GENERATE</span>
-            <h1 className="text-6xl md:text-8xl font-heading font-light tracking-tight mb-8 text-black">
+            <h1 className="text-4xl md:text-8xl font-heading font-light tracking-tight mb-6 md:mb-8 text-black">
               Generate <span className="text-accent-light italic font-medium">Meal.</span>
             </h1>
-            <p className="text-xl text-gray-600 font-light leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed">
               Set your macro targets. Get a precise meal engineered for you. <br />
               Define targets. Engineering takes over.
             </p>
@@ -156,7 +156,7 @@ const MacroGenerator = () => {
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-16">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 py-10 md:py-16">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             <div className="lg:col-span-5 space-y-12">
               <div className="space-y-10">
@@ -191,7 +191,7 @@ const MacroGenerator = () => {
               </button>
             </div>
 
-            <div className="lg:col-span-7 relative min-h-[500px] flex items-center justify-center bg-gray-50 rounded-[40px] p-10 border border-black/5 overflow-hidden">
+            <div className="lg:col-span-7 relative min-h-[500px] flex items-center justify-center bg-gray-50 rounded-[40px] p-6 md:p-10 border border-black/5 overflow-hidden">
               <AnimatePresence mode="wait">
                 {!generatedMeal ? (
                   <motion.div 
@@ -213,29 +213,30 @@ const MacroGenerator = () => {
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     className="w-full h-full flex flex-col"
                   >
-                    <div className="flex justify-between items-start mb-10">
+                    <div className="flex justify-between items-start mb-8 md:mb-10">
                       <div>
-                        <h4 className="text-3xl font-heading font-black tracking-tighter text-black uppercase italic leading-none">{generatedMeal.name}</h4>
+                        <h4 className="text-2xl md:text-3xl font-heading font-black tracking-tighter text-black uppercase italic leading-none">{generatedMeal.name}</h4>
                       </div>
                       <div className="text-right">
                         <span className="text-[9px] font-mono tracking-widest text-black/20 uppercase block mb-1">Production Cost</span>
-                        <span className="text-3xl font-mono font-black text-black">€{generatedMeal.price.toFixed(2)}</span>
+                        <span className="text-2xl md:text-3xl font-mono font-black text-black">€{generatedMeal.price.toFixed(2)}</span>
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8 md:mb-12">
                       {[
                         { label: 'Energy', val: Math.round(generatedMeal.macros.cal), unit: 'kcal', color: 'text-black' },
                         { label: 'Protein', val: Math.round(generatedMeal.macros.p), unit: 'g', color: 'text-[#00aff0]' },
                         { label: 'Carbs', val: Math.round(generatedMeal.macros.c), unit: 'g', color: 'text-orange-500' },
                         { label: 'Fats', val: Math.round(generatedMeal.macros.f), unit: 'g', color: 'text-emerald-500' },
                       ].map(stat => (
-                        <div key={stat.label} className="p-5 bg-white rounded-[20px] border border-black/5 shadow-sm">
+                        <div key={stat.label} className="p-4 md:p-5 bg-white rounded-[20px] border border-black/5 shadow-sm">
                           <span className="block text-[8px] font-mono tracking-widest text-black/20 uppercase font-bold mb-1.5">{stat.label}</span>
-                          <span className={`text-xl font-mono font-black ${stat.color}`}>{stat.val}<span className="text-[10px] opacity-40 ml-1 font-normal">{stat.unit}</span></span>
+                          <span className={`text-lg md:text-xl font-mono font-black ${stat.color}`}>{stat.val}<span className="text-[10px] opacity-40 ml-1 font-normal">{stat.unit}</span></span>
                         </div>
                       ))}
-                    </div>                    <div className="space-y-4 mb-12 flex-grow">
+                    </div>
+                    <div className="space-y-4 mb-12 flex-grow">
                       <span className="text-[9px] font-mono tracking-[0.5em] uppercase text-black/20 font-black block mb-4">Includes a tupperware microwave safe</span>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {[

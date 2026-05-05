@@ -242,14 +242,14 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="relative pt-40 pb-20 overflow-hidden bg-gray-50 border-b border-black/5">
+      <section className="relative pt-32 pb-16 md:pt-40 md:pb-20 overflow-hidden bg-gray-50 border-b border-black/5">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <motion.div initial="hidden" animate="visible" variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } } }} className="max-w-3xl">
             <span className="text-[10px] font-mono tracking-[0.4em] text-accent-light uppercase mb-4 block">BYTE / LAB</span>
-            <h1 className="text-6xl md:text-8xl font-heading font-light tracking-tight mb-8 text-black">
+            <h1 className="text-4xl md:text-8xl font-heading font-light tracking-tight mb-6 md:mb-8 text-black">
               The <span className="text-accent-light italic font-medium">Lab.</span>
             </h1>
-            <p className="text-xl text-gray-600 font-light leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed">
               Build your exact meal, gram by gram. <br />
               Your ingredients. Your macros. Your protocol.
             </p>
@@ -257,11 +257,11 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-16">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 py-10 md:py-16">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
           <div className="lg:col-span-8 space-y-12">
             <div className="flex items-center justify-around gap-2 bg-gray-50/50 p-4 rounded-[32px] border border-black/5">
               {[
@@ -456,7 +456,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                 </button>
               ))}
             </div>
-            <div className="lg:sticky lg:top-24 bg-white rounded-[32px] border border-black/10 p-8 shadow-lg flex flex-col max-h-[80vh]">
+            <div className="lg:sticky lg:top-24 bg-white rounded-[32px] border border-black/10 p-6 md:p-8 shadow-lg flex flex-col max-h-[80vh]">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-2">
                   <h3 className="text-lg font-heading font-medium text-black">Custom BYTE Meal #{activeSlot + 1}</h3>
@@ -522,7 +522,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                     <span className="block text-[8px] font-mono text-black font-bold uppercase tracking-tight mt-1 leading-none italic opacity-60">Includes a tupperware microwave safe</span>
                   </div>
                 )}
-                <div className="flex justify-between items-end mb-6"><div><span className="text-[8px] font-mono text-black/40 font-bold uppercase block">Total</span><span className="text-3xl font-mono text-black font-bold">{formatCurrency(totals.total)}</span></div></div>
+                <div className="flex justify-between items-end mb-6"><div><span className="text-[8px] font-mono text-black/40 font-bold uppercase block">Total</span><span className="text-xl md:text-3xl font-mono text-black font-bold">{formatCurrency(totals.total)}</span></div></div>
                 <button 
                   onClick={() => { 
                     const fullConfig = {

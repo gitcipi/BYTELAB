@@ -335,14 +335,14 @@ const Menu = () => {
   return (
     <div className="min-h-screen bg-white dark:bg-background transition-colors duration-500">
       {/* Hero Section */}
-      <section className="relative pt-40 pb-20 overflow-hidden bg-gray-50 dark:bg-surface border-b border-black/5 dark:border-border">
+      <section className="relative pt-32 pb-16 md:pt-40 md:pb-20 overflow-hidden bg-gray-50 dark:bg-surface border-b border-black/5 dark:border-border">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <motion.div initial="hidden" animate="visible" variants={fadeUpVariant} className="max-w-3xl">
             <span className="text-[10px] font-mono tracking-[0.4em] text-accent-light dark:text-accent uppercase mb-4 block">BYTE / PROTOCOLS</span>
-            <h1 className="text-6xl md:text-8xl font-heading font-light tracking-tight mb-8 text-black dark:text-white">
+            <h1 className="text-4xl md:text-8xl font-heading font-light tracking-tight mb-6 md:mb-8 text-black dark:text-white">
               The <span className="text-accent-light dark:text-accent italic font-medium">Menu.</span>
             </h1>
-            <p className="text-xl text-gray-600 dark:text-secondary font-light leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-600 dark:text-secondary font-light leading-relaxed">
               Precision nutrition across six distinct protocols. <br />
               Select your goal. Engineer your life.
             </p>
@@ -352,7 +352,7 @@ const Menu = () => {
 
 
 
-      <section className="py-24">
+      <section className="py-12 md:py-24">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           {/* Search & Stats */}
           <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-8">
