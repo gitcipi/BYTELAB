@@ -290,10 +290,11 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { me
           >
             Add to Basket
           </button>
-        </motion.div>
-      </AnimatePresence>
-    </motion.div>
-    </motion.div>
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  </motion.div>
+</motion.div>
   );
 };
 
