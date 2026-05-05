@@ -91,8 +91,12 @@ const MacroGenerator = () => {
                             (vOpt.tier === 'premium' ? 0.90 : 0.60) + 
                             (sOpt.tier === 'premium' ? 1.10 : 0.65) + 0.90;
 
+      const pName = pOpt.name === 'Skip' ? '' : pOpt.name.split(' ')[0];
+      const cName = cOpt.name === 'Skip' ? '' : cOpt.name.split(' ')[0];
+      const mealName = `Custom Build: ${pName}${pName && cName ? ' + ' : ''}${cName} Performance`.replace(' +  Performance', ' Performance').trim();
+
       setGeneratedMeal({
-        name: `AI Protocol: ${pOpt.name === 'Skip' ? 'Lean' : pOpt.name.split(' ')[0]} ${cOpt.name === 'Skip' ? 'Zero' : cOpt.name.split(' ')[0]}`,
+        name: mealName,
         details: {
           protein: [{ name: pOpt.name, weight: finalWp }],
           carb: [{ name: cOpt.name, weight: finalWc }],
@@ -207,7 +211,7 @@ const MacroGenerator = () => {
                           <span className="w-1.5 h-1.5 rounded-full bg-[#00aff0]" />
                           <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[#00aff0] font-bold block">Protocol Derived</span>
                         </div>
-                        <h4 className="text-3xl font-heading font-black tracking-tighter text-black uppercase italic leading-none">{generatedMeal.name.replace('AI Protocol:', '')}</h4>
+                        <h4 className="text-3xl font-heading font-black tracking-tighter text-black uppercase italic leading-none">{generatedMeal.name}</h4>
                       </div>
                       <div className="text-right">
                         <span className="text-[9px] font-mono tracking-widest text-black/20 uppercase block mb-1">Production Cost</span>
