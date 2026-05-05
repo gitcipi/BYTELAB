@@ -112,17 +112,14 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { me
   const meal = meals[currentIndex];
 
   const calculateMealPrice = (details?: any) => {
-    if (!details) return 6.50; // Dynamic fallback
-    
+    if (!details) return 6.50;
     let subtotal = 0;
     const categories = ['protein', 'carb', 'veggies', 'sauce'];
-    
     categories.forEach(cat => {
       const items = details[cat] || [];
       items.forEach((item: any) => {
         const opt = INGREDIENTS[cat as keyof typeof INGREDIENTS].find(i => i.name === item.name);
         if (!opt || item.name === 'Skip' || item.name === 'No Sauce') return;
-        
         let price = 0;
         if (opt.pricing) {
           const weights = Object.keys(opt.pricing).map(Number).sort((a, b) => a - b);
@@ -158,7 +155,6 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { me
         subtotal += price;
       });
     });
-    
     return subtotal > 0 ? subtotal + 0.90 : 6.50;
   };
 
@@ -172,9 +168,8 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { me
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12"
     >
-      <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={onClose}></div>
+      <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={onClose} />
       
-      {/* Navigation Arrows */}
       <button 
         onClick={(e) => { e.stopPropagation(); onNavigate((currentIndex - 1 + meals.length) % meals.length); }}
         className="absolute left-2 md:left-12 top-1/2 -translate-y-1/2 z-[110] w-10 h-10 md:w-14 md:h-14 rounded-full bg-white/10 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
@@ -203,98 +198,98 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { me
             transition={{ duration: 0.2 }}
             className="flex flex-col md:flex-row w-full h-full"
           >
-        <button 
-          onClick={onClose}
-          className="absolute top-4 right-4 md:top-6 md:right-6 z-50 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/50 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
-        >
-          <X size={20} className="md:w-6 md:h-6" />
-        </button>
+            <button 
+              onClick={onClose}
+              className="absolute top-4 right-4 md:top-6 md:right-6 z-50 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/50 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
+            >
+              <X size={20} className="md:w-6 md:h-6" />
+            </button>
 
-        <div className="w-full md:w-1/2 h-[200px] md:h-auto relative overflow-hidden bg-gray-100 dark:bg-black shrink-0">
-          {meal.img ? (
-            <img src={meal.img} alt={meal.title} className="w-full h-full object-cover" />
-          ) : (
-            <div className="w-full h-full bg-gray-50 dark:bg-black/40 flex items-center justify-center">
-              <div className="flex flex-col items-center gap-2 opacity-20">
-                <div className="w-16 h-16 rounded-full border border-black dark:border-white flex items-center justify-center">
-                  <span className="text-xl font-mono font-bold tracking-tighter">B /</span>
+            <div className="w-full md:w-1/2 h-[200px] md:h-auto relative overflow-hidden bg-gray-100 dark:bg-black shrink-0">
+              {meal.img ? (
+                <img src={meal.img} alt={meal.title} className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full bg-gray-50 dark:bg-black/40 flex items-center justify-center">
+                  <div className="flex flex-col items-center gap-2 opacity-20">
+                    <div className="w-16 h-16 rounded-full border border-black dark:border-white flex items-center justify-center">
+                      <span className="text-xl font-mono font-bold tracking-tighter">B /</span>
+                    </div>
+                    <span className="text-[10px] font-mono tracking-widest uppercase">Image Pending</span>
+                  </div>
                 </div>
-                <span className="text-[10px] font-mono tracking-widest uppercase">Image Pending</span>
+              )}
+              <div className="absolute top-4 left-4 md:top-8 md:left-8">
+                <span className="text-[10px] md:text-xs font-mono tracking-[0.4em] text-black font-bold uppercase border border-black/10 px-4 py-1.5 md:px-6 md:py-2.5 rounded-full shadow-2xl bg-white/95">
+                  {meal.label}
+                </span>
               </div>
             </div>
-          )}
-          <div className="absolute top-4 left-4 md:top-8 md:left-8">
-            <span className="text-[10px] md:text-xs font-mono tracking-[0.4em] text-black font-bold uppercase border border-black/10 px-4 py-1.5 md:px-6 md:py-2.5 rounded-full shadow-2xl bg-white/95">
-              {meal.label}
-            </span>
-          </div>
-        </div>
 
-        <div className="w-full md:w-1/2 p-6 md:p-16 flex flex-col justify-center">
-          <div className="mb-6 md:mb-10 flex justify-between items-start">
-            <div>
-              <h2 className="text-2xl md:text-5xl font-heading font-medium tracking-tight text-black dark:text-white mb-2 leading-tight">{meal.title}</h2>
-              <p className="text-sm md:text-xl text-accent-light dark:text-accent font-mono tracking-widest uppercase">{meal.subtitle}</p>
-            </div>
-            <div className="text-right">
-              <span className="text-[8px] md:text-[10px] font-mono tracking-widest text-gray-400 uppercase block mb-1">Price</span>
-              <span className="text-xl md:text-3xl font-mono font-bold text-black dark:text-white">€{mealPrice.toFixed(2)}</span>
-            </div>
-          </div>
+            <div className="w-full md:w-1/2 p-6 md:p-16 flex flex-col justify-center">
+              <div className="mb-6 md:mb-10 flex justify-between items-start">
+                <div>
+                  <h2 className="text-2xl md:text-5xl font-heading font-medium tracking-tight text-black dark:text-white mb-2 leading-tight">{meal.title}</h2>
+                  <p className="text-sm md:text-xl text-accent-light dark:text-accent font-mono tracking-widest uppercase">{meal.subtitle}</p>
+                </div>
+                <div className="text-right">
+                  <span className="text-[8px] md:text-[10px] font-mono tracking-widest text-gray-400 uppercase block mb-1">Price</span>
+                  <span className="text-xl md:text-3xl font-mono font-bold text-black dark:text-white">€{mealPrice.toFixed(2)}</span>
+                </div>
+              </div>
 
-          <div className="space-y-4 md:space-y-6 mb-8 md:mb-12">
-            <p className="text-sm md:text-lg text-gray-600 dark:text-secondary leading-relaxed font-light">
-              {meal.desc}
-            </p>
-            <div className="flex flex-wrap gap-2 md:gap-3">
-              {meal.goals.map(goal => (
-                <span key={goal} className="px-3 py-1 md:px-4 md:py-1.5 rounded-full border border-accent-light/20 dark:border-accent/20 bg-accent-light/5 dark:bg-accent/5 text-[8px] md:text-[10px] font-mono tracking-widest text-accent-light dark:text-accent uppercase">
-                  {goal}
-                </span>
-              ))}
-            </div>
-          </div>
+              <div className="space-y-4 md:space-y-6 mb-8 md:mb-12">
+                <p className="text-sm md:text-lg text-gray-600 dark:text-secondary leading-relaxed font-light">
+                  {meal.desc}
+                </p>
+                <div className="flex flex-wrap gap-2 md:gap-3">
+                  {meal.goals.map(goal => (
+                    <span key={goal} className="px-3 py-1 md:px-4 md:py-1.5 rounded-full border border-accent-light/20 dark:border-accent/20 bg-accent-light/5 dark:bg-accent/5 text-[8px] md:text-[10px] font-mono tracking-widest text-accent-light dark:text-accent uppercase">
+                      {goal}
+                    </span>
+                  ))}
+                </div>
+              </div>
 
-          <div className="grid grid-cols-4 gap-4 md:gap-6 pt-6 md:pt-10 border-t border-black/5 dark:border-border">
-            <div className="space-y-1">
-              <span className="block text-[8px] md:text-[10px] font-mono tracking-widest text-black dark:text-white font-bold uppercase">KCAL.</span>
-              <span className="text-sm md:text-xl font-mono text-black dark:text-white">{meal.macros.energy}</span>
-            </div>
-            <div className="space-y-1">
-              <span className="block text-[8px] md:text-[10px] font-mono tracking-widest text-accent font-bold uppercase">PROTEIN</span>
-              <span className="text-sm md:text-xl font-mono text-black dark:text-white">{meal.macros.protein}</span>
-            </div>
-            <div className="space-y-1">
-              <span className="block text-[8px] md:text-[10px] font-mono tracking-widest text-orange-500 font-bold uppercase">CARBS</span>
-              <span className="text-sm md:text-xl font-mono text-black dark:text-white">{meal.macros.carbs}</span>
-            </div>
-            <div className="space-y-1">
-              <span className="block text-[8px] md:text-[10px] font-mono tracking-widest text-emerald-500 font-bold uppercase">FATS</span>
-              <span className="text-sm md:text-xl font-mono text-black dark:text-white">{meal.macros.fats}</span>
-            </div>
-          </div>
+              <div className="grid grid-cols-4 gap-4 md:gap-6 pt-6 md:pt-10 border-t border-black/5 dark:border-border">
+                <div className="space-y-1">
+                  <span className="block text-[8px] md:text-[10px] font-mono tracking-widest text-black dark:text-white font-bold uppercase">KCAL.</span>
+                  <span className="text-sm md:text-xl font-mono text-black dark:text-white">{meal.macros.energy}</span>
+                </div>
+                <div className="space-y-1">
+                  <span className="block text-[8px] md:text-[10px] font-mono tracking-widest text-accent font-bold uppercase">PROTEIN</span>
+                  <span className="text-sm md:text-xl font-mono text-black dark:text-white">{meal.macros.protein}</span>
+                </div>
+                <div className="space-y-1">
+                  <span className="block text-[8px] md:text-[10px] font-mono tracking-widest text-orange-500 font-bold uppercase">CARBS</span>
+                  <span className="text-sm md:text-xl font-mono text-black dark:text-white">{meal.macros.carbs}</span>
+                </div>
+                <div className="space-y-1">
+                  <span className="block text-[8px] md:text-[10px] font-mono tracking-widest text-emerald-500 font-bold uppercase">FATS</span>
+                  <span className="text-sm md:text-xl font-mono text-black dark:text-white">{meal.macros.fats}</span>
+                </div>
+              </div>
 
-          <button 
-            onClick={() => {
-              addToCart({
-                id: meal.id,
-                name: meal.title,
-                price: mealPrice,
-                quantity: 1,
-                type: 'standard',
-                details: meal.labDetails
-              });
-              onClose();
-            }}
-            className="mt-8 md:mt-12 w-full py-4 md:py-5 rounded-[20px] md:rounded-[24px] bg-accent-light dark:bg-accent text-white dark:text-black text-[11px] md:text-sm font-bold tracking-widest uppercase transition-all active:scale-[0.98]"
-          >
-            Add to Basket
-          </button>
-        </div>
+              <button 
+                onClick={() => {
+                  addToCart({
+                    id: meal.id,
+                    name: meal.title,
+                    price: mealPrice,
+                    quantity: 1,
+                    type: 'standard',
+                    details: meal.labDetails
+                  });
+                  onClose();
+                }}
+                className="mt-8 md:mt-12 w-full py-4 md:py-5 rounded-[20px] md:rounded-[24px] bg-accent-light dark:bg-accent text-white dark:text-black text-[11px] md:text-sm font-bold tracking-widest uppercase transition-all active:scale-[0.98]"
+              >
+                Add to Basket
+              </button>
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </motion.div>
-    </AnimatePresence>
-  </motion.div>
-</motion.div>
+    </motion.div>
   );
 };
 
