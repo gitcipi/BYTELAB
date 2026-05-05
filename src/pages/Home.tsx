@@ -211,7 +211,7 @@ const Home = () => {
                 <Link to="/lab" className="px-6 py-3.5 md:px-8 md:py-4 bg-white text-black border border-black/10 rounded-full text-[10px] md:text-[11px] tracking-[0.2em] uppercase font-bold hover:border-black transition-all">
                   Build Meal
                 </Link>
-                <Link to="/generate-meal" className="px-6 py-3.5 md:px-8 md:py-4 bg-white text-black border border-black/10 rounded-full text-[10px] md:text-[11px] tracking-[0.2em] uppercase font-bold hover:border-black transition-all">
+                <Link to="/macro-generator" className="px-6 py-3.5 md:px-8 md:py-4 bg-white text-black border border-black/10 rounded-full text-[10px] md:text-[11px] tracking-[0.2em] uppercase font-bold hover:border-black transition-all">
                   Generate Meals
                 </Link>
                 <Link to="/plans" className="px-6 py-3.5 md:px-8 md:py-4 bg-accent-light/5 text-accent-light border border-accent-light/20 rounded-full text-[10px] md:text-[11px] tracking-[0.2em] uppercase font-bold hover:bg-accent-light hover:text-white transition-all">
