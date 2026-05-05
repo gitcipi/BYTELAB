@@ -185,7 +185,22 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
   };
 
   const updateWeight = (cat: string, name: string, weight: number) => updateSlot({ weights: { ...weights, [cat]: { ...weights[cat], [name]: weight } } });
-  const confirmItem = (cat: string, name: string) => updateSlot({ confirmedItems: { ...confirmedItems, [cat]: [...confirmedItems[cat], name] }, activeEditingItem: null });
+  const confirmItem = (cat: string, name: string) => {
+    const opt = (options[cat as keyof typeof options] as any[]).find((o: any) => o.name === name);
+    const updates: any = {
+      confirmedItems: { ...confirmedItems, [cat]: [...confirmedItems[cat].filter(n => n !== name), name] },
+      activeEditingItem: null,
+    };
+    // If not yet selected, add it with its default weight
+    if (!selections[cat].includes(name)) {
+      const isPC = opt?.unit === 'PC';
+      const defaultWeight = opt?.min || (isPC ? 1 : (cat === 'protein' || cat === 'carb' ? 100 : 50));
+      const withoutSkip = selections[cat].filter(n => n !== 'Skip' && n !== 'No Sauce');
+      updates.selections = { ...selections, [cat]: [...withoutSkip, name] };
+      updates.weights = { ...weights, [cat]: { ...weights[cat], [name]: defaultWeight } };
+    }
+    updateSlot(updates);
+  };
   const removeSelection = (cat: string, name: string) => {
     const ns = selections[cat].filter(n => n !== name);
     const updates: any = {
@@ -297,7 +312,6 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                             >
                               <div className="flex items-center gap-2 mb-1">
                                 <h4 className={`text-sm font-heading font-medium ${isSelected ? 'text-black' : 'text-black/40'}`}>{opt.name}</h4>
-                                {isConfirmed && <div className="w-1.5 h-1.5 rounded-full bg-accent" />}
                               </div>
                               <div className="flex items-center gap-2 opacity-80">
                                 <span className="text-[8px] font-mono uppercase tracking-widest text-black/50 font-bold">{opt.cal} KCAL</span>
