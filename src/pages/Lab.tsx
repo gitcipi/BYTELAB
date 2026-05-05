@@ -343,9 +343,10 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
           const categoryOptions = options[cat as keyof typeof options] as any[];
           const selectedItems = selections[cat];
           const isSkip = selectedItems.includes('Skip') || selectedItems.includes('No Sauce');
+          const activeTuning = editingItems[cat][editingItems[cat].length - 1]; // Tune the most recently clicked/selected
 
           return (
-            <div key={cat} id={`cat-${cat}`} className="space-y-8 mb-16 scroll-mt-40">
+            <div key={cat} id={`cat-${cat}`} className="space-y-8 mb-20 scroll-mt-40">
               <div 
                 className="flex items-center justify-between border-b border-black/5 pb-4 cursor-pointer group"
                 onClick={() => toggleCollapse(cat)}
@@ -362,31 +363,38 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
               </div>
               
               {!collapsedCats[cat] && (
-                <motion.div 
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  className="space-y-8 overflow-hidden"
-                >
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                  {/* Selection Grid */}
+                  <div className="md:col-span-7 grid grid-cols-2 gap-3">
                     {categoryOptions.map(item => {
                       const isSelected = selectedItems.includes(item.name);
+                      const isTuning = activeTuning === item.name;
                       const isGhost = item.name === 'Skip' || item.name === 'No Sauce';
                       
                       return (
                         <button
                           key={item.name}
-                          onClick={() => toggleSelection(cat, item.name)}
+                          onClick={() => {
+                            toggleSelection(cat, item.name);
+                            if (!isSelected && !isGhost) expandItem(cat, item.name);
+                          }}
                           className={`relative px-4 py-5 rounded-2xl border text-[10px] font-mono tracking-widest transition-all duration-300 flex flex-col items-center gap-2 group ${
                             isSelected 
-                              ? 'bg-black border-black text-white shadow-xl scale-[1.02]' 
+                              ? 'bg-black border-black text-white shadow-xl' 
                               : isGhost 
                                 ? 'bg-transparent border-black/10 text-gray-400 hover:border-black/20'
                                 : 'bg-white border-black/10 text-black font-bold hover:border-black/30'
-                          }`}
+                          } ${isTuning ? 'ring-2 ring-accent ring-offset-2' : ''}`}
                         >
                           {isSelected && (
-                            <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-accent" />
+                            <div className="absolute top-2 right-2 flex gap-1">
+                              {!isGhost && (
+                                <div className="text-[8px] bg-accent px-1.5 py-0.5 rounded text-white uppercase">
+                                  {weights[cat]?.[item.name] || 0}g
+                                </div>
+                              )}
+                              <div className="w-2 h-2 rounded-full bg-accent" />
+                            </div>
                           )}
                           {item.name.toUpperCase()}
                           {!isGhost && <span className="opacity-40 text-[8px]">{item.cal} cal / 100g</span>}
@@ -395,93 +403,74 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                     })}
                   </div>
 
-                  {!isSkip && selectedItems.length > 0 && (
-                    <div className="space-y-4 pt-4 border-t border-black/5">
-                      {/* Expanded Items */}
-                      {selectedItems.filter(name => editingItems[cat].includes(name)).map(selectedName => {
-                        const unit = (options[cat as keyof typeof options].find((o: any) => o.name === selectedName) as any)?.unit || 'G';
-                        return (
-                          <div key={selectedName} className="relative bg-black/[0.01] p-6 rounded-[28px] space-y-6 animate-in fade-in slide-in-from-top-1 duration-500 border border-black/5">
-                            <div className="flex justify-between items-center">
-                              <span className="text-[10px] font-mono font-bold text-black/40 uppercase">Fine Tuning: {selectedName}</span>
-                              <button 
-                                onClick={() => minimizeItem(cat, selectedName)}
-                                className="text-black/20 hover:text-black transition-all p-2"
-                              >
-                                <X size={14} />
-                              </button>
-                            </div>
-                            
-                            <RangeSlider 
-                              label={selectedName} 
-                              value={weights[cat]?.[selectedName] || 0} 
-                              min={cat === 'protein' ? 100 : 1} 
-                              max={cat === 'protein' ? 400 : cat === 'carb' && selectedName === 'English Muffin' ? 2 : 500} 
-                              unit={unit}
-                              onChange={(val: number) => setWeights(prev => ({
-                                ...prev,
-                                [cat]: { ...prev[cat], [selectedName]: val }
-                              }))}
-                            />
+                  {/* Tuning Panel */}
+                  <div className="md:col-span-5 h-full">
+                    {activeTuning && activeTuning !== 'Skip' && activeTuning !== 'No Sauce' ? (
+                      <motion.div 
+                        key={activeTuning}
+                        initial={{ opacity: 0, x: 10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="bg-black/[0.02] p-6 rounded-[28px] border border-black/5 space-y-6 sticky top-48"
+                      >
+                        <div className="flex justify-between items-center">
+                          <span className="text-[10px] font-mono font-bold text-black/40 uppercase">Fine Tuning / {activeTuning}</span>
+                          <button onClick={() => minimizeItem(cat, activeTuning)} className="text-black/20 hover:text-black transition-all">
+                            <X size={14} />
+                          </button>
+                        </div>
+                        
+                        <RangeSlider 
+                          label={activeTuning} 
+                          value={weights[cat]?.[activeTuning] || 0} 
+                          min={cat === 'protein' ? 100 : 1} 
+                          max={cat === 'protein' ? 400 : cat === 'carb' && activeTuning === 'English Muffin' ? 2 : 500} 
+                          unit={(options[cat as keyof typeof options].find((o: any) => o.name === activeTuning) as any)?.unit || 'G'}
+                          onChange={(val: number) => setWeights(prev => ({
+                            ...prev,
+                            [cat]: { ...prev[cat], [activeTuning]: val }
+                          }))}
+                        />
 
-                            <div className="grid grid-cols-4 md:grid-cols-5 gap-2">
-                              {(cat === 'sauce' ? [25, 50, 75, 100] : cat === 'carb' && selectedName === 'English Muffin' ? [1, 2] : [100, 150, 200, 250, 300]).map(q => {
-                                if (cat === 'protein' && (q < 100 || q > 400)) return null;
-                                const isActive = weights[cat]?.[selectedName] === q;
-                                return (
-                                  <button
-                                    key={q}
-                                    onClick={() => setWeights(prev => ({
-                                      ...prev,
-                                      [cat]: { ...prev[cat], [selectedName]: q }
-                                    }))}
-                                    className={`py-3 rounded-xl border text-[10px] font-mono transition-all ${
-                                      isActive
-                                        ? 'bg-black text-white border-black shadow-lg shadow-black/10'
-                                        : 'bg-white border-black/5 text-gray-500 hover:border-black/20'
-                                    }`}
-                                  >
-                                    {q}{unit}
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        );
-                      })}
-                      
-                      {/* Minimized List - more compact */}
-                      {selectedItems.filter(name => !editingItems[cat].includes(name)).length > 0 && (
-                        <div className="flex flex-wrap gap-2 pt-2">
-                          {selectedItems.filter(name => !editingItems[cat].includes(name)).map(selectedName => {
-                            const unit = (options[cat as keyof typeof options].find((o: any) => o.name === selectedName) as any)?.unit || 'G';
-                            const weight = weights[cat]?.[selectedName] || 0;
+                        <div className="grid grid-cols-4 gap-2">
+                          {(cat === 'sauce' ? [25, 50, 75, 100] : (options[cat as keyof typeof options].find((o: any) => o.name === activeTuning) as any)?.unit === 'PC' ? [1, 2] : [100, 150, 200, 250]).map(q => {
+                            if (cat === 'protein' && q < 100) return null;
+                            const isActive = weights[cat]?.[activeTuning] === q;
+                            const unit = (options[cat as keyof typeof options].find((o: any) => o.name === activeTuning) as any)?.unit || 'G';
                             return (
-                              <div
-                                key={selectedName}
-                                className="flex items-center gap-3 pl-4 pr-2 py-2 rounded-xl border border-black/10 bg-white"
+                              <button
+                                key={q}
+                                onClick={() => setWeights(prev => ({
+                                  ...prev,
+                                  [cat]: { ...prev[cat], [activeTuning]: q }
+                                }))}
+                                className={`py-3 rounded-xl border text-[10px] font-mono transition-all ${
+                                  isActive
+                                    ? 'bg-black text-white border-black shadow-lg shadow-black/10'
+                                    : 'bg-white border-black/5 text-gray-500 hover:border-black/20'
+                                }`}
                               >
-                                <span className="text-[9px] font-mono font-bold uppercase text-black/60">{selectedName}</span>
-                                <div className="flex items-center gap-1">
-                                  <span className="text-[10px] font-mono font-bold">{weight}{unit}</span>
-                                  <button onClick={() => expandItem(cat, selectedName)} className="p-1.5 hover:bg-black/5 rounded-lg transition-colors">
-                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-                                  </button>
-                                  <button onClick={() => removeSelection(cat, selectedName)} className="p-1.5 hover:bg-red-50 hover:text-red-500 rounded-lg transition-colors">
-                                    <X size={10} />
-                                  </button>
-                                </div>
-                              </div>
+                                {q}{unit}
+                              </button>
                             );
                           })}
                         </div>
-                      )}
-                    </div>
-                  )}
-                </motion.div>
+                      </motion.div>
+                    ) : (
+                      <div className="h-full border border-dashed border-black/10 rounded-[28px] p-8 flex flex-col items-center justify-center text-center space-y-4 opacity-40 grayscale group hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+                        <div className="p-4 rounded-full bg-black/5">
+                          {cat === 'protein' ? <Beef size={24} /> : cat === 'carb' ? <Wheat size={24} /> : cat === 'veggies' ? <Leaf size={24} /> : <Droplets size={24} />}
+                        </div>
+                        <p className="text-[10px] font-mono font-bold uppercase tracking-widest leading-relaxed">
+                          Select an ingredient<br/>to engineer portions
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
               )}
             </div>
           );
+        })}
         })}
 
       </div>
