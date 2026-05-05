@@ -13,7 +13,7 @@ const RangeSlider = ({ value, min, max, step = 1, onChange, unit = 'G', isDark =
   return (
     <div className="space-y-4 pt-2">
       <div className="relative h-12 flex flex-col justify-end">
-        <div className="absolute top-0 mb-2" style={{ left: `calc(${percentage}% - 12px)` }}>
+        <div className="absolute top-0 mb-2" style={{ left: `${percentage}%`, transform: `translateX(-${percentage}%)` }}>
           <span className={`text-[10px] font-mono font-bold px-2 py-1 rounded border whitespace-nowrap ${isDark ? 'text-accent bg-accent/10 border-accent/20' : 'text-accent bg-accent/5 border-accent/10'}`}>
             {value}{unit}
           </span>
@@ -284,7 +284,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
 
                       return (
                         <div key={opt.name} className={`relative rounded-[24px] border transition-all duration-300 ${isSelected ? 'bg-white border-black/20 shadow-sm' : 'bg-gray-50/80 border-black/5 hover:border-black/10'}`}>
-                          <div className="p-5 flex justify-between items-start">
+                          <div className="p-6 flex justify-between items-start">
                             <button 
                               onClick={() => {
                                 if (!isSelected) toggleSelection(cat, opt.name);
