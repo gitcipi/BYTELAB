@@ -488,7 +488,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                   disabled={totals.subtotal === 0 || isBelowMin} 
                   className="w-full py-4 bg-black text-white rounded-2xl text-[10px] font-mono font-bold tracking-[0.2em] uppercase shadow-xl disabled:opacity-20 transition-all hover:bg-accent active:scale-95"
                 >
-                  Engineer Protocol
+                  Add to Basket
                 </button>
                 <button 
                   onClick={() => updateSlot(createEmptySlot())}
