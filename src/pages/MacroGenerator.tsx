@@ -91,8 +91,8 @@ const MacroGenerator = () => {
                             (vOpt.tier === 'premium' ? 0.90 : 0.60) + 
                             (sOpt.tier === 'premium' ? 1.10 : 0.65) + 0.90;
 
-      const pName = pOpt.name === 'Skip' ? '' : pOpt.name.split(' ')[0];
-      const cName = cOpt.name === 'Skip' ? '' : cOpt.name.split(' ')[0];
+      const pName = pOpt.name === 'Skip' ? '' : pOpt.name;
+      const cName = cOpt.name === 'Skip' ? '' : cOpt.name;
       const mealName = `${pName}${pName && cName ? ' + ' : ''}${cName}`.trim();
 
       setGeneratedMeal({
@@ -207,10 +207,6 @@ const MacroGenerator = () => {
                   >
                     <div className="flex justify-between items-start mb-10">
                       <div>
-                        <div className="flex items-center gap-3 mb-3">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#00aff0]" />
-                          <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[#00aff0] font-bold block">Engineered Protocol</span>
-                        </div>
                         <h4 className="text-3xl font-heading font-black tracking-tighter text-black uppercase italic leading-none">{generatedMeal.name}</h4>
                       </div>
                       <div className="text-right">
