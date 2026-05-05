@@ -294,6 +294,7 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { me
       </motion.div>
     </AnimatePresence>
   </motion.div>
+</motion.div>
   );
 };
 
