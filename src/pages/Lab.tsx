@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useCart } from '../context/CartContext';
-import { X } from 'lucide-react';
+import { X, Beef, Wheat, Leaf, Droplets } from 'lucide-react';
 
 
 const fadeUpVariant = {
@@ -298,84 +298,87 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
       <div className="lg:col-span-7 space-y-20">
+        <div className="flex items-center justify-between gap-4 mb-12 bg-gray-50 p-2 rounded-[32px] border border-black/5">
+          {[
+            { id: 'protein', label: 'Protein', icon: <Beef size={18} /> },
+            { id: 'carb', label: 'Carbs', icon: <Wheat size={18} /> },
+            { id: 'veggies', label: 'Veggies', icon: <Leaf size={18} /> },
+            { id: 'sauce', label: 'Sauce', icon: <Droplets size={18} /> },
+          ].map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => {
+                const el = document.getElementById(`cat-${cat.id}`);
+                el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }}
+              className="flex-1 flex flex-col items-center gap-2 py-4 rounded-[24px] transition-all hover:bg-white hover:shadow-sm text-black/40 hover:text-black group"
+            >
+              <div className="p-3 rounded-full bg-black/5 group-hover:bg-accent/10 group-hover:text-accent transition-colors">
+                {cat.icon}
+              </div>
+              <span className="text-[10px] font-mono font-bold uppercase tracking-widest">{cat.label}</span>
+            </button>
+          ))}
+        </div>
+
         {['protein', 'carb', 'veggies', 'sauce'].map((cat) => {
           const categoryOptions = options[cat as keyof typeof options] as any[];
           const selectedItems = selections[cat];
           const isSkip = selectedItems.includes('Skip') || selectedItems.includes('No Sauce');
 
           return (
-            <div key={cat} className="space-y-10">
-              <div className="flex justify-between items-end border-b border-black/10 pb-4">
-                <span className="text-sm font-mono tracking-[0.3em] text-black font-bold uppercase">{cat} Selection</span>
+            <div key={cat} id={`cat-${cat}`} className="space-y-8 mb-16 scroll-mt-40">
+              <div className="flex items-center gap-4 border-b border-black/5 pb-4">
+                <div className="p-2 rounded-lg bg-black text-white">
+                  {cat === 'protein' ? <Beef size={16} /> : cat === 'carb' ? <Wheat size={16} /> : cat === 'veggies' ? <Leaf size={16} /> : <Droplets size={16} />}
+                </div>
+                <span className="text-xs font-mono tracking-[0.3em] text-black font-bold uppercase">{cat} Engineering</span>
               </div>
               
-              {(isSkip || isAdding[cat]) && (
-                <div className="flex flex-wrap gap-3 items-center">
-                  {categoryOptions.filter(o => !selectedItems.includes(o.name)).map(item => {
-                    const isGhost = item.name === 'Skip' || item.name === 'No Sauce';
-                    return (
-                      <button
-                        key={item.name}
-                        onClick={() => {
-                          toggleSelection(cat, item.name);
-                          setIsAdding(prev => ({ ...prev, [cat]: false }));
-                        }}
-                        className={`px-6 py-3 rounded-2xl border text-[10px] font-mono tracking-widest transition-all duration-300 ${
-                          isGhost 
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {categoryOptions.map(item => {
+                  const isSelected = selectedItems.includes(item.name);
+                  const isGhost = item.name === 'Skip' || item.name === 'No Sauce';
+                  
+                  return (
+                    <button
+                      key={item.name}
+                      onClick={() => toggleSelection(cat, item.name)}
+                      className={`relative px-4 py-5 rounded-2xl border text-[10px] font-mono tracking-widest transition-all duration-300 flex flex-col items-center gap-2 group ${
+                        isSelected 
+                          ? 'bg-black border-black text-white shadow-xl scale-[1.02]' 
+                          : isGhost 
                             ? 'bg-transparent border-black/10 text-gray-400 hover:border-black/20'
-                            : 'bg-white border-black/20 text-black font-bold hover:border-black/40'
-                        }`}
-                      >
-                        {item.name.toUpperCase()}
-                      </button>
-                    );
-                  })}
-                  {!isSkip && isAdding[cat] && (
-                    <button 
-                      onClick={() => setIsAdding(prev => ({ ...prev, [cat]: false }))}
-                      className="p-3 rounded-full border border-black/10 text-black/40 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-all"
+                            : 'bg-white border-black/10 text-black font-bold hover:border-black/30'
+                      }`}
                     >
-                      <X size={14} />
+                      {isSelected && (
+                        <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-accent" />
+                      )}
+                      {item.name.toUpperCase()}
+                      {!isGhost && <span className="opacity-40 text-[8px]">{item.cal} cal / 100g</span>}
                     </button>
-                  )}
-                </div>
-              )}
+                  );
+                })}
+              </div>
 
               {!isSkip && selectedItems.length > 0 && (
-                <div className="space-y-6 pt-4">
-                  
-                  {/* Minimized Items */}
-                  {selectedItems.filter(name => !editingItems[cat].includes(name)).length > 0 && (
-                    <div className="flex flex-wrap gap-3">
-                      {selectedItems.filter(name => !editingItems[cat].includes(name)).map(selectedName => {
-                        const unit = (options[cat as keyof typeof options].find((o: any) => o.name === selectedName) as any)?.unit || 'G';
-                        const weight = weights[cat]?.[selectedName] || 0;
-                        return (
-                          <button
-                            key={selectedName}
-                            onClick={() => expandItem(cat, selectedName)}
-                            className="px-6 py-3 rounded-2xl border border-black/10 bg-black/5 text-[10px] font-mono tracking-widest text-black/60 hover:text-black hover:border-black/20 hover:bg-black/10 transition-all uppercase font-bold"
-                            title="Click to edit weight"
-                          >
-                            {selectedName} ({weight}{unit})
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-
+                <div className="space-y-4 pt-4 border-t border-black/5">
                   {/* Expanded Items */}
                   {selectedItems.filter(name => editingItems[cat].includes(name)).map(selectedName => {
                     const unit = (options[cat as keyof typeof options].find((o: any) => o.name === selectedName) as any)?.unit || 'G';
                     return (
-                      <div key={selectedName} className="relative bg-black/[0.03] p-6 rounded-[24px] space-y-8 animate-in fade-in slide-in-from-top-2 duration-500 border border-black/5">
-                        <button 
-                          onClick={() => minimizeItem(cat, selectedName)}
-                          className="absolute top-4 right-4 text-black/20 hover:text-black hover:scale-110 transition-all p-2 z-10"
-                          title={`Minimize ${selectedName}`}
-                        >
-                          <X size={14} />
-                        </button>
+                      <div key={selectedName} className="relative bg-black/[0.01] p-6 rounded-[28px] space-y-6 animate-in fade-in slide-in-from-top-1 duration-500 border border-black/5">
+                        <div className="flex justify-between items-center">
+                          <span className="text-[10px] font-mono font-bold text-black/40 uppercase">Fine Tuning: {selectedName}</span>
+                          <button 
+                            onClick={() => minimizeItem(cat, selectedName)}
+                            className="text-black/20 hover:text-black transition-all p-2"
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
+                        
                         <RangeSlider 
                           label={selectedName} 
                           value={weights[cat]?.[selectedName] || 0} 
@@ -388,9 +391,10 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                           }))}
                         />
 
-                        <div className="grid grid-cols-5 gap-3">
+                        <div className="grid grid-cols-4 md:grid-cols-5 gap-2">
                           {(cat === 'sauce' ? [25, 50, 75, 100] : cat === 'carb' && selectedName === 'English Muffin' ? [1, 2] : [100, 150, 200, 250, 300]).map(q => {
                             if (cat === 'protein' && (q < 100 || q > 400)) return null;
+                            const isActive = weights[cat]?.[selectedName] === q;
                             return (
                               <button
                                 key={q}
@@ -398,9 +402,9 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                                   ...prev,
                                   [cat]: { ...prev[cat], [selectedName]: q }
                                 }))}
-                                className={`py-4 rounded-xl border text-[11px] font-mono transition-all ${
-                                  weights[cat]?.[selectedName] === q
-                                    ? 'bg-black text-white border-black scale-105 shadow-lg shadow-black/10'
+                                className={`py-3 rounded-xl border text-[10px] font-mono transition-all ${
+                                  isActive
+                                    ? 'bg-black text-white border-black shadow-lg shadow-black/10'
                                     : 'bg-white border-black/5 text-gray-500 hover:border-black/20'
                                 }`}
                               >
@@ -409,32 +413,42 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                             );
                           })}
                         </div>
-                        
-                        <div className="flex justify-center pt-2">
-                          <button 
-                            onClick={() => minimizeItem(cat, selectedName)}
-                            className="px-8 py-3 bg-black text-white text-[10px] font-mono font-bold tracking-[0.2em] uppercase rounded-full hover:bg-accent transition-all"
-                          >
-                            Confirm Selection
-                          </button>
-                        </div>
                       </div>
                     );
                   })}
+                  
+                  {/* Minimized List - more compact */}
+                  {selectedItems.filter(name => !editingItems[cat].includes(name)).length > 0 && (
+                    <div className="flex flex-wrap gap-2 pt-2">
+                      {selectedItems.filter(name => !editingItems[cat].includes(name)).map(selectedName => {
+                        const unit = (options[cat as keyof typeof options].find((o: any) => o.name === selectedName) as any)?.unit || 'G';
+                        const weight = weights[cat]?.[selectedName] || 0;
+                        return (
+                          <div
+                            key={selectedName}
+                            className="flex items-center gap-3 pl-4 pr-2 py-2 rounded-xl border border-black/10 bg-white"
+                          >
+                            <span className="text-[9px] font-mono font-bold uppercase text-black/60">{selectedName}</span>
+                            <div className="flex items-center gap-1">
+                              <span className="text-[10px] font-mono font-bold">{weight}{unit}</span>
+                              <button onClick={() => expandItem(cat, selectedName)} className="p-1.5 hover:bg-black/5 rounded-lg transition-colors">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                              </button>
+                              <button onClick={() => removeSelection(cat, selectedName)} className="p-1.5 hover:bg-red-50 hover:text-red-500 rounded-lg transition-colors">
+                                <X size={10} />
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
-              )}
-
-              {!isSkip && !isAdding[cat] && categoryOptions.filter(o => !selectedItems.includes(o.name) && o.name !== 'Skip' && o.name !== 'No Sauce').length > 0 && (
-                <button 
-                  onClick={() => setIsAdding(prev => ({ ...prev, [cat]: true }))}
-                  className="mt-4 flex items-center justify-center w-full max-w-[200px] gap-2 text-[10px] font-mono tracking-widest text-accent hover:text-accent-light hover:bg-accent/5 transition-all uppercase font-bold py-4 border border-accent/20 rounded-[20px] border-dashed"
-                >
-                  + Add another {cat}
-                </button>
               )}
             </div>
           );
         })}
+
       </div>
 
       <div className="lg:col-span-5">
