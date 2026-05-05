@@ -190,13 +190,19 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { me
       </button>
 
       <motion.div 
-        key={meal.id}
-        initial={{ scale: 0.9, opacity: 0, y: 20 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.9, opacity: 0, y: 20 }}
-        transition={{ type: "spring", damping: 25, stiffness: 300 }}
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
         className="relative w-full max-w-5xl max-h-[90vh] md:max-h-none overflow-y-auto md:overflow-visible bg-white dark:bg-card rounded-[32px] md:rounded-[40px] flex flex-col md:flex-row border border-white/10 shadow-none"
       >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={meal.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="flex flex-col md:flex-row w-full h-full"
+          >
         <button 
           onClick={onClose}
           className="absolute top-4 right-4 md:top-6 md:right-6 z-50 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/50 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
@@ -284,8 +290,9 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { me
           >
             Add to Basket
           </button>
-        </div>
-      </motion.div>
+        </motion.div>
+      </AnimatePresence>
+    </motion.div>
     </motion.div>
   );
 };
