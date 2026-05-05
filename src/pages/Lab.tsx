@@ -395,7 +395,10 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                                     <span className="text-base font-mono font-bold">{formatCurrency(calculateItemPrice(cat, opt.name, weights[cat][opt.name]))}</span>
                                     <div className="flex gap-2">
                                       <button onClick={() => updateSlot({ activeEditingItem: null })} className="px-4 py-1.5 rounded-lg text-[8px] font-mono font-bold uppercase border border-black/10 hover:bg-gray-100">Minimize</button>
-                                      <button onClick={() => confirmItem(cat, opt.name)} className={`px-4 py-1.5 rounded-lg text-[8px] font-mono font-bold uppercase ${isConfirmed ? 'bg-black text-white' : 'bg-accent/10 text-accent'}`}>{isConfirmed ? 'Confirmed' : 'Confirm'}</button>
+                                      {isConfirmed
+                                        ? <button onClick={() => removeSelection(cat, opt.name)} className="px-4 py-1.5 rounded-lg text-[8px] font-mono font-bold uppercase bg-red-50 text-red-500 hover:bg-red-100 transition-colors">Remove</button>
+                                        : <button onClick={() => confirmItem(cat, opt.name)} className="px-4 py-1.5 rounded-lg text-[8px] font-mono font-bold uppercase bg-accent/10 text-accent">Confirm</button>
+                                      }
                                     </div>
                                   </div>
                                 </div>
