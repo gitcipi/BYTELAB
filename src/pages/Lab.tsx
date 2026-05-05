@@ -72,12 +72,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
     sauce: {}
   });
 
-  const [isAdding, setIsAdding] = useState<Record<string, boolean>>({
-    protein: false,
-    carb: false,
-    veggies: false,
-    sauce: false
-  });
+
 
   const [editingItems, setEditingItems] = useState<Record<string, string[]>>({
     protein: [],
@@ -618,7 +613,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                 if (window.confirm("Are you sure you want to reset your custom build?")) {
                   setSelections({ protein: ['Skip'], carb: ['Skip'], veggies: ['Skip'], sauce: ['No Sauce'] });
                   setWeights({ protein: {}, carb: {}, veggies: {}, sauce: {} });
-                  setIsAdding({ protein: false, carb: false, veggies: false, sauce: false });
+
                   setEditingItems({ protein: [], carb: [], veggies: [], sauce: [] });
                 }
               }}
@@ -632,7 +627,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                   handleEngineerOrder();
                   setSelections({ protein: ['Skip'], carb: ['Skip'], veggies: ['Skip'], sauce: ['No Sauce'] });
                   setWeights({ protein: {}, carb: {}, veggies: {}, sauce: {} });
-                  setIsAdding({ protein: false, carb: false, veggies: false, sauce: false });
+
                   setEditingItems({ protein: [], carb: [], veggies: [], sauce: [] });
                 }}
                 disabled={selections.protein.includes('Skip') || isBelowMin}
