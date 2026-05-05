@@ -397,9 +397,9 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                             }
                           }}
                         >
-                          <div className="space-y-1">
-                            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em]">{item.name}</span>
-                            {!isGhost && <p className="text-[8px] opacity-40 text-black">{item.cal} cal / 100g</p>}
+                          <div className="space-y-1.5">
+                            <span className="text-[12px] md:text-sm font-mono font-bold uppercase tracking-[0.2em]">{item.name}</span>
+                            {!isGhost && <p className="text-[10px] opacity-40 text-black font-mono font-bold">{item.cal} Kcal / 100g</p>}
                           </div>
                           <div className="flex items-center gap-4">
                             {isSelected && !isGhost && (
