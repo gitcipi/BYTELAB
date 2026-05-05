@@ -223,7 +223,7 @@ const Home = () => {
               >
                 {[
                   { icon: '📍', val: 'Ubud', label: 'Kitchen' },
-                  { icon: '🛵', val: 'Islandwide', label: 'Delivery' },
+                  { icon: '🛵', val: 'Bali', label: 'Delivery' },
                   { icon: '📦', val: 'Weekly', label: 'Meal Prep' },
                   { icon: '🥩', val: '48g', label: 'Avg Protein' }
                 ].map((stat, i) => (
