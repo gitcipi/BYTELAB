@@ -286,7 +286,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
             <div className="flex justify-start pb-2">
               <label className="flex items-center gap-2 cursor-pointer group">
                 <div className={`w-8 h-4 rounded-full transition-colors relative ${showSelectedOnly ? 'bg-black' : 'bg-gray-200'}`}>
-                  <div className={`w-3 h-3 bg-white rounded-full absolute top-0.5 transition-transform ${showSelectedOnly ? 'translate-x-4.5 left-[1px]' : 'left-[2px]'}`} />
+                  <div className={`w-3 h-3 bg-white rounded-full absolute top-0.5 left-[2px] transition-transform duration-300 ${showSelectedOnly ? 'translate-x-4' : 'translate-x-0'}`} />
                 </div>
                 <span className={`text-[9px] font-mono font-bold tracking-widest uppercase transition-colors ${showSelectedOnly ? 'text-black' : 'text-black/40 group-hover:text-black/60'}`}>Show Selected</span>
                 <input type="checkbox" className="hidden" checked={showSelectedOnly} onChange={(e) => setShowSelectedOnly(e.target.checked)} />
