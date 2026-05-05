@@ -22,10 +22,10 @@ export const INGREDIENTS: Record<string, Ingredient[]> = {
     { name: 'Chicken Stir Fry', p: 23, f: 5, c: 0, cal: 145, subCategory: 'CHICKEN', pricing: { 100: 1.15, 150: 1.73, 200: 2.30, 250: 2.88, 300: 3.45 } },
     
     // BEEF
-    { name: 'Ground Beef', p: 22, f: 12, c: 0, cal: 190, subCategory: 'BEEF', pricing: { 100: 1.83, 150: 2.74, 200: 3.66, 250: 4.57, 300: 5.49 } },
-    { name: 'Beef Fillet', p: 24, f: 8, c: 0, cal: 180, subCategory: 'BEEF', pricing: { 100: 2.15, 150: 3.23, 200: 4.30, 250: 5.38, 300: 6.45 } },
-    { name: 'Stir Fry Beef', p: 24, f: 8, c: 0, cal: 180, subCategory: 'BEEF', pricing: { 100: 2.15, 150: 3.23, 200: 4.30, 250: 5.38, 300: 6.45 } },
-    { name: 'Beef Cubes', p: 22, f: 10, c: 0, cal: 185, subCategory: 'BEEF', pricing: { 100: 1.95, 150: 2.93, 200: 3.90, 250: 4.88, 300: 5.85 } },
+    { name: 'Ground Beef', p: 22, f: 12, c: 0, cal: 190, subCategory: 'BEEF', pricing: { 100: 1.325, 150: 1.9875, 200: 2.65, 250: 3.3125, 300: 3.975 } },
+    { name: 'Beef Fillet', p: 24, f: 8, c: 0, cal: 180, subCategory: 'BEEF', pricing: { 100: 1.325, 150: 1.9875, 200: 2.65, 250: 3.3125, 300: 3.975 } },
+    { name: 'Stir Fry Beef', p: 24, f: 8, c: 0, cal: 180, subCategory: 'BEEF', pricing: { 100: 1.325, 150: 1.9875, 200: 2.65, 250: 3.3125, 300: 3.975 } },
+    { name: 'Beef Cubes', p: 22, f: 10, c: 0, cal: 185, subCategory: 'BEEF', pricing: { 100: 1.325, 150: 1.9875, 200: 2.65, 250: 3.3125, 300: 3.975 } },
     
     // FISH
     { name: 'Tuna Saku', p: 26, f: 1, c: 0, cal: 116, subCategory: 'FISH', pricing: { 100: 2.15, 150: 3.23, 200: 4.30, 250: 5.38, 300: 6.45 } },
