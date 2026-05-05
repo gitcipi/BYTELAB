@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { Check, ArrowRight, Zap, Shield, Star, Clock } from 'lucide-react';
 
-const fadeUpVariant = {
+const fadeUpVariant: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
 };
 
-const staggerContainer = {
+const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -27,12 +27,6 @@ const Plans = () => {
     window.addEventListener('currencyChange', handleCurrencyChange);
     return () => window.removeEventListener('currencyChange', handleCurrencyChange);
   }, []);
-
-  const formatPrice = (eur: number) => {
-    if (currency === 'USD') return `$${(eur * 1.05).toFixed(0)}`;
-    if (currency === 'IDR') return `Rp ${(Math.round(eur * 20000)).toLocaleString()}`;
-    return `€${eur.toFixed(0)}`;
-  };
 
   const mealPackages = [
     {
