@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, Variants } from 'framer-motion';
-import { Check, ArrowRight, Zap, Shield, Star, Clock } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
+import { Check, Zap, Shield, Star, Clock } from 'lucide-react';
 
 const fadeUpVariant: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -20,13 +20,6 @@ const staggerContainer: Variants = {
 
 const Plans = () => {
   const [selectedPkg, setSelectedPkg] = useState<any>(null);
-  const [currency, setCurrency] = useState(localStorage.getItem('currency') || 'EUR');
-
-  useEffect(() => {
-    const handleCurrencyChange = () => setCurrency(localStorage.getItem('currency') || 'EUR');
-    window.addEventListener('currencyChange', handleCurrencyChange);
-    return () => window.removeEventListener('currencyChange', handleCurrencyChange);
-  }, []);
 
   const mealPackages = [
     {

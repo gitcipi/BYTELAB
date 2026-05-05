@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, X, Info, ChevronLeft, ChevronRight, Zap, Calculator, RotateCcw } from 'lucide-react';
+import { Search, X, Info, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ALL_MEALS } from '../data/meals';
 import { type Meal } from '../types';
 import { useCart } from '../context/CartContext';

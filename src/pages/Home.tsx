@@ -165,14 +165,6 @@ const MenuGrid = () => {
 };
 
 const Home = () => {
-  const [currency, setCurrency] = useState(localStorage.getItem('currency') || 'EUR');
-
-  useEffect(() => {
-    const handleCurrencyChange = () => setCurrency(localStorage.getItem('currency') || 'EUR');
-    window.addEventListener('currencyChange', handleCurrencyChange);
-    return () => window.removeEventListener('currencyChange', handleCurrencyChange);
-  }, []);
-
   return (
     <div className="relative">
       <section className="relative h-screen flex items-center justify-center overflow-hidden bg-white">

@@ -1,6 +1,6 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, Calculator, RotateCcw, ShoppingCart, Wand2, Beef, Wheat, Droplets, X, ChevronRight } from 'lucide-react';
+import { Zap, Calculator, RotateCcw, ShoppingCart, Wand2, Beef, Wheat, Droplets, X } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { INGREDIENTS } from '../data/ingredients';
 

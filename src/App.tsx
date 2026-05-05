@@ -91,7 +91,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/menu" element={<Menu />} />
               <Route path="/plans" element={<Plans />} />
-              <Route path="/lab" element={<Lab currency="EUR" />} />
+              <Route path="/lab" element={<Lab />} />
               <Route path="/macro-generator" element={<MacroGenerator />} />
             </Routes>
           </main>
