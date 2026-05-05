@@ -94,8 +94,8 @@ const Plans = () => {
             Get exclusive access to our most potent meal protocols. Subscribe to your favorite nutritional content and unlock peak performance.
           </motion.p>
           <motion.div variants={fadeUpVariant} className="mt-8 flex justify-center gap-4">
-            <span className="px-4 py-1.5 rounded-full bg-[#00aff0]/10 text-[#00aff0] text-[10px] font-mono font-bold uppercase tracking-widest">Premium Content</span>
-            <span className="px-4 py-1.5 rounded-full bg-black/5 text-black/40 text-[10px] font-mono font-bold uppercase tracking-widest">Daily Uploads</span>
+            <span className="px-5 py-2 rounded-full bg-[#00aff0]/10 text-[#00aff0] text-[10px] font-mono font-bold uppercase tracking-widest border border-[#00aff0]/20">Premium Meals</span>
+            <span className="px-5 py-2 rounded-full bg-black/5 text-black/60 text-[10px] font-mono font-bold uppercase tracking-widest border border-black/5">Unlimited Macros</span>
           </motion.div>
         </motion.div>
 
