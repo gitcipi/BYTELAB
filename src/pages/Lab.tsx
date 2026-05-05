@@ -126,7 +126,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
           const { [name]: _, ...rest } = currentCat;
           return { ...prev, [cat]: rest };
         }
-        const defaultWeight = cat === 'protein' ? 200 : cat === 'carb' ? 150 : cat === 'veggies' ? 100 : 50;
+        const defaultWeight = (options[cat as keyof typeof options].find((o: any) => o.name === name) as any)?.unit === 'PC' ? 1 : 100;
         return { ...prev, [cat]: { ...currentCat, [name]: defaultWeight } };
       });
 
