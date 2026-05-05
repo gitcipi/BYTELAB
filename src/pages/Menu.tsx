@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, X, Info, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, X, Info, ChevronLeft, ChevronRight, Filter, ChevronDown } from 'lucide-react';
 import { ALL_MEALS } from '../data/meals';
 import { type Meal } from '../types';
 import { useCart } from '../context/CartContext';
@@ -293,6 +293,7 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { me
 const Menu = () => {
   const { addToCart } = useCart();
   const [searchTerm, setSearchTerm] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activeProtein, setActiveProtein] = useState<string | null>(null);
   const [activeGoal, setActiveGoal] = useState<string | null>(null);
@@ -376,10 +377,24 @@ const Menu = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-16">
+            {/* Mobile Filters Toggle */}
+            <div className="lg:hidden">
+              <button 
+                onClick={() => setShowFilters(!showFilters)}
+                className="w-full flex items-center justify-between px-6 py-4 rounded-[20px] bg-gray-50 dark:bg-surface border border-black/5 dark:border-border font-mono text-[10px] tracking-widest uppercase transition-all active:scale-[0.98]"
+              >
+                <div className="flex items-center gap-3">
+                  <Filter size={14} className={showFilters ? 'text-accent-light dark:text-accent' : 'text-gray-400'} />
+                  <span className={showFilters ? 'text-black dark:text-white font-bold' : 'text-gray-500'}>Filters</span>
+                </div>
+                <ChevronDown size={14} className={`transition-transform duration-300 ${showFilters ? 'rotate-180' : ''}`} />
+              </button>
+            </div>
+
             {/* Filters Sidebar */}
-            <div className="lg:col-span-1 space-y-12">
-              <div className="space-y-6">
+            <div className={`${showFilters ? 'block' : 'hidden'} lg:block lg:col-span-1 space-y-12`}>
+              <div className="space-y-6 pt-4 lg:pt-0">
                 <span className="text-sm font-mono tracking-[0.4em] text-gray-400 dark:text-secondary/60 uppercase block">Macros</span>
                 <RangeSlider label="Max Calories" value={maxCals} max={1000} onChange={setMaxCals} unit=" kcal" />
                 <RangeSlider label="Min Protein" value={minProtein} max={100} onChange={setMinProtein} unit="g" />
@@ -394,7 +409,7 @@ const Menu = () => {
                 </div>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-6 pb-4 lg:pb-0">
                 <span className="text-sm font-mono tracking-[0.4em] text-gray-400 dark:text-secondary/60 uppercase block">Goal</span>
                 <div className="flex flex-col gap-3">
                   {GOALS.map(g => (
