@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
-import { X, Beef, Wheat, Leaf, Droplets, ChevronDown, Plus, Minus, Gauge } from 'lucide-react';
+import { X, Beef, Wheat, Leaf, Droplets, ChevronDown, Plus, Minus } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { Toast } from '../components/Toast';
 import { INGREDIENTS } from '../data/ingredients';
@@ -345,14 +345,23 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                                         const minVal = opt.unit === 'PC' ? 1 : (cat === 'protein' || cat === 'carb' ? 100 : 50);
                                         updateWeight(cat, opt.name, Math.max(minVal, (weights[cat][opt.name] || 0) - (opt.unit === 'PC' ? 1 : 50)));
                                       }}><Minus size={14} /></button>
-                                      <span className="text-base font-mono font-bold">{weights[cat][opt.name] || 0}<span className="text-[10px] ml-0.5 opacity-40">{opt.unit || 'G'}</span></span>
-                                      <button onClick={() => updateWeight(cat, opt.name, (weights[cat][opt.name] || 0) + (opt.unit === 'PC' ? 1 : 50))}><Plus size={14} /></button>
+                                      <span className="text-base font-mono font-bold">
+                                        {weights[cat][opt.name] || 0}
+                                        <span className="text-[10px] ml-0.5 opacity-40">{opt.unit || 'G'}</span>
+                                        {opt.weightPerPc && (
+                                          <span className="text-[9px] ml-1.5 opacity-30">({(weights[cat][opt.name] || 0) * opt.weightPerPc}G)</span>
+                                        )}
+                                      </span>
+                                      <button onClick={() => {
+                                        const maxVal = opt.max || (opt.unit === 'PC' ? 5 : 400);
+                                        updateWeight(cat, opt.name, Math.min(maxVal, (weights[cat][opt.name] || 0) + (opt.unit === 'PC' ? 1 : 50)));
+                                      }}><Plus size={14} /></button>
                                     </div>
                                   </div>
                                   <RangeSlider 
                                     value={weights[cat][opt.name] || 0} 
                                     min={opt.unit === 'PC' ? 1 : (cat === 'protein' || cat === 'carb' ? 100 : 50)} 
-                                    max={opt.unit === 'PC' ? 5 : 400} 
+                                    max={opt.max || (opt.unit === 'PC' ? 5 : 400)} 
                                     step={opt.unit === 'PC' ? 1 : 50} 
                                     onChange={(v: number) => updateWeight(cat, opt.name, v)} 
                                   />
@@ -409,7 +418,14 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                       <div key={`${cat}-${sel}`} className="flex justify-between items-center text-[10px] font-mono py-1.5 border-b border-black/5 last:border-0 group">
                         <div className="flex items-center gap-1.5">
                           <span className="text-black font-bold uppercase">{sel}</span>
-                          <span className="text-[9px] opacity-30">{weights[cat][sel]}{(options[cat as keyof typeof options] as any[]).find(o => o.name === sel)?.unit || 'G'}</span>
+                          <span className="text-[9px] opacity-30">
+                            {weights[cat][sel]}
+                            {(options[cat as keyof typeof options] as any[]).find(o => o.name === sel)?.unit || 'G'}
+                            {(() => {
+                              const o = (options[cat as keyof typeof options] as any[]).find(o => o.name === sel);
+                              return o?.weightPerPc ? ` (${weights[cat][sel] * o.weightPerPc}G)` : '';
+                            })()}
+                          </span>
                         </div>
                         <div className="flex items-center gap-3">
                           <span className="text-black font-bold">{formatCurrency(calculateItemPrice(cat, sel, weights[cat][sel]))}</span>
