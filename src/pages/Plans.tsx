@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import { Check, Zap, Shield, Star, Clock } from 'lucide-react';
 
@@ -20,6 +20,19 @@ const staggerContainer: Variants = {
 
 const Plans = () => {
   const [selectedPkg, setSelectedPkg] = useState<any>(null);
+  const [currency, setCurrency] = useState(localStorage.getItem('currency') || 'EUR');
+
+  useEffect(() => {
+    const cb = () => setCurrency(localStorage.getItem('currency') || 'EUR');
+    window.addEventListener('currencyChange', cb);
+    return () => window.removeEventListener('currencyChange', cb);
+  }, []);
+
+  const formatCurrency = (val: number) => {
+    if (currency === 'USD') return `$${(val * 1.17).toFixed(2)}`;
+    if (currency === 'IDR') return `Rp ${(Math.round(val * 20000)).toLocaleString()}`;
+    return `€${val.toFixed(2)}`;
+  };
 
   const mealPackages = [
     {
@@ -38,7 +51,7 @@ const Plans = () => {
       name: 'Growth Pack',
       meals: 14,
       discount: 15,
-      basePrice: 105,
+      basePrice: 104.70588, // Result is 89.00 after 15% discount
       tag: 'PERFORMANCE SYNC',
       stats: '2 Meals / Day: ~1,300 Kcal / 100g P',
       features: ['14 Precision Engineered Meals', 'Complete 7-Day Protocol', '4 Fresh Deliveries / Week', 'Microwaveable Tupperware'],
@@ -61,9 +74,8 @@ const Plans = () => {
     if (!selectedPkg) return;
     const pkg = selectedPkg;
     const discountedPrice = pkg.basePrice * (1 - pkg.discount / 100);
-    const formatPrice = (val: number) => `€${val.toFixed(2)}`;
     
-    const message = `Hello BYTE,%0A%0AI would like to subscribe to the *OnlyPlans ${pkg.name}*.%0A%0A*Package Details:*%0A- Meals: ${pkg.meals} per week%0A- Protocol: ${pkg.stats}%0A- Frequency: ${pkg.features[2]}%0A%0A*Price:* ${formatPrice(discountedPrice)} / week%0A%0APlease let me know the next steps for my onboarding.`;
+    const message = `Hello BYTE,%0A%0AI would like to subscribe to the *OnlyPlans ${pkg.name}*.%0A%0A*Package Details:*%0A- Meals: ${pkg.meals} per week%0A- Protocol: ${pkg.stats}%0A- Frequency: ${pkg.features[2]}%0A%0A*Price:* ${formatCurrency(discountedPrice)} / week%0A%0APlease let me know the next steps for my onboarding.`;
     
     window.open(`https://wa.me/4917684262753?text=${message}`, '_blank');
     setSelectedPkg(null);
@@ -173,12 +185,12 @@ const Plans = () => {
 
                   <div className="mb-10">
                     <div className="flex items-baseline gap-2">
-                      <span className="text-5xl font-mono font-black text-black tracking-tighter leading-none mb-2">€{discountedPrice.toFixed(2)}</span>
-                      <span className="text-sm font-mono text-black/20 line-through leading-none">€{pkg.basePrice.toFixed(2)}</span>
+                      <span className="text-5xl font-mono font-black text-black tracking-tighter leading-none mb-2">{formatCurrency(discountedPrice)}</span>
+                      <span className="text-sm font-mono text-black/20 line-through leading-none">{formatCurrency(pkg.basePrice)}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] font-mono font-bold text-[#00aff0] bg-[#00aff0]/5 px-2 py-0.5 rounded border border-[#00aff0]/20">SAVE {pkg.discount}%</span>
-                      <span className="text-[9px] font-mono text-black/40 uppercase tracking-tighter font-bold">Per Week</span>
+                      <span className="text-[10px] font-mono text-black/40 uppercase tracking-tighter font-bold">Per Week</span>
                     </div>
                   </div>
 

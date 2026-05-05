@@ -41,130 +41,137 @@ export const Navbar = () => {
     { name: 'LAB', path: '/lab' }
   ];
 
-  return (
-    <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ${
-      isScrolled || isMobileMenuOpen
-        ? 'py-4 bg-white/95 backdrop-blur-3xl' 
-        : 'py-8 bg-transparent'
-    }`}>
-      {/* Bottom Border - Fades in on scroll */}
-      <div className={`absolute bottom-0 left-0 right-0 h-[1.5px] transition-opacity duration-700 ${
+    const scrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    return (
+      <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ${
         isScrolled || isMobileMenuOpen
-          ? isBrightBackground ? 'bg-black opacity-100' : 'bg-white opacity-100'
-          : 'opacity-0'
-      }`} />
-
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        <div className="flex items-center justify-between">
-          {/* Left: Logo */}
-          <Link 
-            to="/" 
-            className={`text-[20px] font-heading font-semibold tracking-[0.45em] transition-colors duration-300 ${
-              isDarkHero && !isMobileMenuOpen ? 'text-white' : isBrightBackground ? 'text-black' : 'text-white'
-            }`}
-          >
-            BYTE
-          </Link>
-
-          {/* Center: Links */}
-          <div className="hidden lg:flex items-center gap-14">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                className={`text-[12px] font-mono font-bold tracking-[0.2em] transition-all duration-300 hover:text-accent ${
-                  isDarkHero ? 'text-white/60' : isBrightBackground ? 'text-black/60' : 'text-white/60'
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
-          </div>
-
-          {/* Right: Actions */}
-          <div className="flex items-center gap-4 md:gap-6">
-            <div className={`hidden sm:flex items-center gap-4 text-[10px] font-mono font-bold tracking-[0.1em] ${
-              isDarkHero && !isMobileMenuOpen ? 'text-white/40' : isBrightBackground ? 'text-black/40' : 'text-white/40'
-            }`}>
-              {['EUR', 'USD', 'IDR'].map(curr => (
-                <button
-                  key={curr}
-                  onClick={() => setCurrency(curr)}
-                  className={`hover:text-black dark:hover:text-white transition-colors ${
-                    currency === curr 
-                      ? isDarkHero && !isMobileMenuOpen ? 'text-white' : isBrightBackground ? 'text-black' : 'text-white' 
-                      : ''
-                  }`}
-                >
-                  {curr}
-                </button>
-              ))}
-            </div>
-
-            <button 
-              onClick={() => setIsOpen(!isOpen)}
-              className={`relative p-2 transition-colors cart-toggle ${
-                isDarkHero && !isMobileMenuOpen ? 'text-white' : isBrightBackground ? 'text-black' : 'text-white'
-              }`}
-            >
-              <ShoppingBag size={18} />
-              {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 bg-accent text-white text-[8px] font-mono font-bold w-4 h-4 rounded-full flex items-center justify-center animate-in zoom-in duration-300">
-                  {totalItems}
-                </span>
-              )}
-            </button>
-
+          ? 'py-4 bg-white/95 backdrop-blur-3xl' 
+          : 'py-8 bg-transparent'
+      }`}>
+        {/* Bottom Border - Fades in on scroll */}
+        <div className={`absolute bottom-0 left-0 right-0 h-[1.5px] transition-opacity duration-700 ${
+          isScrolled || isMobileMenuOpen
+            ? isBrightBackground ? 'bg-black opacity-100' : 'bg-white opacity-100'
+            : 'opacity-0'
+        }`} />
+  
+        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+          <div className="flex items-center justify-between">
+            {/* Left: Logo */}
             <Link 
-              to="/lab" 
-              className={`hidden md:inline-block px-8 py-3 rounded-full text-[10px] font-mono font-bold tracking-[0.15em] uppercase transition-all duration-500 ${
-                (isDarkHero && !isMobileMenuOpen || !isBrightBackground) ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
-              }`}
-            >
-              Build Your Menu
-            </Link>
-
-            {/* Mobile Menu Toggle */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`lg:hidden p-2 transition-colors ${
+              to="/" 
+              onClick={scrollToTop}
+              className={`text-[20px] font-heading font-semibold tracking-[0.45em] transition-colors duration-300 ${
                 isDarkHero && !isMobileMenuOpen ? 'text-white' : isBrightBackground ? 'text-black' : 'text-white'
               }`}
             >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Dropdown */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="absolute top-full left-0 right-0 bg-white border-b border-black shadow-2xl lg:hidden overflow-hidden origin-top"
-          >
-            <div className="flex flex-col px-6 py-8 gap-8">
+              BYTE
+            </Link>
+  
+            {/* Center: Links */}
+            <div className="hidden lg:flex items-center gap-14">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.path}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-[14px] font-mono font-bold tracking-[0.2em] text-black hover:text-accent transition-colors"
+                  onClick={scrollToTop}
+                  className={`text-[12px] font-mono font-bold tracking-[0.2em] transition-all duration-300 hover:text-accent ${
+                    isDarkHero ? 'text-white/60' : isBrightBackground ? 'text-black/60' : 'text-white/60'
+                  }`}
                 >
                   {link.name}
                 </Link>
               ))}
-              
+            </div>
+  
+            {/* Right: Actions */}
+            <div className="flex items-center gap-4 md:gap-6">
+              <div className={`hidden sm:flex items-center gap-4 text-[10px] font-mono font-bold tracking-[0.1em] ${
+                isDarkHero && !isMobileMenuOpen ? 'text-white/40' : isBrightBackground ? 'text-black/40' : 'text-white/40'
+              }`}>
+                {['EUR', 'USD', 'IDR'].map(curr => (
+                  <button
+                    key={curr}
+                    onClick={() => setCurrency(curr)}
+                    className={`hover:text-black dark:hover:text-white transition-colors ${
+                      currency === curr 
+                        ? isDarkHero && !isMobileMenuOpen ? 'text-white' : isBrightBackground ? 'text-black' : 'text-white' 
+                        : ''
+                    }`}
+                  >
+                    {curr}
+                  </button>
+                ))}
+              </div>
+  
+              <button 
+                onClick={() => setIsOpen(!isOpen)}
+                className={`relative p-2 transition-colors cart-toggle ${
+                  isDarkHero && !isMobileMenuOpen ? 'text-white' : isBrightBackground ? 'text-black' : 'text-white'
+                }`}
+              >
+                <ShoppingBag size={18} />
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-accent text-white text-[8px] font-mono font-bold w-4 h-4 rounded-full flex items-center justify-center animate-in zoom-in duration-300">
+                    {totalItems}
+                  </span>
+                )}
+              </button>
+  
               <Link 
                 to="/lab" 
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="mt-4 px-8 py-4 text-center rounded-full text-[12px] font-mono font-bold tracking-[0.15em] uppercase transition-all duration-500 bg-black text-white hover:bg-black/90"
+                onClick={scrollToTop}
+                className={`hidden md:inline-block px-8 py-3 rounded-full text-[10px] font-mono font-bold tracking-[0.15em] uppercase transition-all duration-500 ${
+                  (isDarkHero && !isMobileMenuOpen || !isBrightBackground) ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'
+                }`}
               >
                 Build Your Menu
               </Link>
+  
+              {/* Mobile Menu Toggle */}
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className={`lg:hidden p-2 transition-colors ${
+                  isDarkHero && !isMobileMenuOpen ? 'text-white' : isBrightBackground ? 'text-black' : 'text-white'
+                }`}
+              >
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
+          </div>
+        </div>
+  
+        {/* Mobile Dropdown */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="absolute top-full left-0 right-0 bg-white border-b border-black shadow-2xl lg:hidden overflow-hidden origin-top"
+            >
+              <div className="flex flex-col px-6 py-8 gap-8">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    onClick={() => { setIsMobileMenuOpen(false); scrollToTop(); }}
+                    className="text-[14px] font-mono font-bold tracking-[0.2em] text-black hover:text-accent transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+                
+                <Link 
+                  to="/lab" 
+                  onClick={() => { setIsMobileMenuOpen(false); scrollToTop(); }}
+                  className="mt-4 px-8 py-4 text-center rounded-full text-[12px] font-mono font-bold tracking-[0.15em] uppercase transition-all duration-500 bg-black text-white hover:bg-black/90"
+                >
+                  Build Your Menu
+                </Link>
 
               {/* Mobile Currency Selector */}
               <div className="flex items-center gap-6 mt-4 pt-8 border-t border-black/10 text-[12px] font-mono font-bold tracking-[0.1em] text-black/40">

@@ -79,7 +79,13 @@ export const CartDropdown = ({ currency }: { currency: string }) => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -10, scale: 0.95 }}
           transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-          className="fixed right-6 md:right-12 top-24 w-[calc(100vw-3rem)] md:w-[400px] bg-white z-[101] shadow-2xl flex flex-col border border-black/5 rounded-[32px] overflow-hidden"
+          drag="y"
+          dragConstraints={{ top: 0, bottom: 0 }}
+          dragElastic={0.1}
+          onDragEnd={(_, info) => {
+            if (info.offset.y < -50) setIsOpen(false);
+          }}
+          className="fixed right-6 md:right-12 top-24 w-[calc(100vw-3rem)] md:w-[400px] bg-white z-[101] shadow-2xl flex flex-col border border-black/5 rounded-[32px] overflow-hidden touch-none"
         >
           <div className="p-6 flex justify-between items-center border-b border-black/5">
             <div className="flex items-center gap-3">

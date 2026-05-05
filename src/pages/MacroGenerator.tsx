@@ -231,7 +231,7 @@ const MacroGenerator = () => {
                         <h4 className="text-2xl md:text-3xl font-heading font-black tracking-tighter text-black uppercase italic leading-none">{generatedMeal.name}</h4>
                       </div>
                       <div className="text-right">
-                        <span className="text-[9px] font-mono tracking-widest text-black/20 uppercase block mb-1">Production Cost</span>
+                        <span className="text-[9px] font-mono tracking-widest text-black/50 uppercase block mb-1">Production Cost</span>
                         <span className="text-2xl md:text-3xl font-mono font-black text-black">€{generatedMeal.price.toFixed(2)}</span>
                       </div>
                     </div>
@@ -244,13 +244,13 @@ const MacroGenerator = () => {
                         { label: 'Fats', val: Math.round(generatedMeal.macros.f), unit: 'g', color: 'text-emerald-500' },
                       ].map(stat => (
                         <div key={stat.label} className="p-4 md:p-5 bg-white rounded-[20px] border border-black/5 shadow-sm">
-                          <span className="block text-[8px] font-mono tracking-widest text-black/20 uppercase font-bold mb-1.5">{stat.label}</span>
+                          <span className="block text-[8px] font-mono tracking-widest text-black/50 uppercase font-bold mb-1.5">{stat.label}</span>
                           <span className={`text-lg md:text-xl font-mono font-black ${stat.color}`}>{stat.val}<span className="text-[10px] opacity-40 ml-1 font-normal">{stat.unit}</span></span>
                         </div>
                       ))}
                     </div>
                     <div className="space-y-4 mb-12 flex-grow">
-                      <span className="text-[9px] font-mono tracking-[0.5em] uppercase text-black/20 font-black block mb-4">Includes a tupperware microwave safe</span>
+                      <span className="text-[9px] font-mono tracking-[0.5em] uppercase text-black/50 font-black block mb-4">Includes a tupperware microwave safe</span>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {[
                           { icon: <Beef size={14}/>, label: 'Protein Source', name: generatedMeal.details.protein[0].name, weight: generatedMeal.details.protein[0].weight, cal: (generatedMeal.details.protein[0] as any).cal },

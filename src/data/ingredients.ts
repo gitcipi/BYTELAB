@@ -41,7 +41,7 @@ export const INGREDIENTS: Record<string, Ingredient[]> = {
     { name: 'Tempeh', p: 19, f: 11, c: 9, cal: 195, subCategory: 'VEGETARIAN', pricing: { 100: 1.20, 150: 1.80, 200: 2.40, 250: 3.00, 300: 3.60 } },
     { name: 'Egg Whites', p: 11, f: 0, c: 1, cal: 52, subCategory: 'VEGETARIAN', pricing: { 100: 0.80, 150: 1.20, 200: 1.60, 250: 2.00, 300: 2.40 } },
     
-    { name: 'Skip', p: 0, f: 0, c: 0, cal: 0, subCategory: 'NONE', pricing: {} },
+    { name: 'No Protein', p: 0, f: 0, c: 0, cal: 0, subCategory: 'NONE', pricing: {} },
   ],
   carb: [
     { name: 'Basmati Rice', p: 3, f: 0, c: 28, cal: 130, subCategory: 'RICE & GRAINS', pricing: { 100: 0.45, 150: 0.68, 200: 0.90, 250: 1.13, 300: 1.35 } },
@@ -63,7 +63,7 @@ export const INGREDIENTS: Record<string, Ingredient[]> = {
     { name: 'Ciabatta', p: 9, f: 1.5, c: 55, cal: 270, subCategory: 'BREAD & WRAPS', pricing: { 0.5: 0.45, 1: 0.90, 1.5: 1.35, 2: 1.80 }, unit: 'PC', weightPerPc: 140, step: 0.5, max: 2 },
     { name: 'Sourdough Bread', p: 8, f: 1, c: 50, cal: 245, subCategory: 'BREAD & WRAPS', pricing: { 50: 0.35, 100: 0.70, 150: 1.05, 200: 1.40 }, min: 50, max: 200, step: 50 },
     { name: 'Sourdough Croutons', p: 8, f: 12, c: 50, cal: 340, subCategory: 'BREAD & WRAPS', pricing: { 20: 0.50, 40: 1.00 }, min: 20, max: 40, step: 20 },
-    { name: 'Skip', p: 0, f: 0, c: 0, cal: 0, subCategory: 'NONE', pricing: {} },
+    { name: 'No Carbs', p: 0, f: 0, c: 0, cal: 0, subCategory: 'NONE', pricing: {} },
   ],
   veggies: [
     { name: 'Broccoli', p: 3, f: 0, c: 7, cal: 34, tier: 'standard' },
@@ -74,19 +74,19 @@ export const INGREDIENTS: Record<string, Ingredient[]> = {
     { name: 'Mixed Greens Salad', p: 2, f: 0, c: 3, cal: 15, tier: 'standard' },
     { name: 'Cherry Tomatoes', p: 1, f: 0, c: 4, cal: 18, tier: 'standard' },
     { name: 'Cucumber Ribbons', p: 0.6, f: 0, c: 2, cal: 12, tier: 'standard' },
-    { name: 'Skip', p: 0, f: 0, c: 0, cal: 0, tier: 'none' },
+    { name: 'No Veggies', p: 0, f: 0, c: 0, cal: 0, tier: 'none' },
   ],
   sauce: [
-    { name: 'Greek Yoghurt Lemon', p: 2, f: 3, c: 2, cal: 45, tier: 'standard' },
-    { name: 'Greek Yoghurt Spicy', p: 2, f: 4, c: 4, cal: 60, tier: 'standard' },
-    { name: 'Greek Yoghurt Garlic', p: 2, f: 3, c: 2, cal: 45, tier: 'standard' },
-    { name: 'Greek Yoghurt Herb', p: 2, f: 3, c: 2, cal: 45, tier: 'standard' },
-    { name: 'Greek Yoghurt Truffle', p: 2, f: 8, c: 3, cal: 90, tier: 'premium' },
-    { name: 'Tomato Sauce', p: 1, f: 0, c: 5, cal: 25, tier: 'tomato' },
-    { name: 'Olive Oil + Herbs', p: 0, f: 14, c: 0, cal: 120, tier: 'flat' },
-    { name: 'Nasi Goreng Spice', p: 1, f: 2, c: 8, cal: 55, tier: 'flat' },
-    { name: 'Balsamic Vinaigrette', p: 0, f: 8, c: 5, cal: 90, tier: 'premium' },
-    { name: 'Caesar Dressing', p: 1, f: 12, c: 2, cal: 120, tier: 'premium' },
+    { name: 'Greek Yoghurt Lemon', p: 2, f: 3, c: 2, cal: 45, tier: 'standard', min: 25, max: 100, step: 25 },
+    { name: 'Greek Yoghurt Spicy', p: 2, f: 4, c: 4, cal: 60, tier: 'standard', min: 25, max: 100, step: 25 },
+    { name: 'Greek Yoghurt Garlic', p: 2, f: 3, c: 2, cal: 45, tier: 'standard', min: 25, max: 100, step: 25 },
+    { name: 'Greek Yoghurt Herb', p: 2, f: 3, c: 2, cal: 45, tier: 'standard', min: 25, max: 100, step: 25 },
+    { name: 'Greek Yoghurt Truffle', p: 2, f: 8, c: 3, cal: 90, tier: 'premium', min: 25, max: 100, step: 25 },
+    { name: 'Tomato Sauce', p: 1, f: 0, c: 5, cal: 25, tier: 'tomato', min: 25, max: 100, step: 25 },
+    { name: 'Olive Oil + Herbs', p: 0, f: 14, c: 0, cal: 120, tier: 'flat', min: 5, max: 15, step: 5, unit: 'ML' },
+    { name: 'Nasi Goreng Spice', p: 1, f: 2, c: 8, cal: 55, tier: 'flat', min: 5, max: 25, step: 5, unit: 'G' },
+    { name: 'Balsamic Vinaigrette', p: 0, f: 8, c: 5, cal: 90, tier: 'premium', min: 1, max: 1, unit: 'TBSP' },
+    { name: 'Home Made Caesar Dressing', p: 1, f: 12, c: 2, cal: 120, tier: 'premium', min: 25, max: 100, step: 25 },
     { name: 'No Sauce', p: 0, f: 0, c: 0, cal: 0, tier: 'none' },
   ]
 };

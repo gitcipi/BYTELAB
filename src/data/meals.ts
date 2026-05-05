@@ -71,6 +71,29 @@ export const ALL_MEALS: Meal[] = [
     }
   },
   {
+    id: "CORE-04",
+    label: "BYTE / CORE / 04",
+    category: "CORE",
+    title: "CORE 04",
+    subtitle: "Chicken Caesar Smash Tacos",
+    desc: "smashed chicken breast, mini corn tortillas, romaine lettuce, parmesan, caesar dressing",
+    macros: { energy: "580", protein: "45g", carbs: "42g", fats: "22g" },
+    img: "",
+    proteinSource: ["Chicken"],
+    goals: ["Balanced", "High Protein"],
+    servingStyle: ["Hot Meal", "Tacos"],
+    calories: 580,
+    proteinValue: 45,
+    carbsValue: 42,
+    fatsValue: 22,
+    labDetails: {
+      protein: [{ name: "Chicken Breast", weight: 150 }],
+      carb: [{ name: "Normal Wrap", weight: 2 }],
+      veggies: [{ name: "Mixed Greens Salad", weight: 50 }],
+      sauce: [{ name: "Home Made Caesar Dressing", weight: 50 }]
+    }
+  },
+  {
     id: "LEAN-01",
     label: "BYTE / LEAN / 01",
     category: "LEAN",
