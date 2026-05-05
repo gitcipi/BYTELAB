@@ -35,23 +35,23 @@ const Plans = () => {
 
   const mealPackages = [
     {
-      id: 'trial',
-      name: 'Trial Pack',
-      meals: 5,
+      id: 'starter',
+      name: 'Starter Pack',
+      meals: 8,
       discount: 10,
-      basePrice: 42.50,
-      tag: 'Newcomers',
-      features: ['5 Macro-Tracked Meals', 'Flexible Delivery', 'Basic Support', 'Daily Prep'],
+      basePrice: 60,
+      tag: 'Ideal for 4 days',
+      features: ['8 Macro-Tracked Meals', 'Flexible Delivery', 'Basic Support', 'Daily Prep'],
       color: 'accent'
     },
     {
       id: 'growth',
       name: 'Growth Pack',
-      meals: 10,
+      meals: 14,
       discount: 15,
-      basePrice: 85,
-      tag: 'Most Popular',
-      features: ['10 Macro-Tracked Meals', 'Priority Delivery', 'Standard Support', 'Nutrition Consult'],
+      basePrice: 105,
+      tag: 'Complete 1 week',
+      features: ['14 Macro-Tracked Meals', 'Priority Delivery', 'Standard Support', 'Nutrition Consult'],
       color: 'blue-500'
     },
     {
@@ -59,8 +59,8 @@ const Plans = () => {
       name: 'Pro Pack',
       meals: 20,
       discount: 25,
-      basePrice: 170,
-      tag: 'Best Value',
+      basePrice: 150,
+      tag: 'Peak Performance',
       features: ['20 Macro-Tracked Meals', 'Express Delivery', '24/7 Priority Support', 'Free Lab Customization'],
       color: 'emerald-500'
     }
