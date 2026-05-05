@@ -352,7 +352,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
           return (
             <div key={cat} id={`cat-${cat}`} className="space-y-8 mb-20 scroll-mt-40">
               <div 
-                className="flex items-center justify-between border-b border-black/5 pb-4 cursor-pointer group"
+                className="flex items-center gap-4 border-b border-black/5 pb-4 cursor-pointer group w-fit"
                 onClick={() => toggleCollapse(cat)}
               >
                 <div className="flex items-center gap-4">
@@ -378,14 +378,14 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                         key={item.name}
                         className={`relative rounded-[32px] border transition-all duration-500 overflow-hidden ${
                           isSelected 
-                            ? 'bg-black border-black shadow-2xl' 
+                            ? 'bg-white border-accent shadow-xl' 
                             : isGhost 
                               ? 'bg-transparent border-black/10'
                               : 'bg-white border-black/10'
                         } ${isEditing ? 'col-span-1 md:col-span-2' : 'col-span-1'}`}
                       >
                         <div 
-                          className={`p-6 cursor-pointer flex justify-between items-center ${isSelected ? 'text-white' : 'text-black'}`}
+                          className="p-6 cursor-pointer flex justify-between items-center text-black"
                           onClick={() => {
                             if (!isSelected) {
                               toggleSelection(cat, item.name);
@@ -401,7 +401,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                         >
                           <div className="space-y-1">
                             <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em]">{item.name}</span>
-                            {!isGhost && <p className={`text-[8px] opacity-40 ${isSelected ? 'text-white' : 'text-black'}`}>{item.cal} cal / 100g</p>}
+                            {!isGhost && <p className="text-[8px] opacity-40 text-black">{item.cal} cal / 100g</p>}
                           </div>
                           <div className="flex items-center gap-4">
                             {isSelected && !isGhost && (
@@ -419,7 +419,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                           <motion.div 
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: 'auto', opacity: 1 }}
-                            className="px-8 pb-8 space-y-8 border-t border-white/10 pt-8"
+                            className="px-8 pb-8 space-y-8 border-t border-black/5 pt-8"
                           >
                             <RangeSlider 
                               label={item.name} 
@@ -431,8 +431,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                                 ...prev,
                                 [cat]: { ...prev[cat], [item.name]: val }
                               }))}
-                              // Injecting custom styling for RangeSlider when inside black card
-                              isDark={true}
+                              isDark={false}
                             />
 
                             <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
@@ -450,7 +449,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                                     className={`py-3 rounded-xl border text-[10px] font-mono transition-all ${
                                       isActive
                                         ? 'bg-accent text-white border-accent'
-                                        : 'bg-white/5 border-white/10 text-white/40 hover:border-white/20 hover:text-white'
+                                        : 'bg-black/5 border-black/5 text-black/40 hover:border-black/10 hover:text-black'
                                     }`}
                                   >
                                     {q}{item.unit || 'G'}
