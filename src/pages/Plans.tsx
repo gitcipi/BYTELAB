@@ -19,6 +19,7 @@ const staggerContainer = {
 };
 
 const Plans = () => {
+  const [selectedPkg, setSelectedPkg] = useState<any>(null);
   const [currency, setCurrency] = useState(localStorage.getItem('currency') || 'EUR');
 
   useEffect(() => {
@@ -69,20 +70,63 @@ const Plans = () => {
     }
   ];
 
-  const handleSubscribe = (pkg: any) => {
+  const handleSubscribe = () => {
+    if (!selectedPkg) return;
+    const pkg = selectedPkg;
     const discountedPrice = pkg.basePrice * (1 - pkg.discount / 100);
     const formatPrice = (val: number) => `€${val.toFixed(2)}`;
     
     const message = `Hello BYTE,%0A%0AI would like to subscribe to the *OnlyPlans ${pkg.name}*.%0A%0A*Package Details:*%0A- Meals: ${pkg.meals} per week%0A- Protocol: ${pkg.stats}%0A- Frequency: ${pkg.features[2]}%0A%0A*Price:* ${formatPrice(discountedPrice)} / week%0A%0APlease let me know the next steps for my onboarding.`;
     
     window.open(`https://wa.me/4917684262753?text=${message}`, '_blank');
+    setSelectedPkg(null);
   };
 
   return (
     <div className="min-h-screen pt-32 pb-24 bg-white relative overflow-hidden">
+      <AnimatePresence>
+        {selectedPkg && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[110] flex items-center justify-center p-6 bg-black/60 backdrop-blur-md"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="bg-white rounded-[40px] p-10 max-w-md w-full shadow-2xl border border-black/5"
+            >
+              <div className="w-16 h-16 rounded-full bg-[#00aff0]/10 flex items-center justify-center text-[#00aff0] mb-8">
+                <Star size={32} fill="currentColor" />
+              </div>
+              <h2 className="text-3xl font-heading font-black tracking-tighter text-black mb-4">Finalize Your Protocol</h2>
+              <p className="text-gray-500 font-light leading-relaxed mb-10">
+                You're about to be redirected to our engineering team on WhatsApp to finalize your <span className="font-bold text-black">{selectedPkg.name}</span> subscription and setup your delivery schedule.
+              </p>
+              <div className="flex gap-4">
+                <button 
+                  onClick={() => setSelectedPkg(null)}
+                  className="flex-1 py-4 rounded-2xl border border-black/5 text-[10px] font-mono font-bold uppercase tracking-widest text-black/40 hover:bg-black/5 transition-all"
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={handleSubscribe}
+                  className="flex-1 py-4 rounded-2xl bg-black text-white text-[10px] font-mono font-bold uppercase tracking-widest hover:bg-[#00aff0] transition-all"
+                >
+                  Confirm
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00aff0]/5 rounded-full blur-[150px] -z-10 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#00aff0]/5 rounded-full blur-[120px] -z-10 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#00aff0]/3 rounded-full blur-[150px] -z-10 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <motion.div 
@@ -141,9 +185,9 @@ const Plans = () => {
                   </div>
 
                   <div className="mb-10">
-                    <div className="flex flex-col mb-2">
-                      <span className="text-4xl font-mono font-bold text-black tracking-tighter leading-none mb-2">{formatPrice(discountedPrice)}</span>
-                      <span className="text-sm font-mono text-gray-300 line-through leading-none">{formatPrice(pkg.basePrice)}</span>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-4xl font-mono font-bold text-black tracking-tighter leading-none mb-2">€{discountedPrice.toFixed(2)}</span>
+                      <span className="text-sm font-mono text-gray-300 line-through leading-none">€{pkg.basePrice.toFixed(2)}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] font-mono font-bold text-[#00aff0] bg-[#00aff0]/5 px-2 py-0.5 rounded">SAVE {pkg.discount}%</span>
@@ -163,7 +207,7 @@ const Plans = () => {
                   </div>
 
                   <button 
-                    onClick={() => handleSubscribe(pkg)}
+                    onClick={() => setSelectedPkg(pkg)}
                     className="w-full py-4 bg-black text-white rounded-2xl text-[10px] font-mono font-bold tracking-[0.2em] uppercase transition-all hover:bg-[#00aff0] active:scale-95 group-hover:shadow-lg group-hover:shadow-[#00aff0]/10"
                   >
                     Subscribe Now

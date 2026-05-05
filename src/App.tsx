@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Menu from './pages/Menu';
 import Lab from './pages/Lab';
 import Plans from './pages/Plans';
+import MacroGenerator from './pages/MacroGenerator';
 import { Navbar } from './components/Navbar';
 import { CartProvider } from './context/CartContext';
 import { CartDropdown } from './components/CartDrawer';
@@ -89,8 +90,9 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/menu" element={<Menu />} />
-              <Route path="/lab" element={<Lab />} />
               <Route path="/plans" element={<Plans />} />
+              <Route path="/lab" element={<Lab currency="EUR" />} />
+              <Route path="/macro-generator" element={<MacroGenerator />} />
             </Routes>
           </main>
           <Footer />
