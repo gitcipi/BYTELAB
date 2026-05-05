@@ -355,7 +355,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
             {['protein', 'carb', 'veggies', 'sauce'].map((cat) => {
               let catOptions = INGREDIENTS[cat as keyof typeof INGREDIENTS] as any[];
               if (showSelectedOnly) {
-                catOptions = catOptions.filter(opt => {
+                catOptions = catOptions.filter(() => {
                   const hasSelections = selections[cat].some(n => !n.startsWith('No '));
                   const isForced = forcedCat === cat;
                   return hasSelections || isForced;
@@ -604,9 +604,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                     );
                   }
                   return items.map(sel => {
-                    const unit = (options[cat as keyof typeof options] as any[]).find(o => o.name === sel)?.unit || 'G';
                     const o = (options[cat as keyof typeof options] as any[]).find(o => o.name === sel);
-                    const weightTotal = o?.weightPerPc ? (weights[cat][sel] * o.weightPerPc) : weights[cat][sel];
                     const kcal = o ? Math.round(o.cal * (weights[cat][sel] / (o.unit === 'PC' ? 1 : 100))) : 0;
 
                     return (

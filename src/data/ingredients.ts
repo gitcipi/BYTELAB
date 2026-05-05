@@ -5,7 +5,7 @@ export interface Ingredient {
   c: number;
   cal: number;
   pricing?: Record<number, number>;
-  unit?: 'G' | 'PC';
+  unit?: 'G' | 'PC' | 'ML' | 'TBSP' | 'SPLASH';
   tier?: string;
   subCategory?: string;
   max?: number;
