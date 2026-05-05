@@ -9,6 +9,8 @@ export interface Ingredient {
   tier?: string;
   subCategory?: string;
   max?: number;
+  min?: number;
+  step?: number;
   weightPerPc?: number;
 }
 
