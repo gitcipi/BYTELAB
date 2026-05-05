@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Leaf, Activity, Truck, Zap, CircleSlash, Timer, MapPin, Gauge } from 'lucide-react';
+import { ArrowRight, Activity } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ALL_MEALS } from '../data/meals';
 import { About } from '../components/About';
-import { LabPreview } from '../components/LabPreview';
 
 const fadeUpVariant = {
   hidden: { opacity: 0, y: 30 },
@@ -24,15 +23,15 @@ const staggerContainer = {
 
 const MealCard = ({ label, title, subtitle, desc, macros, img }: any) => {
   return (
-    <motion.div 
+    <motion.div
       variants={fadeUpVariant}
       className="rounded-[32px] overflow-hidden bg-white border border-black transition-all duration-500 group h-full flex flex-col"
     >
       <div className="relative h-[300px] overflow-hidden bg-gray-100">
         {img ? (
-          <img 
-            src={img} 
-            alt={title} 
+          <img
+            src={img}
+            alt={title}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         ) : (
@@ -51,17 +50,17 @@ const MealCard = ({ label, title, subtitle, desc, macros, img }: any) => {
           </span>
         </div>
       </div>
-      
+
       <div className="p-8 flex flex-col flex-grow">
         <div className="mb-6">
           <h3 className="text-2xl font-heading font-medium tracking-wide text-black mb-1">{title}</h3>
           <p className="text-sm font-medium text-gray-500">{subtitle}</p>
         </div>
-        
+
         <p className="text-sm text-gray-500 leading-relaxed mb-8 flex-grow line-clamp-2">
           {desc}
         </p>
-        
+
         <div className="grid grid-cols-4 gap-4 pt-8 border-t border-black/5">
           <div className="flex flex-col">
             <span className="text-[9px] font-mono tracking-wider text-black/40 mb-1 uppercase font-bold">Kcal.</span>
@@ -112,9 +111,9 @@ const MenuGrid = () => {
           </div>
           <Link to="/menu" className="text-[10px] font-mono tracking-widest text-accent hover:text-black transition-colors uppercase border-b border-accent/20 pb-1">View Catalog</Link>
         </motion.div>
-        
+
         <div className="relative">
-          <div 
+          <div
             ref={scrollRef}
             onScroll={handleScroll}
             className="flex gap-8 overflow-x-auto scrollbar-hide pb-12"
@@ -128,7 +127,7 @@ const MenuGrid = () => {
 
           <AnimatePresence>
             {showLeftArrow && (
-              <button 
+              <button
                 onClick={() => scroll('left')}
                 className="absolute -left-4 md:-left-16 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/5 backdrop-blur-xl border border-black/10 flex items-center justify-center text-black transition-all hover:bg-black/10 hover:scale-110 active:scale-95 shadow-none"
               >
@@ -137,7 +136,7 @@ const MenuGrid = () => {
             )}
           </AnimatePresence>
 
-          <button 
+          <button
             onClick={() => scroll('right')}
             className="absolute -right-4 md:-right-16 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/5 backdrop-blur-xl border border-black/10 flex items-center justify-center text-black transition-all hover:bg-black/10 hover:scale-110 active:scale-95 shadow-none"
           >
@@ -145,15 +144,15 @@ const MenuGrid = () => {
           </button>
         </div>
 
-        <motion.div 
-          initial="hidden" 
-          whileInView="visible" 
-          viewport={{ once: true }} 
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
           variants={fadeUpVariant}
           className="mt-16 flex justify-center"
         >
-          <Link 
-            to="/menu" 
+          <Link
+            to="/menu"
             className="px-12 py-5 bg-white text-black border border-black rounded-full text-[12px] tracking-[0.2em] uppercase font-bold hover:bg-black hover:text-white transition-all text-center"
           >
             View Meals
@@ -171,11 +170,11 @@ const Home = () => {
       <section className="relative min-h-[90vh] flex items-center pt-12 md:pt-20">
         <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-8 items-center">
-            
+
             {/* Left Column: Brand & Messaging */}
-            <motion.div 
-              initial="hidden" 
-              animate="visible" 
+            <motion.div
+              initial="hidden"
+              animate="visible"
               variants={staggerContainer}
               className="z-10"
             >
@@ -186,7 +185,7 @@ const Home = () => {
                 <span className="text-[10px] font-mono tracking-[0.4em] text-black/40 uppercase font-bold">Byte Lab Nutrition</span>
               </motion.div>
 
-              <motion.h1 
+              <motion.h1
                 variants={fadeUpVariant}
                 className="text-5xl md:text-7xl lg:text-8xl font-heading font-light tracking-tight text-black mb-6 md:mb-8 leading-[0.95]"
               >
@@ -194,24 +193,14 @@ const Home = () => {
                 <span className="italic font-medium text-accent-light">engineered.</span>
               </motion.h1>
 
-              <motion.p 
+              <motion.p
                 variants={fadeUpVariant}
                 className="text-xl md:text-2xl text-black/60 font-sans font-light tracking-wide mb-12 max-w-lg leading-relaxed"
               >
                 Crafted fresh in Ubud. Macro tracked meals and weekly prep plans delivered across Bali.
               </motion.p>
 
-              <motion.div 
-                variants={fadeUpVariant}
-                className="flex items-center gap-2 mb-6"
-              >
-                <div className="flex -space-x-2">
-                  <div className="w-6 h-6 rounded-full bg-accent-light/10 border border-accent-light/20 flex items-center justify-center text-[10px]">✨</div>
-                </div>
-                <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-accent-light uppercase">Weekly Protocols & OnlyPlans Available</span>
-              </motion.div>
-
-              <motion.div 
+              <motion.div
                 variants={fadeUpVariant}
                 className="flex flex-wrap gap-3 md:gap-4 mb-12 md:mb-16"
               >
@@ -224,13 +213,10 @@ const Home = () => {
                 <Link to="/generate-meal" className="px-6 py-3.5 md:px-8 md:py-4 bg-white text-black border border-black/10 rounded-full text-[10px] md:text-[11px] tracking-[0.2em] uppercase font-bold hover:border-black transition-all">
                   Generate Meals
                 </Link>
-                <Link to="/plans" className="px-6 py-3.5 md:px-8 md:py-4 bg-accent-light/5 text-accent-light border border-accent-light/20 rounded-full text-[10px] md:text-[11px] tracking-[0.2em] uppercase font-bold hover:bg-accent-light hover:text-white transition-all">
-                  OnlyPlans
-                </Link>
               </motion.div>
 
               {/* Trust Metrics */}
-              <motion.div 
+              <motion.div
                 variants={fadeUpVariant}
                 className="grid grid-cols-2 md:flex items-center gap-x-10 gap-y-6 pt-12 border-t border-black/5"
               >
@@ -240,7 +226,7 @@ const Home = () => {
                   { icon: '📦', val: 'Weekly', label: 'Meal Prep' },
                   { icon: '🥩', val: '48g', label: 'Avg Protein' }
                 ].map((stat, i) => (
-                  <motion.div 
+                  <motion.div
                     key={i}
                     whileHover={{ y: -5 }}
                     className="flex items-center gap-3 cursor-default group"
@@ -255,7 +241,7 @@ const Home = () => {
               </motion.div>
 
               {/* Delivery Note */}
-              <motion.p 
+              <motion.p
                 variants={fadeUpVariant}
                 className="mt-8 text-[9px] font-mono text-black/30 uppercase tracking-[0.2em]"
               >
@@ -264,30 +250,29 @@ const Home = () => {
             </motion.div>
 
             {/* Right Column: Premium Visual */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.9, x: 50 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
               className="relative group"
             >
               <div className="relative aspect-[4/5] md:aspect-square rounded-[48px] overflow-hidden bg-gray-50 shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]">
-                <img 
-                  src="/premium_byte_meal_hero.png" 
-                  alt="Premium Engineered Meal" 
+                <img
+                  src="/premium_byte_meal_hero.png"
+                  alt="Premium Engineered Meal"
                   className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent"></div>
               </div>
 
               {/* Nutrition Card Overlay */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 whileHover={{ y: -10, scale: 1.05 }}
-                transition={{ 
-                  delay: 0.8, 
-                  duration: 0.8,
-                  whileHover: { duration: 0.3 }
+                transition={{
+                  delay: 0.8,
+                  duration: 0.8
                 }}
                 className="absolute -bottom-6 -left-6 md:-left-12 bg-white/90 backdrop-blur-2xl p-8 rounded-[32px] border border-black/5 shadow-2xl z-20 min-w-[280px] cursor-pointer"
               >
@@ -348,8 +333,8 @@ const Home = () => {
             <p className="text-lg text-gray-500 font-light mb-12 leading-relaxed">
               Unlock exclusive weekly meal protocols. Engineered for consistency, delivered for performance. Save up to 25% with our subscription packages.
             </p>
-            <Link 
-              to="/plans" 
+            <Link
+              to="/plans"
               className="inline-flex items-center gap-3 bg-black text-white px-12 py-5 rounded-full text-[12px] tracking-[0.2em] uppercase font-bold hover:bg-[#00aff0] transition-all group"
             >
               Explore Exclusive Plans
@@ -367,8 +352,8 @@ const Home = () => {
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
           <h2 className="text-5xl md:text-6xl font-heading font-light tracking-tight mb-6 text-black">Upgrade your fuel.</h2>
           <p className="text-lg text-gray-600 font-light mb-12 max-w-xl mx-auto">Experience the difference of precision nutrition. Start your first week of BYTE.</p>
-          <Link 
-            to="/lab" 
+          <Link
+            to="/lab"
             className="inline-block bg-accent-light text-white rounded-[24px] px-12 py-5 text-sm tracking-widest uppercase transition-transform hover:scale-105 active:scale-95 shadow-2xl shadow-accent/20"
           >
             Start Now
