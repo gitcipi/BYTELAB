@@ -85,33 +85,40 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
   }, [initialCurrency]);
 
   const toggleSelection = (cat: string, name: string) => {
+    const isSkip = name === 'Skip' || name === 'No Sauce';
+    
     setSelections(prev => {
       const current = prev[cat];
-      if (name === 'Skip' || name === 'No Sauce') {
+      if (isSkip) {
         return { ...prev, [cat]: [name] };
       }
       
       const withoutSkip = current.filter(n => n !== 'Skip' && n !== 'No Sauce');
-      if (withoutSkip.includes(name)) return prev;
+      if (withoutSkip.includes(name)) {
+        const remaining = withoutSkip.filter(n => n !== name);
+        return { ...prev, [cat]: remaining.length === 0 ? (cat === 'sauce' ? ['No Sauce'] : ['Skip']) : remaining };
+      }
         
       return { ...prev, [cat]: [...withoutSkip, name] };
     });
 
-    if (name !== 'Skip' && name !== 'No Sauce') {
-      setEditingItems(prev => ({
-        ...prev,
-        [cat]: [...prev[cat], name]
-      }));
-
+    if (!isSkip) {
       setWeights(prev => {
-        if (!prev[cat][name]) {
-          const defaultWeight = cat === 'protein' ? 200 : cat === 'carb' ? 150 : cat === 'veggies' ? 100 : 50;
-          return {
-            ...prev,
-            [cat]: { ...prev[cat], [name]: defaultWeight }
-          };
+        const currentCat = prev[cat];
+        if (currentCat[name]) {
+          const { [name]: _, ...rest } = currentCat;
+          return { ...prev, [cat]: rest };
         }
-        return prev;
+        const defaultWeight = cat === 'protein' ? 200 : cat === 'carb' ? 150 : cat === 'veggies' ? 100 : 50;
+        return { ...prev, [cat]: { ...currentCat, [name]: defaultWeight } };
+      });
+
+      setEditingItems(prev => {
+        const currentCat = prev[cat];
+        if (currentCat.includes(name)) {
+          return { ...prev, [cat]: currentCat.filter(n => n !== name) };
+        }
+        return { ...prev, [cat]: [...currentCat, name] };
       });
     }
   };
