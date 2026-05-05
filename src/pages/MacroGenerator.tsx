@@ -72,8 +72,8 @@ const MacroGenerator = () => {
         Wc = (remC * Pp - remP * Cp) / det;
       }
 
-      let finalWp = pOpt.name === 'Skip' ? 0 : Math.max(100, Math.min(400, Math.round(Wp * 100 / 50) * 50));
-      let finalWc = cOpt.name === 'Skip' ? 0 : Math.max(100, Math.min(400, Math.round(Wc * 100 / 50) * 50));
+      let finalWp = pOpt.name === 'Skip' ? 0 : Math.max(100, Math.min(400, Math.round(Wp * 100 / 5) * 5));
+      let finalWc = cOpt.name === 'Skip' ? 0 : Math.max(100, Math.min(400, Math.round(Wc * 100 / 5) * 5));
 
       if (targets.c < 10 && Cc > 10) finalWc = 0;
       if (cOpt.name === 'Skip') finalWc = 0;
