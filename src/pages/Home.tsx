@@ -4,6 +4,7 @@ import { ArrowRight, Activity } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ALL_MEALS } from '../data/meals';
 import { About } from '../components/About';
+import { LabPreview } from '../components/LabPreview';
 
 const fadeUpVariant = {
   hidden: { opacity: 0, y: 30 },
@@ -343,6 +344,8 @@ const Home = () => {
           </motion.div>
         </div>
       </section>
+
+      <LabPreview />
 
       <About />
 
