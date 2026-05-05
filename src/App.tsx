@@ -1,11 +1,21 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Menu from './pages/Menu';
 import Lab from './pages/Lab';
 import { Navbar } from './components/Navbar';
 import { CartProvider } from './context/CartContext';
 import { CartDropdown } from './components/CartDrawer';
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
 
 const Footer = () => {
   return (
@@ -65,6 +75,7 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <CartProvider>
         <div className="relative min-h-screen bg-transparent">
           <div className="fixed inset-0 -z-50 bg-[#070707]" style={{ 
