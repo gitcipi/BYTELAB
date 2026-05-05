@@ -168,7 +168,7 @@ const Home = () => {
   return (
     <div className="relative bg-white overflow-hidden">
       {/* Premium Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center pt-12 md:pt-20">
+      <section className="relative min-h-[90vh] flex items-center pt-28 md:pt-20">
         <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-8 items-center">
 
