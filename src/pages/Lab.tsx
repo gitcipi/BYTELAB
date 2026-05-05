@@ -559,11 +559,7 @@ const Lab = () => {
     return () => window.removeEventListener('currencyChange', cb);
   }, []);
   return (
-    <div className="min-h-screen bg-white pt-32 pb-20">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <ByteLab currency={currency} />
-      </div>
-    </div>
+    <ByteLab currency={currency} />
   );
 };
 
