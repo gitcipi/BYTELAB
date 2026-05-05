@@ -541,7 +541,8 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                 >
                   Reset Meal
                 </button>
-          </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -277,7 +277,6 @@ const MacroGenerator = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
