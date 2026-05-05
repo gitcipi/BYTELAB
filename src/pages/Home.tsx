@@ -198,7 +198,7 @@ const Home = () => {
                 variants={fadeUpVariant}
                 className="text-xl md:text-2xl text-black/60 font-sans font-light tracking-wide mb-12 max-w-lg leading-relaxed"
               >
-                Precision meals built around your body, your goals, and your protocol.
+                Crafted fresh in Ubud. Macro tracked meals and weekly prep plans delivered across Bali.
               </motion.p>
 
               <motion.div 
@@ -219,24 +219,35 @@ const Home = () => {
               {/* Trust Metrics */}
               <motion.div 
                 variants={fadeUpVariant}
-                className="grid grid-cols-2 md:flex items-center gap-x-12 gap-y-6 pt-12 border-t border-black/5"
+                className="grid grid-cols-2 md:flex items-center gap-x-10 gap-y-6 pt-12 border-t border-black/5"
               >
                 {[
-                  { val: '48g', label: 'Avg Protein' },
-                  { val: '16', label: 'Chef Built' },
-                  { val: 'Macro', label: 'Tracked' },
-                  { val: 'Local', label: 'Delivery' }
+                  { icon: '📍', val: 'Ubud', label: 'Kitchen' },
+                  { icon: '🛵', val: 'Islandwide', label: 'Delivery' },
+                  { icon: '📦', val: 'Weekly', label: 'Meal Prep' },
+                  { icon: '🥩', val: '48g', label: 'Avg Protein' }
                 ].map((stat, i) => (
                   <motion.div 
                     key={i}
                     whileHover={{ y: -5 }}
-                    className="flex flex-col gap-1 cursor-default group"
+                    className="flex items-center gap-3 cursor-default group"
                   >
-                    <span className="text-xs font-mono font-bold text-black uppercase tracking-widest group-hover:text-accent-light transition-colors">{stat.val}</span>
-                    <span className="text-[9px] font-mono text-black/40 uppercase tracking-widest font-medium group-hover:text-black/60 transition-colors">{stat.label}</span>
+                    <span className="text-xl">{stat.icon}</span>
+                    <div className="flex flex-col">
+                      <span className="text-[11px] font-mono font-bold text-black uppercase tracking-widest group-hover:text-accent-light transition-colors">{stat.val}</span>
+                      <span className="text-[9px] font-mono text-black/40 uppercase tracking-widest font-medium group-hover:text-black/60 transition-colors">{stat.label}</span>
+                    </div>
                   </motion.div>
                 ))}
               </motion.div>
+
+              {/* Delivery Note */}
+              <motion.p 
+                variants={fadeUpVariant}
+                className="mt-8 text-[9px] font-mono text-black/30 uppercase tracking-[0.2em]"
+              >
+                Delivery available via Grab, Gojek or pickup.
+              </motion.p>
             </motion.div>
 
             {/* Right Column: Premium Visual */}
