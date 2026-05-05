@@ -130,7 +130,7 @@ export const CartDropdown = ({ currency }: { currency: string }) => {
                     <div className="bg-black/5 rounded-xl p-4 space-y-3">
                       <div className="grid grid-cols-1 gap-2.5 text-[10px] font-mono uppercase tracking-widest text-black/40">
                         {['protein', 'carb', 'veggies', 'sauce'].map(cat => {
-                           const catItems = item.details![cat as keyof typeof item.details];
+                           const catItems = item.details?.[cat as keyof NonNullable<typeof item.details>] as any[];
                            if (!catItems || catItems.length === 0) return null;
                            return (
                              <div key={cat} className="flex justify-between border-b border-black/5 pb-1.5 last:border-0 last:pb-0">

@@ -1,15 +1,12 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
-import { X, Beef, Wheat, Leaf, Droplets, ChevronDown, Plus, Minus, Gauge, Trash2 } from 'lucide-react';
+import { X, Beef, Wheat, Leaf, Droplets, ChevronDown, Plus, Minus, Gauge } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { Toast } from '../components/Toast';
 import { INGREDIENTS } from '../data/ingredients';
 
-const fadeUpVariant = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } }
-};
+
 
 const RangeSlider = ({ value, min, max, step = 1, onChange, unit = 'G', isDark = false }: any) => {
   const percentage = ((value - min) / (max - min)) * 100;
@@ -468,7 +465,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
           </div>
         </div>
       </div>
-      <AnimatePresence>{showToast && <Toast message="Added to basket" onClose={() => setShowToast(false)} />}</AnimatePresence>
+      <AnimatePresence>{showToast && <Toast message="Added to basket" isVisible={showToast} onClose={() => setShowToast(false)} />}</AnimatePresence>
     </div>
   );
 };

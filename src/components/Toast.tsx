@@ -5,7 +5,7 @@ import { useCart } from '../context/CartContext';
 
 export const Toast = ({ message, isVisible, onClose }: { message: string; isVisible: boolean; onClose: () => void }) => {
   const { setIsOpen } = useCart();
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<any>(null);
 
   const startTimer = () => {
     if (timerRef.current) clearTimeout(timerRef.current);

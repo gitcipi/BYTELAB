@@ -7,10 +7,11 @@ export interface CartItem {
   quantity: number;
   type: 'standard' | 'lab';
   details?: {
-    protein: { name: string; weight: number }[];
-    carb: { name: string; weight: number; unit: string }[];
-    veggies: { name: string; weight: number }[];
-    sauce: { name: string; weight: number }[];
+    protein: { name: string; weight: number; unit?: string }[];
+    carb: { name: string; weight: number; unit?: string }[];
+    veggies: { name: string; weight: number; unit?: string }[];
+    sauce: { name: string; weight: number; unit?: string }[];
+    name?: string;
   };
 }
 
