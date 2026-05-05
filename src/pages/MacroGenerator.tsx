@@ -241,12 +241,15 @@ const MacroGenerator = () => {
                           { icon: <Zap size={14}/>, label: 'Micros / Veg', name: generatedMeal.details.veggies[0].name, weight: generatedMeal.details.veggies[0].weight },
                         ].filter(item => item.name !== 'Skip' && item.name !== 'No Sauce').map((item, i) => (
                           <div key={i} className="flex items-center gap-3 p-4 bg-white rounded-[20px] border border-black/5 shadow-sm">
-                            <div className="p-2.5 bg-black text-white rounded-xl">
+                            <div className="p-2.5 bg-black text-white rounded-xl shrink-0">
                               {item.icon}
                             </div>
-                            <div>
+                            <div className="flex-grow min-w-0">
                               <span className="block text-[7px] font-mono text-black/60 uppercase tracking-widest leading-none mb-1.5">{item.label}</span>
-                              <p className="text-[11px] font-mono font-black text-black uppercase line-clamp-1">{item.name} <span className="text-[#00aff0] ml-1.5">{item.weight}{typeof item.weight === 'number' ? 'G' : ''}</span></p>
+                              <div className="flex justify-between items-start gap-3">
+                                <p className="text-[11px] font-mono font-black text-black uppercase leading-tight">{item.name}</p>
+                                <span className="text-[#00aff0] text-[10px] font-mono font-bold whitespace-nowrap mt-0.5">{item.weight}{typeof item.weight === 'number' ? 'G' : ''}</span>
+                              </div>
                             </div>
                           </div>
                         ))}
