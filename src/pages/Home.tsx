@@ -196,14 +196,14 @@ const Home = () => {
 
               <motion.p
                 variants={fadeUpVariant}
-                className="text-xl md:text-2xl text-black/60 font-sans font-light tracking-wide mb-12 max-w-lg leading-relaxed"
+                className="text-lg md:text-2xl text-black/60 font-sans font-light tracking-wide mb-10 md:mb-12 max-w-lg leading-relaxed"
               >
-                Crafted fresh in Ubud. Macro tracked meals and weekly prep plans delivered across Bali.
+                Crafted fresh in Ubud. Macro tracked meals and <span className="text-[#0047AB] font-medium">weekly prep plans</span> delivered across Bali.
               </motion.p>
 
               <motion.div
                 variants={fadeUpVariant}
-                className="flex flex-wrap gap-3 md:gap-4 mb-12 md:mb-16"
+                className="flex flex-wrap gap-3 md:gap-4 mb-10 md:mb-16"
               >
                 <Link to="/menu" className="px-6 py-3.5 md:px-8 md:py-4 bg-black text-white rounded-full text-[10px] md:text-[11px] tracking-[0.2em] uppercase font-bold hover:bg-accent-light transition-all shadow-xl shadow-black/10">
                   Explore Menu
@@ -214,12 +214,15 @@ const Home = () => {
                 <Link to="/generate-meal" className="px-6 py-3.5 md:px-8 md:py-4 bg-white text-black border border-black/10 rounded-full text-[10px] md:text-[11px] tracking-[0.2em] uppercase font-bold hover:border-black transition-all">
                   Generate Meals
                 </Link>
+                <Link to="/plans" className="px-6 py-3.5 md:px-8 md:py-4 bg-accent-light/5 text-accent-light border border-accent-light/20 rounded-full text-[10px] md:text-[11px] tracking-[0.2em] uppercase font-bold hover:bg-accent-light hover:text-white transition-all">
+                  OnlyPlans
+                </Link>
               </motion.div>
 
               {/* Trust Metrics */}
               <motion.div
                 variants={fadeUpVariant}
-                className="grid grid-cols-2 md:flex items-center gap-x-10 gap-y-6 pt-12 border-t border-black/5"
+                className="grid grid-cols-2 md:flex items-center gap-x-10 gap-y-6 pt-10 md:pt-12 border-t border-black/5"
               >
                 {[
                   { icon: '📍', val: 'Ubud', label: 'Kitchen' },
