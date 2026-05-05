@@ -170,7 +170,8 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
 
   const options = {
     protein: [
-      { name: 'Chicken', p: 25, f: 3, c: 0, cal: 130, pricing: { 100: 1.0, 150: 1.5, 200: 2.0, 250: 2.5, 300: 3.0 } },
+      { name: 'Chicken Breast', p: 25, f: 3, c: 0, cal: 130, pricing: { 100: 1.0, 150: 1.5, 200: 2.0, 250: 2.5, 300: 3.0 } },
+      { name: 'Chicken Thigh', p: 21, f: 9, c: 0, cal: 170, pricing: { 100: 1.1, 150: 1.65, 200: 2.2, 250: 2.75, 300: 3.3 } },
       { name: 'Ground Beef', p: 22, f: 12, c: 0, cal: 190, pricing: { 100: 1.6, 150: 2.4, 200: 3.2, 250: 4.0, 300: 4.8 } },
       { name: 'Peeled Shrimps', p: 20, f: 1, c: 0, cal: 95, pricing: { 100: 1.8, 150: 2.7, 200: 3.6, 250: 4.5, 300: 5.4 } },
       { name: 'Tuna Saku', p: 26, f: 1, c: 0, cal: 116, pricing: { 100: 2.0, 150: 3.0, 200: 4.0, 250: 5.0, 300: 6.0 } },
