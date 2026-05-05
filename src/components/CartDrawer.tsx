@@ -33,6 +33,7 @@ export const CartDropdown = ({ currency }: { currency: string }) => {
   }, [isOpen, setIsOpen]);
 
   const generateWhatsAppMessage = () => {
+    if (items.length === 0) return;
     const standardItems = items.filter(i => i.type === 'standard');
     const labItems = items.filter(i => i.type === 'lab');
 
@@ -186,9 +187,8 @@ export const CartDropdown = ({ currency }: { currency: string }) => {
             </div>
             
             <button
-              disabled={items.length === 0}
               onClick={generateWhatsAppMessage}
-              className="w-full py-5 bg-black text-white rounded-full text-xs font-bold tracking-[0.2em] uppercase hover:bg-accent transition-all active:scale-[0.98] disabled:opacity-10 disabled:cursor-not-allowed shadow-xl shadow-black/10"
+              className="w-full py-5 bg-black text-white rounded-full text-xs font-bold tracking-[0.2em] uppercase hover:bg-accent transition-all active:scale-[0.98] shadow-xl shadow-black/10"
             >
               Order on WhatsApp
             </button>
