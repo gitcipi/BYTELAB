@@ -51,7 +51,7 @@ export const INGREDIENTS: Record<string, Ingredient[]> = {
     { name: 'Jumbo Wrap', p: 8, f: 6, c: 45, cal: 280, pricing: { 1: 0.825, 2: 1.65, 3: 2.475 }, unit: 'PC', weightPerPc: 70, max: 3 },
     { name: 'English Muffin', p: 6, f: 1, c: 45, cal: 220, pricing: { 1: 0.60, 2: 1.20, 3: 1.80 }, unit: 'PC', max: 3, weightPerPc: 65 },
     { name: 'Cauli Rice', p: 2, f: 0, c: 4, cal: 25, pricing: { 100: 0.80, 150: 1.20, 200: 1.60, 250: 2.00, 300: 2.40 } },
-    { name: 'Pasta', p: 6, f: 1, c: 25, cal: 140, pricing: { 100: 0.43, 150: 0.65, 200: 0.86, 250: 1.08, 300: 1.29 } },
+    { name: 'Pasta', p: 6, f: 1, c: 25, cal: 140, pricing: { 50: 0.22, 75: 0.33, 100: 0.43, 125: 0.54 }, min: 50, max: 125, step: 25 },
     { name: 'Skip', p: 0, f: 0, c: 0, cal: 0, pricing: {} },
   ],
   veggies: [

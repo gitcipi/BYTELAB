@@ -176,8 +176,10 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
     updateSlot({ selections: newSelections });
     if (!isSkip) {
       if (!weights[cat][name]) {
-        const isPC = (options[cat as keyof typeof options].find((o: any) => o.name === name) as any)?.unit === 'PC';
-        updateSlot({ weights: { ...weights, [cat]: { ...weights[cat], [name]: isPC ? 1 : (cat === 'protein' || cat === 'carb' ? 100 : 50) } } });
+        const opt = options[cat as keyof typeof options].find((o: any) => o.name === name) as any;
+        const isPC = opt?.unit === 'PC';
+        const defaultWeight = opt?.min || (isPC ? 1 : (cat === 'protein' || cat === 'carb' ? 100 : 50));
+        updateSlot({ weights: { ...weights, [cat]: { ...weights[cat], [name]: defaultWeight } } });
       }
     }
   };
@@ -344,8 +346,9 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                                         <span className="text-[9px] font-mono font-bold uppercase tracking-widest opacity-40">Quantity</span>
                                         <div className="flex items-center gap-3">
                                           <button onClick={() => {
-                                            const minVal = opt.unit === 'PC' ? 1 : (cat === 'protein' || cat === 'carb' ? 100 : 50);
-                                            updateWeight(cat, opt.name, Math.max(minVal, (weights[cat][opt.name] || 0) - (opt.unit === 'PC' ? 1 : 50)));
+                                            const minVal = opt.min || (opt.unit === 'PC' ? 1 : (cat === 'protein' || cat === 'carb' ? 100 : 50));
+                                            const step = opt.step || (opt.unit === 'PC' ? 1 : 50);
+                                            updateWeight(cat, opt.name, Math.max(minVal, (weights[cat][opt.name] || 0) - step));
                                           }}><Minus size={14} /></button>
                                           <span className="text-base font-mono font-bold">
                                             {weights[cat][opt.name] || 0}
@@ -356,15 +359,16 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                                           </span>
                                           <button onClick={() => {
                                             const maxVal = opt.max || (opt.unit === 'PC' ? 5 : 400);
-                                            updateWeight(cat, opt.name, Math.min(maxVal, (weights[cat][opt.name] || 0) + (opt.unit === 'PC' ? 1 : 50)));
+                                            const step = opt.step || (opt.unit === 'PC' ? 1 : 50);
+                                            updateWeight(cat, opt.name, Math.min(maxVal, (weights[cat][opt.name] || 0) + step));
                                           }}><Plus size={14} /></button>
                                         </div>
                                       </div>
                                       <RangeSlider 
                                         value={weights[cat][opt.name] || 0} 
-                                        min={opt.unit === 'PC' ? 1 : (cat === 'protein' || cat === 'carb' ? 100 : 50)} 
+                                        min={opt.min || (opt.unit === 'PC' ? 1 : (cat === 'protein' || cat === 'carb' ? 100 : 50))} 
                                         max={opt.max || (opt.unit === 'PC' ? 5 : 400)} 
-                                        step={opt.unit === 'PC' ? 1 : 50} 
+                                        step={opt.step || (opt.unit === 'PC' ? 1 : 50)} 
                                         unit={opt.unit || 'G'}
                                         onChange={(v: number) => updateWeight(cat, opt.name, v)} 
                                       />
