@@ -126,7 +126,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
   const options = { protein: INGREDIENTS.protein, carb: INGREDIENTS.carb, veggies: INGREDIENTS.veggies, sauce: INGREDIENTS.sauce };
 
   const calculateItemPrice = (cat: string, name: string, weight: number) => {
-    if (name === 'Skip' || name === 'No Sauce') return 0;
+    if (name === 'Skip' || name === 'No Sauce' || !weight || weight <= 0) return 0;
     const opt = (options[cat as keyof typeof options] as any[]).find((o: any) => o.name === name);
     if (!opt) return 0;
     if (opt.pricing) {
@@ -229,7 +229,10 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
     return { p, f, c, cal, subtotal, packaging: subtotal > 0 ? 0.90 : 0, total: subtotal > 0 ? subtotal + 0.90 : 0 };
   }, [selections, weights]);
 
-  const formatCurrency = (v: number) => currency === 'USD' ? `$${(v * 1.17).toFixed(2)}` : currency === 'IDR' ? `Rp ${(Math.round(v * 20000)).toLocaleString()}` : `€${v.toFixed(2)}`;
+  const formatCurrency = (v: number) => {
+    const val = isNaN(v) ? 0 : v;
+    return currency === 'USD' ? `$${(val * 1.17).toFixed(2)}` : currency === 'IDR' ? `Rp ${(Math.round(val * 20000)).toLocaleString()}` : `€${val.toFixed(2)}`;
+  };
   const isBelowMin = totals.subtotal > 0 && totals.total < 2.25;
 
   const dynamicMealName = useMemo(() => {
@@ -323,7 +326,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                           {(cat === 'protein' || cat === 'carb') && subCat !== 'NONE' && subCat !== 'OTHER' && (
                             <h3 className="text-[10px] font-mono font-bold tracking-[0.3em] text-black uppercase pl-1">{subCat}</h3>
                           )}
-                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-start">
+                           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 items-start">
                             {subOptions.map((opt: any) => {
                               const isSelected = selections[cat].includes(opt.name);
                               const isConfirmed = confirmedItems[cat].includes(opt.name);
