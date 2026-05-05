@@ -394,8 +394,6 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                               expandItem(cat, item.name);
                             } else if (isEditing) {
                               minimizeItem(cat, item.name);
-                            } else {
-                              toggleSelection(cat, item.name);
                             }
                           }}
                         >
@@ -407,11 +405,18 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                             {isSelected && !isGhost && (
                               <span className="text-xs font-mono font-bold text-accent">{weights[cat]?.[item.name]}g</span>
                             )}
-                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
-                              isSelected ? 'bg-accent border-accent' : 'border-black/10'
-                            }`}>
-                              {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
-                            </div>
+                            <button 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                toggleSelection(cat, item.name);
+                                if (isEditing) minimizeItem(cat, item.name);
+                              }}
+                              className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all hover:scale-110 active:scale-95 ${
+                                isSelected ? 'bg-accent border-accent' : 'border-black/10'
+                              }`}
+                            >
+                              {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
+                            </button>
                           </div>
                         </div>
 
