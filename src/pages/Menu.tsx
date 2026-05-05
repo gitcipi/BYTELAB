@@ -189,6 +189,12 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { me
         <ChevronRight size={24} className="md:w-8 md:h-8" />
       </button>
 
+      <motion.div 
+        key={meal.id}
+        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.9, opacity: 0, y: 20 }}
+        transition={{ type: "spring", damping: 25, stiffness: 300 }}
         className="relative w-full max-w-5xl max-h-[90vh] md:max-h-none overflow-y-auto md:overflow-visible bg-white dark:bg-card rounded-[32px] md:rounded-[40px] flex flex-col md:flex-row border border-white/10 shadow-none"
       >
         <button 
