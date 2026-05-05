@@ -46,7 +46,7 @@ const MacroGenerator = () => {
       }
 
       let bestMeal = null;
-      let minCalDiff = Infinity;
+      let minScore = Infinity;
 
       // Try multiple combinations to find the best macro/calorie fit
       for (let attempt = 0; attempt < 100; attempt++) {

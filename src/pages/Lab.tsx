@@ -277,7 +277,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                   <div className={`p-3 rounded-full ${cat.bg} ${cat.color} border border-black/[0.02]`}>{cat.icon}</div>
                   <div className="flex flex-col items-center">
                     <span className={`text-[10px] font-mono font-bold uppercase tracking-widest ${cat.color}`}>{cat.label}</span>
-                    <span className="text-[9px] font-mono text-black/40 uppercase font-medium tracking-tight">{(options[cat.id as keyof typeof options] as any[]).length} Choices</span>
+                    <span className="text-[9px] font-mono text-black/40 uppercase font-medium tracking-tight">{(INGREDIENTS[cat.id as keyof typeof INGREDIENTS] as any[]).length} Choices</span>
                   </div>
                 </div>
               ))}
@@ -294,7 +294,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
             </div>
 
             {['protein', 'carb', 'veggies', 'sauce'].map((cat) => {
-              let catOptions = options[cat as keyof typeof options] as any[];
+              let catOptions = INGREDIENTS[cat as keyof typeof INGREDIENTS] as any[];
               if (showSelectedOnly) {
                 catOptions = catOptions.filter(opt => selections[cat].includes(opt.name));
               }
