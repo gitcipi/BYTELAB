@@ -46,7 +46,10 @@ export const INGREDIENTS: Record<string, Ingredient[]> = {
   carb: [
     { name: 'Basmati Rice', p: 3, f: 0, c: 28, cal: 130, pricing: { 100: 0.45, 150: 0.68, 200: 0.90, 250: 1.13, 300: 1.35 } },
     { name: 'Sweet Potato', p: 2, f: 0, c: 20, cal: 90, pricing: { 100: 0.40, 150: 0.60, 200: 0.80, 250: 1.00, 300: 1.20 } },
-    { name: 'Potato', p: 2, f: 0, c: 17, cal: 77, pricing: { 100: 0.35, 150: 0.53, 200: 0.70, 250: 0.88, 300: 1.05 } },
+    { name: 'Baked Potato', p: 2, f: 0.2, c: 21, cal: 93, pricing: { 100: 0.40, 150: 0.60, 200: 0.80, 250: 1.00, 300: 1.20 } },
+    { name: 'Airfryed Potato', p: 2, f: 3, c: 25, cal: 140, pricing: { 100: 0.45, 150: 0.68, 200: 0.90, 250: 1.13, 300: 1.35 } },
+    { name: 'Boiled Potato', p: 2, f: 0.1, c: 17, cal: 87, pricing: { 100: 0.35, 150: 0.53, 200: 0.70, 250: 0.88, 300: 1.05 } },
+    { name: 'Mashed Potato', p: 2, f: 4, c: 15, cal: 110, pricing: { 100: 0.45, 150: 0.68, 200: 0.90, 250: 1.13, 300: 1.35 } },
     { name: 'Sweet Corn', p: 3, f: 1, c: 19, cal: 86, pricing: { 100: 0.86, 150: 1.29, 200: 1.72, 250: 2.15, 300: 2.58 } },
     { name: 'Baked Beans', p: 5, f: 1, c: 15, cal: 95, pricing: { 100: 1.17, 150: 1.76, 200: 2.34 } },
     { name: 'Normal Wrap', p: 6, f: 4, c: 35, cal: 210, pricing: { 1: 0.60, 2: 1.20, 3: 1.80 }, unit: 'PC', weightPerPc: 45, max: 3 },
