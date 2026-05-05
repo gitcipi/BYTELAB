@@ -21,4 +21,10 @@ export interface Meal {
   proteinValue: number;
   carbsValue: number;
   fatsValue: number;
+  labDetails?: {
+    protein: { name: string; weight: number }[];
+    carb: { name: string; weight: number; unit?: string }[];
+    veggies: { name: string; weight: number }[];
+    sauce: { name: string; weight: number }[];
+  };
 }

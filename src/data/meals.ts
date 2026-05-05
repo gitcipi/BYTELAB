@@ -16,7 +16,13 @@ export const ALL_MEALS: Meal[] = [
     calories: 620,
     proteinValue: 48,
     carbsValue: 61,
-    fatsValue: 14
+    fatsValue: 14,
+    labDetails: {
+      protein: [{ name: "Chicken Breast", weight: 150 }],
+      carb: [{ name: "Basmati Rice", weight: 200 }],
+      veggies: [{ name: "Broccoli", weight: 50 }],
+      sauce: [{ name: "Greek Yoghurt Spicy", weight: 25 }]
+    }
   },
   {
     id: "CORE-02",
@@ -33,7 +39,13 @@ export const ALL_MEALS: Meal[] = [
     calories: 690,
     proteinValue: 52,
     carbsValue: 70,
-    fatsValue: 16
+    fatsValue: 16,
+    labDetails: {
+      protein: [{ name: "Chicken Breast", weight: 150 }],
+      carb: [{ name: "Pasta", weight: 200 }],
+      veggies: [{ name: "Spinach", weight: 50 }],
+      sauce: [{ name: "Tomato Sauce", weight: 50 }]
+    }
   },
   {
     id: "CORE-03",
@@ -50,7 +62,13 @@ export const ALL_MEALS: Meal[] = [
     calories: 670,
     proteinValue: 55,
     carbsValue: 58,
-    fatsValue: 18
+    fatsValue: 18,
+    labDetails: {
+      protein: [{ name: "Chicken Breast", weight: 150 }],
+      carb: [{ name: "Basmati Rice", weight: 150 }, { name: "Sweet Corn", weight: 50 }],
+      veggies: [{ name: "Broccoli", weight: 50 }],
+      sauce: [{ name: "Greek Yoghurt Garlic", weight: 25 }]
+    }
   },
   {
     id: "LEAN-01",

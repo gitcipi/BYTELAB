@@ -64,7 +64,7 @@ const MealCard = ({ label, title, subtitle, desc, macros, img }: any) => {
         
         <div className="grid grid-cols-4 gap-4 pt-8 border-t border-black/5">
           <div className="flex flex-col">
-            <span className="text-[9px] font-mono tracking-wider text-gray-400 mb-1 uppercase">ENERGY</span>
+            <span className="text-[9px] font-mono tracking-wider text-black/40 mb-1 uppercase font-bold">Kcal.</span>
             <span className="text-xs font-mono text-black">{macros.energy}</span>
           </div>
           <div className="flex flex-col">
@@ -72,11 +72,11 @@ const MealCard = ({ label, title, subtitle, desc, macros, img }: any) => {
             <span className="text-xs font-mono text-black">{macros.protein}</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-[9px] font-mono tracking-wider text-gray-400 mb-1 uppercase">CARBS</span>
+            <span className="text-[9px] font-mono tracking-wider text-orange-500 font-bold mb-1 uppercase">CARBS</span>
             <span className="text-xs font-mono text-black">{macros.carbs}</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-[9px] font-mono tracking-wider text-gray-400 mb-1 uppercase">FATS</span>
+            <span className="text-[9px] font-mono tracking-wider text-emerald-500 font-bold mb-1 uppercase">FATS</span>
             <span className="text-xs font-mono text-black">{macros.fats}</span>
           </div>
         </div>

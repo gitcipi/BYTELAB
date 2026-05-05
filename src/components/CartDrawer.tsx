@@ -1,11 +1,13 @@
 import { useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Plus, Minus, ShoppingBag, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { X, Plus, Minus, ShoppingBag, Trash2, Beaker } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 export const CartDropdown = ({ currency }: { currency: string }) => {
   const { items, isOpen, setIsOpen, updateQuantity, removeFromCart, total } = useCart();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   const formatCurrency = (value: number) => {
     if (currency === 'USD') return `$${(value * 1.17).toFixed(2)}`;
@@ -125,7 +127,6 @@ export const CartDropdown = ({ currency }: { currency: string }) => {
                     </button>
                   </div>
 
-                  {item.type === 'lab' && item.details && (
                     <div className="bg-black/5 rounded-xl p-4 space-y-3">
                       <div className="grid grid-cols-1 gap-2.5 text-[10px] font-mono uppercase tracking-widest text-black/40">
                         {['protein', 'carb', 'veggies', 'sauce'].map(cat => {
@@ -141,8 +142,20 @@ export const CartDropdown = ({ currency }: { currency: string }) => {
                            );
                         })}
                       </div>
+                      
+                      {item.details && (
+                        <button 
+                          onClick={() => {
+                            setIsOpen(false);
+                            navigate('/lab', { state: { config: item.details, name: item.name } });
+                          }}
+                          className="w-full mt-2 flex items-center justify-center gap-2 py-2.5 rounded-lg border border-accent/20 bg-accent/5 text-[9px] font-mono font-bold tracking-widest text-accent uppercase hover:bg-accent hover:text-white transition-all"
+                        >
+                          <Beaker size={12} />
+                          Customize in Lab
+                        </button>
+                      )}
                     </div>
-                  )}
 
                   <div className="flex justify-between items-center pt-2">
                     <div className="flex items-center gap-4 bg-black/5 rounded-full px-3.5 py-1.5 border border-black/5">
