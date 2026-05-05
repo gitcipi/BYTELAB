@@ -93,7 +93,7 @@ const MacroGenerator = () => {
 
       const pName = pOpt.name === 'Skip' ? '' : pOpt.name.split(' ')[0];
       const cName = cOpt.name === 'Skip' ? '' : cOpt.name.split(' ')[0];
-      const mealName = `Custom Build: ${pName}${pName && cName ? ' + ' : ''}${cName} Performance`.replace(' +  Performance', ' Performance').trim();
+      const mealName = `${pName}${pName && cName ? ' + ' : ''}${cName}`.trim();
 
       setGeneratedMeal({
         name: mealName,
@@ -209,7 +209,7 @@ const MacroGenerator = () => {
                       <div>
                         <div className="flex items-center gap-3 mb-3">
                           <span className="w-1.5 h-1.5 rounded-full bg-[#00aff0]" />
-                          <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[#00aff0] font-bold block">Protocol Derived</span>
+                          <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[#00aff0] font-bold block">Engineered Protocol</span>
                         </div>
                         <h4 className="text-3xl font-heading font-black tracking-tighter text-black uppercase italic leading-none">{generatedMeal.name}</h4>
                       </div>
