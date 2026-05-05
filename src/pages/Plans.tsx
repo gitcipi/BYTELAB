@@ -40,7 +40,7 @@ const Plans = () => {
       meals: 8,
       discount: 10,
       basePrice: 60,
-      tag: '10% OFF',
+      tag: 'ESSENTIAL LOAD',
       features: ['8 Precision Engineered Meals', 'Ideal for 4 Full Days', '2 Fresh Deliveries / Week', 'Microwaveable Tupperware'],
       color: 'accent'
     },
@@ -50,7 +50,7 @@ const Plans = () => {
       meals: 14,
       discount: 15,
       basePrice: 105,
-      tag: '15% OFF',
+      tag: 'PERFORMANCE SYNC',
       features: ['14 Precision Engineered Meals', 'Complete 7-Day Protocol', '4 Fresh Deliveries / Week', 'Microwaveable Tupperware'],
       color: 'blue-500'
     },
@@ -60,7 +60,7 @@ const Plans = () => {
       meals: 20,
       discount: 25,
       basePrice: 150,
-      tag: '25% OFF',
+      tag: 'ULTIMATE STACK',
       features: ['20 Precision Engineered Meals', 'Elite Performance Load', 'Daily Fresh Deliveries', 'Microwaveable Tupperware'],
       color: 'emerald-500'
     }
