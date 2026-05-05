@@ -439,6 +439,13 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                               const o = (options[cat as keyof typeof options] as any[]).find(o => o.name === sel);
                               return o?.weightPerPc ? ` (${weights[cat][sel] * o.weightPerPc}G)` : '';
                             })()}
+                            {' | '}
+                            {(() => {
+                              const o = (options[cat as keyof typeof options] as any[]).find(o => o.name === sel);
+                              if (!o) return '0 KCAL';
+                              const c = Math.round(o.cal * (weights[cat][sel] / (o.unit === 'PC' ? 1 : 100)));
+                              return `${c} KCAL`;
+                            })()}
                           </span>
                         </div>
                         <div className="flex items-center gap-3">
