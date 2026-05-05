@@ -55,11 +55,22 @@ const MealCard = ({ meal, onClick }: { meal: Meal, onClick: () => void }) => (
   >
     <div className="relative h-1/2 overflow-hidden bg-gray-100 dark:bg-black">
       <div className="absolute inset-0 bg-gradient-to-t from-white/80 dark:from-card to-transparent z-10 opacity-60"></div>
-      <img
-        src={meal.img}
-        alt={meal.title}
-        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-      />
+      {meal.img ? (
+        <img
+          src={meal.img}
+          alt={meal.title}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+      ) : (
+        <div className="w-full h-full bg-gray-50 dark:bg-black/40 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-2 opacity-20">
+            <div className="w-12 h-12 rounded-full border border-black dark:border-white flex items-center justify-center">
+              <span className="text-[10px] font-mono font-bold tracking-tighter">B /</span>
+            </div>
+            <span className="text-[8px] font-mono tracking-widest uppercase">No Visual</span>
+          </div>
+        </div>
+      )}
       <div className="absolute top-4 left-4 z-20">
         <span className="text-[10px] font-mono tracking-widest text-black font-bold uppercase border border-black/10 px-4 py-1.5 rounded-full shadow-lg bg-white/95">
           {meal.label}
@@ -140,7 +151,18 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { me
         </button>
 
         <div className="w-full md:w-1/2 h-[300px] md:h-auto relative overflow-hidden bg-gray-100 dark:bg-black">
-          <img src={meal.img} alt={meal.title} className="w-full h-full object-cover" />
+          {meal.img ? (
+            <img src={meal.img} alt={meal.title} className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full bg-gray-50 dark:bg-black/40 flex items-center justify-center">
+              <div className="flex flex-col items-center gap-2 opacity-20">
+                <div className="w-16 h-16 rounded-full border border-black dark:border-white flex items-center justify-center">
+                  <span className="text-xl font-mono font-bold tracking-tighter">B /</span>
+                </div>
+                <span className="text-[10px] font-mono tracking-widest uppercase">Image Pending</span>
+              </div>
+            </div>
+          )}
           <div className="absolute top-8 left-8">
             <span className="text-xs font-mono tracking-[0.4em] text-black font-bold uppercase border border-black/10 px-6 py-2.5 rounded-full shadow-2xl bg-white/95">
               {meal.label}

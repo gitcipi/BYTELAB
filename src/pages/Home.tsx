@@ -4,6 +4,7 @@ import { ArrowRight, Leaf, Activity, Truck, Zap, CircleSlash, Timer, MapPin, Gau
 import { Link } from 'react-router-dom';
 import { ALL_MEALS } from '../data/meals';
 import { About } from '../components/About';
+import { LabPreview } from '../components/LabPreview';
 
 const fadeUpVariant = {
   hidden: { opacity: 0, y: 30 },
@@ -28,11 +29,22 @@ const MealCard = ({ label, title, subtitle, desc, macros, img }: any) => {
       className="rounded-[32px] overflow-hidden bg-white border border-black transition-all duration-500 group h-full flex flex-col"
     >
       <div className="relative h-[300px] overflow-hidden bg-gray-100">
-        <img 
-          src={img} 
-          alt={title} 
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
+        {img ? (
+          <img 
+            src={img} 
+            alt={title} 
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        ) : (
+          <div className="w-full h-full bg-gray-50 flex items-center justify-center">
+            <div className="flex flex-col items-center gap-2 opacity-20">
+              <div className="w-16 h-16 rounded-full border border-black flex items-center justify-center">
+                <span className="text-xl font-mono font-bold tracking-tighter">B /</span>
+              </div>
+              <span className="text-[10px] font-mono tracking-widest uppercase">No Visual</span>
+            </div>
+          </div>
+        )}
         <div className="absolute top-6 left-6 z-10">
           <span className="text-[10px] font-mono tracking-widest text-black font-bold uppercase border border-black/10 px-4 py-1.5 rounded-full shadow-lg bg-white/95">
             {label}
@@ -219,6 +231,8 @@ const Home = () => {
           </motion.div>
         </div>
       </section>
+
+      <LabPreview />
 
       <section className="h-24 md:h-32 bg-white border-y border-black/5 relative overflow-hidden flex items-center">
         <div className="absolute inset-0 marquee-mask-white z-10 pointer-events-none"></div>
