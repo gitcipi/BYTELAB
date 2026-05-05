@@ -4,11 +4,11 @@ import { Zap, Calculator, RotateCcw, ShoppingCart, Wand2, Beef, Wheat, Droplets,
 import { useCart } from '../context/CartContext';
 import { INGREDIENTS } from '../data/ingredients';
 
-const RangeSlider = ({ label, value, max, onChange, unit = '' }: { label: string, value: number, max: number, onChange: (v: number) => void, unit?: string }) => (
+const RangeSlider = ({ label, value, max, onChange, unit = '', color = '#00aff0' }: { label: string, value: number, max: number, onChange: (v: number) => void, unit?: string, color?: string }) => (
   <div className="space-y-6">
     <div className="flex justify-between items-end">
       <span className="text-[10px] font-mono tracking-[0.4em] text-black/40 font-black uppercase leading-none">{label}</span>
-      <span className="text-2xl font-mono text-black leading-none font-black">{value}<span className="text-[10px] text-[#00aff0] ml-1">{unit}</span></span>
+      <span className="text-2xl font-mono text-black leading-none font-black">{value}<span className="text-[10px] ml-1" style={{ color }}>{unit}</span></span>
     </div>
     <input
       type="range"
@@ -16,7 +16,8 @@ const RangeSlider = ({ label, value, max, onChange, unit = '' }: { label: string
       max={max}
       value={value}
       onChange={(e) => onChange(parseInt(e.target.value))}
-      className="w-full h-1 bg-black/5 rounded-lg appearance-none cursor-pointer accent-[#00aff0]"
+      className="w-full h-1 bg-black/5 rounded-lg appearance-none cursor-pointer"
+      style={{ accentColor: color }}
     />
   </div>
 );
@@ -166,9 +167,9 @@ const MacroGenerator = () => {
                 </div>
                 
                 <div className="space-y-12">
-                  <RangeSlider label="Protein" value={targets.p} max={200} onChange={v => setTargets({...targets, p: v})} unit="g" />
-                  <RangeSlider label="Carbohydrates" value={targets.c} max={300} onChange={v => setTargets({...targets, c: v})} unit="g" />
-                  <RangeSlider label="Lipids / Fats" value={targets.f} max={100} onChange={v => setTargets({...targets, f: v})} unit="g" />
+                  <RangeSlider label="Protein" value={targets.p} max={200} onChange={v => setTargets({...targets, p: v})} unit="g" color="#00aff0" />
+                  <RangeSlider label="Carbohydrates" value={targets.c} max={300} onChange={v => setTargets({...targets, c: v})} unit="g" color="#f97316" />
+                  <RangeSlider label="Lipids / Fats" value={targets.f} max={100} onChange={v => setTargets({...targets, f: v})} unit="g" color="#10b981" />
                 </div>
               </div>
 
@@ -222,8 +223,8 @@ const MacroGenerator = () => {
                       {[
                         { label: 'Energy', val: Math.round(generatedMeal.macros.cal), unit: 'kcal', color: 'text-black' },
                         { label: 'Protein', val: Math.round(generatedMeal.macros.p), unit: 'g', color: 'text-[#00aff0]' },
-                        { label: 'Carbs', val: Math.round(generatedMeal.macros.c), unit: 'g', color: 'text-black/60' },
-                        { label: 'Fats', val: Math.round(generatedMeal.macros.f), unit: 'g', color: 'text-black/40' },
+                        { label: 'Carbs', val: Math.round(generatedMeal.macros.c), unit: 'g', color: 'text-orange-500' },
+                        { label: 'Fats', val: Math.round(generatedMeal.macros.f), unit: 'g', color: 'text-emerald-500' },
                       ].map(stat => (
                         <div key={stat.label} className="p-6 bg-white rounded-[24px] border border-black/5 shadow-sm">
                           <span className="block text-[8px] font-mono tracking-widest text-black/20 uppercase font-bold mb-2">{stat.label}</span>
