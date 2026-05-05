@@ -363,7 +363,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                   <span className="text-xs font-mono tracking-[0.3em] text-black font-bold uppercase">{cat} Engineering</span>
                 </div>
                 <div className={`transition-transform duration-300 ${collapsedCats[cat] ? '' : 'rotate-180'}`}>
-                  <ChevronDown size={18} className="text-black/20 group-hover:text-black" />
+                  <ChevronDown size={18} className="text-black" />
                 </div>
               </div>
               
