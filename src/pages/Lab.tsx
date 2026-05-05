@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
-import { X, Beef, Wheat, Leaf, Droplets, ChevronDown, Plus, Minus } from 'lucide-react';
+import { X, Beef, Wheat, Leaf, Droplets, ChevronDown, Plus, Minus, Gauge } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { Toast } from '../components/Toast';
 import { INGREDIENTS } from '../data/ingredients';

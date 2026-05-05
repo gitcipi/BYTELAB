@@ -8,6 +8,8 @@ export interface Ingredient {
   unit?: 'G' | 'PC';
   tier?: string;
   subCategory?: string;
+  max?: number;
+  weightPerPc?: number;
 }
 
 export const INGREDIENTS: Record<string, Ingredient[]> = {
