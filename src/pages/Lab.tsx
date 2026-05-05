@@ -250,7 +250,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
 
             {['protein', 'carb', 'veggies', 'sauce'].map((cat) => {
               const catOptions = options[cat as keyof typeof options] as any[];
-              const groupedOptions = cat === 'protein' 
+              const groupedOptions = (cat === 'protein' || cat === 'carb') 
                 ? catOptions.reduce((acc: any, opt: any) => {
                     const sub = opt.subCategory || 'OTHER';
                     if (!acc[sub]) acc[sub] = [];
@@ -273,7 +273,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                     <div className="space-y-10">
                       {Object.entries(groupedOptions).map(([subCat, subOptions]: [string, any]) => (
                         <div key={subCat} className="space-y-4">
-                          {cat === 'protein' && subCat !== 'NONE' && subCat !== 'OTHER' && (
+                          {(cat === 'protein' || cat === 'carb') && subCat !== 'NONE' && subCat !== 'OTHER' && (
                             <h3 className="text-[10px] font-mono font-bold tracking-[0.3em] text-black uppercase pl-1">{subCat}</h3>
                           )}
                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-start">
