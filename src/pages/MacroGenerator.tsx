@@ -252,7 +252,6 @@ const MacroGenerator = () => {
                         ))}
                       </div>
                     </div>
->
 
                     <div className="flex gap-4">
                       <button 
