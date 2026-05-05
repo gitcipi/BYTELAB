@@ -188,7 +188,13 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
   const confirmItem = (cat: string, name: string) => updateSlot({ confirmedItems: { ...confirmedItems, [cat]: [...confirmedItems[cat], name] }, activeEditingItem: null });
   const removeSelection = (cat: string, name: string) => {
     const ns = selections[cat].filter(n => n !== name);
-    updateSlot({ selections: { ...selections, [cat]: ns.length === 0 ? (cat === 'sauce' ? ['No Sauce'] : ['Skip']) : ns }, confirmedItems: { ...confirmedItems, [cat]: confirmedItems[cat].filter(n => n !== name) }, activeEditingItem: null });
+    const updates: any = {
+      selections: { ...selections, [cat]: ns.length === 0 ? (cat === 'sauce' ? ['No Sauce'] : ['Skip']) : ns },
+      confirmedItems: { ...confirmedItems, [cat]: confirmedItems[cat].filter(n => n !== name) },
+    };
+    // Only close the editing panel if the removed item was the one being edited
+    if (activeEditingItem === name) updates.activeEditingItem = null;
+    updateSlot(updates);
   };
 
   const totals = useMemo(() => {
