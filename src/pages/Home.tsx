@@ -249,7 +249,7 @@ const Home = () => {
                 variants={fadeUpVariant}
                 className="mt-8 text-[9px] font-mono text-black/30 uppercase tracking-[0.2em]"
               >
-                Delivery available via Grab, Gojek or pickup.
+                Delivery available via <span className="text-[#00B14F] font-bold">Grab</span> or <span className="text-[#00B14F] font-bold">Gojek</span>.
               </motion.p>
             </motion.div>
 
