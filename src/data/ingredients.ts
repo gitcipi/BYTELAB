@@ -56,6 +56,7 @@ export const INGREDIENTS: Record<string, Ingredient[]> = {
     { name: 'Pasta', p: 6, f: 1, c: 25, cal: 140, pricing: { 50: 0.22, 75: 0.33, 100: 0.43, 125: 0.54 }, min: 50, max: 125, step: 25 },
     { name: 'Ciabatta', p: 9, f: 1.5, c: 55, cal: 270, pricing: { 0.5: 0.45, 1: 0.90, 1.5: 1.35, 2: 1.80 }, unit: 'PC', weightPerPc: 140, step: 0.5, max: 2 },
     { name: 'Sourdough Bread', p: 8, f: 1, c: 50, cal: 245, pricing: { 50: 0.35, 100: 0.70, 150: 1.05, 200: 1.40 }, min: 50, max: 200, step: 50 },
+    { name: 'Sourdough Croutons', p: 8, f: 12, c: 50, cal: 340, pricing: { 20: 0.50, 40: 1.00 }, min: 20, max: 40, step: 20 },
     { name: 'Skip', p: 0, f: 0, c: 0, cal: 0, pricing: {} },
   ],
   veggies: [
@@ -64,6 +65,9 @@ export const INGREDIENTS: Record<string, Ingredient[]> = {
     { name: 'Asparagus', p: 2, f: 0, c: 4, cal: 20, tier: 'premium' },
     { name: 'Mushrooms', p: 3, f: 0, c: 3, cal: 22, tier: 'standard' },
     { name: 'Zucchini', p: 1, f: 0, c: 3, cal: 17, tier: 'standard' },
+    { name: 'Mixed Greens Salad', p: 2, f: 0, c: 3, cal: 15, tier: 'standard' },
+    { name: 'Cherry Tomatoes', p: 1, f: 0, c: 4, cal: 18, tier: 'standard' },
+    { name: 'Cucumber Ribbons', p: 0.6, f: 0, c: 2, cal: 12, tier: 'standard' },
     { name: 'Skip', p: 0, f: 0, c: 0, cal: 0, tier: 'none' },
   ],
   sauce: [
@@ -75,6 +79,8 @@ export const INGREDIENTS: Record<string, Ingredient[]> = {
     { name: 'Tomato Sauce', p: 1, f: 0, c: 5, cal: 25, tier: 'tomato' },
     { name: 'Olive Oil + Herbs', p: 0, f: 14, c: 0, cal: 120, tier: 'flat' },
     { name: 'Nasi Goreng Spice', p: 1, f: 2, c: 8, cal: 55, tier: 'flat' },
+    { name: 'Balsamic Vinaigrette', p: 0, f: 8, c: 5, cal: 90, tier: 'premium' },
+    { name: 'Caesar Dressing', p: 1, f: 12, c: 2, cal: 120, tier: 'premium' },
     { name: 'No Sauce', p: 0, f: 0, c: 0, cal: 0, tier: 'none' },
   ]
 };

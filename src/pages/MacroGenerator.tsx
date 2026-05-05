@@ -234,17 +234,19 @@ const MacroGenerator = () => {
                     </div>
 
                     <div className="space-y-6 mb-16 flex-grow">
-                      <span className="text-[10px] font-mono tracking-[0.5em] uppercase text-black/20 font-black block mb-6">Component Selection</span>
+                      <span className="text-[10px] font-mono tracking-[0.5em] uppercase text-black/20 font-black block mb-6">Synthesis Profile</span>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {[
                           { icon: <Beef size={16}/>, label: 'Protein Source', name: generatedMeal.details.protein[0].name, weight: generatedMeal.details.protein[0].weight },
                           { icon: <Wheat size={16}/>, label: 'Carb Payload', name: generatedMeal.details.carb[0].name, weight: generatedMeal.details.carb[0].weight },
+                          { icon: <Droplets size={16}/>, label: 'Enzyme / Sauce', name: generatedMeal.details.sauce[0].name, weight: generatedMeal.details.sauce[0].weight },
+                          { icon: <Zap size={16}/>, label: 'Micros / Veg', name: generatedMeal.details.veggies[0].name, weight: generatedMeal.details.veggies[0].weight },
                         ].map((item, i) => (
                           <div key={i} className="flex items-center gap-4 p-5 bg-white rounded-[24px] border border-black/5 shadow-sm">
                             <div className="p-3 bg-black text-white rounded-2xl">{item.icon}</div>
                             <div>
                               <span className="block text-[8px] font-mono text-black/20 uppercase tracking-widest leading-none mb-2">{item.label}</span>
-                              <p className="text-[12px] font-mono font-black text-black uppercase">{item.name} <span className="text-[#00aff0] ml-2">{item.weight}G</span></p>
+                              <p className="text-[12px] font-mono font-black text-black uppercase line-clamp-1">{item.name} <span className="text-[#00aff0] ml-2">{item.weight}{typeof item.weight === 'number' ? 'G' : ''}</span></p>
                             </div>
                           </div>
                         ))}
