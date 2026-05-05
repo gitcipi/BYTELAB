@@ -123,33 +123,25 @@ const MacroGenerator = () => {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-16 bg-white relative overflow-hidden text-black font-sans">
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00aff0]/5 rounded-full blur-[150px] -z-10 pointer-events-none opacity-50" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#00aff0]/3 rounded-full blur-[120px] -z-10 pointer-events-none opacity-30" />
-
-      <div className="max-w-5xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col items-center gap-4"
-          >
-            <h1 className="text-5xl md:text-7xl font-heading font-black tracking-tighter text-black leading-none">
-              GENERATE<span className="text-[#00aff0]">MEAL.</span>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero */}
+      <section className="relative pt-40 pb-20 overflow-hidden bg-gray-50 border-b border-black/5">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }} className="max-w-3xl">
+            <span className="text-[10px] font-mono tracking-[0.4em] text-accent-light uppercase mb-4 block">BYTE / GENERATE</span>
+            <h1 className="text-6xl md:text-8xl font-heading font-light tracking-tight mb-8 text-black">
+              Generate <span className="text-accent-light italic font-medium">Meal.</span>
             </h1>
-            <p className="text-gray-500 max-w-lg mx-auto text-base font-light leading-relaxed mt-2">
-              AI-driven synthesis of high-performance meal protocols. <br />
-              <span className="text-[#00aff0]/60 font-mono text-xs tracking-widest uppercase text-center">Define targets. Engineering takes over.</span>
+            <p className="text-xl text-gray-600 font-light leading-relaxed">
+              Set your macro targets. Get a precise meal engineered for you. <br />
+              Define targets. Engineering takes over.
             </p>
           </motion.div>
         </div>
+      </section>
 
-        <div className="bg-white p-8 md:p-12 rounded-[40px] border border-black/5 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden group">
-          {/* Internal Glow */}
-          <div className="absolute -top-16 -right-16 w-64 h-64 bg-[#00aff0]/5 rounded-full blur-[80px] group-hover:bg-[#00aff0]/10 transition-all duration-700" />
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start relative z-10">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             <div className="lg:col-span-5 space-y-12">
               <div className="space-y-10">
                 <div className="p-8 bg-gray-50 rounded-[32px] border border-black/5 flex justify-between items-center relative overflow-hidden">

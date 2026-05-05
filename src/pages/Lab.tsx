@@ -239,15 +239,25 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
   }, [selections.protein, currentSlot.name]);
 
   return (
-    <div className="section-padding pt-24">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero */}
+      <section className="relative pt-40 pb-20 overflow-hidden bg-gray-50 border-b border-black/5">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <motion.div initial="hidden" animate="visible" variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } } }} className="max-w-3xl">
+            <span className="text-[10px] font-mono tracking-[0.4em] text-accent-light uppercase mb-4 block">BYTE / LAB</span>
+            <h1 className="text-6xl md:text-8xl font-heading font-light tracking-tight mb-8 text-black">
+              The <span className="text-accent-light italic font-medium">Lab.</span>
+            </h1>
+            <p className="text-xl text-gray-600 font-light leading-relaxed">
+              Build your exact meal, gram by gram. <br />
+              Your ingredients. Your macros. Your protocol.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-6 md:px-12 py-16">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-3">
-              <span className="text-[9px] font-mono tracking-[0.4em] text-accent uppercase font-bold">Byte / Lab</span>
-            </div>
-            <h1 className="text-3xl md:text-4xl font-heading font-medium tracking-tight text-black">{dynamicMealName}</h1>
-          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -531,8 +541,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                 >
                   Reset Meal
                 </button>
-              </div>
-            </div>
+          </div>
           </div>
         </div>
       </div>
