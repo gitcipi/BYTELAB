@@ -338,33 +338,44 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                             {isEditing && isSelected && opt.name !== 'Skip' && opt.name !== 'No Sauce' && (
                               <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="border-t border-black/5 overflow-hidden">
                                 <div className="p-5 space-y-5">
-                                  <div className="flex justify-between items-center">
-                                    <span className="text-[9px] font-mono font-bold uppercase tracking-widest opacity-40">Weight</span>
-                                    <div className="flex items-center gap-3">
-                                      <button onClick={() => {
-                                        const minVal = opt.unit === 'PC' ? 1 : (cat === 'protein' || cat === 'carb' ? 100 : 50);
-                                        updateWeight(cat, opt.name, Math.max(minVal, (weights[cat][opt.name] || 0) - (opt.unit === 'PC' ? 1 : 50)));
-                                      }}><Minus size={14} /></button>
-                                      <span className="text-base font-mono font-bold">
-                                        {weights[cat][opt.name] || 0}
-                                        <span className="text-[10px] ml-0.5 opacity-40">{opt.unit || 'G'}</span>
-                                        {opt.weightPerPc && (
-                                          <span className="text-[9px] ml-1.5 opacity-30">({(weights[cat][opt.name] || 0) * opt.weightPerPc}G)</span>
-                                        )}
-                                      </span>
-                                      <button onClick={() => {
-                                        const maxVal = opt.max || (opt.unit === 'PC' ? 5 : 400);
-                                        updateWeight(cat, opt.name, Math.min(maxVal, (weights[cat][opt.name] || 0) + (opt.unit === 'PC' ? 1 : 50)));
-                                      }}><Plus size={14} /></button>
+                                  {opt.max !== 1 && (
+                                    <>
+                                      <div className="flex justify-between items-center">
+                                        <span className="text-[9px] font-mono font-bold uppercase tracking-widest opacity-40">Quantity</span>
+                                        <div className="flex items-center gap-3">
+                                          <button onClick={() => {
+                                            const minVal = opt.unit === 'PC' ? 1 : (cat === 'protein' || cat === 'carb' ? 100 : 50);
+                                            updateWeight(cat, opt.name, Math.max(minVal, (weights[cat][opt.name] || 0) - (opt.unit === 'PC' ? 1 : 50)));
+                                          }}><Minus size={14} /></button>
+                                          <span className="text-base font-mono font-bold">
+                                            {weights[cat][opt.name] || 0}
+                                            <span className="text-[10px] ml-0.5 opacity-40">{opt.unit || 'G'}</span>
+                                            {opt.weightPerPc && (
+                                              <span className="text-[9px] ml-1.5 opacity-30">({(weights[cat][opt.name] || 0) * opt.weightPerPc}G)</span>
+                                            )}
+                                          </span>
+                                          <button onClick={() => {
+                                            const maxVal = opt.max || (opt.unit === 'PC' ? 5 : 400);
+                                            updateWeight(cat, opt.name, Math.min(maxVal, (weights[cat][opt.name] || 0) + (opt.unit === 'PC' ? 1 : 50)));
+                                          }}><Plus size={14} /></button>
+                                        </div>
+                                      </div>
+                                      <RangeSlider 
+                                        value={weights[cat][opt.name] || 0} 
+                                        min={opt.unit === 'PC' ? 1 : (cat === 'protein' || cat === 'carb' ? 100 : 50)} 
+                                        max={opt.max || (opt.unit === 'PC' ? 5 : 400)} 
+                                        step={opt.unit === 'PC' ? 1 : 50} 
+                                        unit={opt.unit || 'G'}
+                                        onChange={(v: number) => updateWeight(cat, opt.name, v)} 
+                                      />
+                                    </>
+                                  )}
+                                  {opt.max === 1 && opt.weightPerPc && (
+                                    <div className="flex justify-between items-center">
+                                      <span className="text-[9px] font-mono font-bold uppercase tracking-widest opacity-40">Portion</span>
+                                      <span className="text-[10px] font-mono font-bold">{opt.weightPerPc}G Serving</span>
                                     </div>
-                                  </div>
-                                  <RangeSlider 
-                                    value={weights[cat][opt.name] || 0} 
-                                    min={opt.unit === 'PC' ? 1 : (cat === 'protein' || cat === 'carb' ? 100 : 50)} 
-                                    max={opt.max || (opt.unit === 'PC' ? 5 : 400)} 
-                                    step={opt.unit === 'PC' ? 1 : 50} 
-                                    onChange={(v: number) => updateWeight(cat, opt.name, v)} 
-                                  />
+                                  )}
                                   <div className="flex justify-between items-center pt-3 border-t border-black/5">
                                     <span className="text-base font-mono font-bold">{formatCurrency(calculateItemPrice(cat, opt.name, weights[cat][opt.name]))}</span>
                                     <div className="flex gap-2">
