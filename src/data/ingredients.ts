@@ -32,6 +32,7 @@ export const INGREDIENTS: Record<string, Ingredient[]> = {
     { name: 'Canned Tuna', p: 24, f: 1, c: 0, cal: 110, subCategory: 'FISH', pricing: { 100: 2.69, 150: 4.04, 200: 5.38 } },
     { name: 'Smoked Salmon', p: 20, f: 13, c: 0, cal: 200, subCategory: 'FISH', pricing: { 100: 3.50, 150: 5.25, 200: 7.00 } },
     { name: 'White Fish', p: 18, f: 2, c: 0, cal: 95, subCategory: 'FISH', pricing: { 100: 1.50, 150: 2.25, 200: 3.00, 250: 3.75, 300: 4.50 } },
+    { name: 'Shrimp (Peeled)', p: 24, f: 0.3, c: 0, cal: 99, subCategory: 'FISH', pricing: { 100: 1.85, 150: 2.78, 200: 3.70, 250: 4.63, 300: 5.55 } },
     
     // VEGETARIAN
     { name: 'Fried Tofu', p: 15, f: 8, c: 10, cal: 180, subCategory: 'VEGETARIAN', pricing: { 100: 1.00, 150: 1.50, 200: 2.00, 250: 2.50, 300: 3.00 } },
