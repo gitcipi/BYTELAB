@@ -110,8 +110,60 @@ const MealCard = ({ meal, onClick }: { meal: Meal, onClick: () => void }) => (
 
 const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { meals: Meal[], currentIndex: number, onClose: () => void, onNavigate: (index: number) => void, addToCart: (item: any) => void }) => {
   const meal = meals[currentIndex];
-  
+
+  const calculateMealPrice = (details?: any) => {
+    if (!details) return 6.50; // Dynamic fallback
+    
+    let subtotal = 0;
+    const categories = ['protein', 'carb', 'veggies', 'sauce'];
+    
+    categories.forEach(cat => {
+      const items = details[cat] || [];
+      items.forEach((item: any) => {
+        const opt = INGREDIENTS[cat as keyof typeof INGREDIENTS].find(i => i.name === item.name);
+        if (!opt || item.name === 'Skip' || item.name === 'No Sauce') return;
+        
+        let price = 0;
+        if (opt.pricing) {
+          const weights = Object.keys(opt.pricing).map(Number).sort((a, b) => a - b);
+          price = opt.pricing[item.weight] || 0;
+          if (!price) {
+            if (item.weight <= weights[0]) price = opt.pricing[weights[0]];
+            else if (item.weight >= weights[weights.length - 1]) price = opt.pricing[weights[weights.length - 1]];
+            else {
+              const lower = [...weights].reverse().find(t => t < item.weight) || weights[0];
+              const upper = weights.find(t => t > item.weight) || weights[weights.length - 1];
+              const lp = opt.pricing[lower];
+              const up = opt.pricing[upper];
+              price = lp + (up - lp) * ((item.weight - lower) / (upper - lower));
+            }
+          }
+        } else if (cat === 'veggies') {
+          price = item.weight * (opt.tier === 'premium' ? 0.90 / 100 : 0.60 / 100);
+        } else if (cat === 'sauce') {
+          if (opt.tier === 'flat') price = 0.55;
+          else {
+            const bp = opt.tier === 'tomato' ? { 25: 0.45, 50: 0.75, 75: 1.05, 100: 1.35 } : { 25: 0.55, 50: 0.95, 75: 1.35, 100: 1.70 };
+            const tiers = Object.keys(bp).map(Number).sort((a, b) => a - b);
+            price = (bp as any)[item.weight] || 0;
+            if (!price) {
+              const lower = [...tiers].reverse().find(t => t < item.weight) || tiers[0];
+              const upper = tiers.find(t => t > item.weight) || tiers[tiers.length - 1];
+              const lp = (bp as any)[lower];
+              const up = (bp as any)[upper];
+              price = lp + (up - lp) * ((item.weight - lower) / (upper - lower));
+            }
+          }
+        }
+        subtotal += price;
+      });
+    });
+    
+    return subtotal > 0 ? subtotal + 0.90 : 6.50;
+  };
+
   if (!meal) return null;
+  const mealPrice = calculateMealPrice(meal.labDetails);
 
   return (
     <motion.div 
@@ -173,9 +225,15 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { me
         </div>
 
         <div className="w-full md:w-1/2 p-10 md:p-16 flex flex-col justify-center">
-          <div className="mb-10">
-            <h2 className="text-4xl md:text-5xl font-heading font-medium tracking-tight text-black dark:text-white mb-2">{meal.title}</h2>
-            <p className="text-xl text-accent-light dark:text-accent font-mono tracking-widest uppercase">{meal.subtitle}</p>
+          <div className="mb-10 flex justify-between items-start">
+            <div>
+              <h2 className="text-4xl md:text-5xl font-heading font-medium tracking-tight text-black dark:text-white mb-2">{meal.title}</h2>
+              <p className="text-xl text-accent-light dark:text-accent font-mono tracking-widest uppercase">{meal.subtitle}</p>
+            </div>
+            <div className="text-right">
+              <span className="text-[10px] font-mono tracking-widest text-gray-400 uppercase block mb-1">Price</span>
+              <span className="text-3xl font-mono font-bold text-black dark:text-white">€{mealPrice.toFixed(2)}</span>
+            </div>
           </div>
 
           <div className="space-y-6 mb-12">
@@ -215,7 +273,7 @@ const MealModal = ({ meals, currentIndex, onClose, onNavigate, addToCart }: { me
               addToCart({
                 id: meal.id,
                 name: meal.title,
-                price: 9.00,
+                price: mealPrice,
                 quantity: 1,
                 type: 'standard',
                 details: meal.labDetails
@@ -307,6 +365,11 @@ const MacroGenerator = () => {
         cal: (pOpt.cal * finalWp / 100) + (cOpt.cal * finalWc / 100) + fixedCal,
       };
 
+      const finalMealPrice = (pOpt.pricing ? (pOpt.pricing[finalWp] || 0) : 0) + 
+                            (cOpt.pricing ? (cOpt.pricing[finalWc] || 0) : 0) + 
+                            (vOpt.tier === 'premium' ? 0.90 : 0.60) + 
+                            (sOpt.tier === 'premium' ? 1.10 : 0.65) + 0.90;
+
       setGeneratedMeal({
         name: `AI Protocol: ${pOpt.name === 'Skip' ? 'Lean' : pOpt.name.split(' ')[0]} ${cOpt.name === 'Skip' ? 'Zero' : cOpt.name.split(' ')[0]}`,
         details: {
@@ -316,7 +379,7 @@ const MacroGenerator = () => {
           sauce: [{ name: sOpt.name, weight: 25 }],
         },
         macros,
-        price: 9.00
+        price: finalMealPrice
       });
       setIsGenerating(false);
     }, 800);
