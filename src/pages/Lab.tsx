@@ -224,17 +224,6 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
           <div className="space-y-1.5">
             <div className="flex items-center gap-3">
               <span className="text-[9px] font-mono tracking-[0.4em] text-accent uppercase font-bold">Byte / Lab</span>
-              <div className="flex bg-gray-100 rounded-full p-0.5 border border-black/5">
-                {[0, 1, 2].map(i => (
-                  <button
-                    key={i}
-                    onClick={() => setActiveSlot(i)}
-                    className={`w-6 h-6 rounded-full text-[9px] font-mono font-bold transition-all ${activeSlot === i ? 'bg-black text-white' : 'text-black/40 hover:text-black'}`}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
-              </div>
             </div>
             <h1 className="text-3xl md:text-4xl font-heading font-medium tracking-tight text-black">{dynamicMealName}</h1>
           </div>
@@ -405,11 +394,22 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
           </div>
 
           <div className="lg:col-span-4 relative">
+            <div className="flex bg-gray-100/50 rounded-full p-1 border border-black/5 mb-4 w-fit ml-auto">
+              {[0, 1, 2].map(i => (
+                <button
+                  key={i}
+                  onClick={() => setActiveSlot(i)}
+                  className={`px-4 py-1.5 rounded-full text-[10px] font-mono font-bold transition-all ${activeSlot === i ? 'bg-black text-white shadow-md' : 'text-black/40 hover:text-black'}`}
+                >
+                  SLOT {i + 1}
+                </button>
+              ))}
+            </div>
             <div className="lg:sticky lg:top-24 bg-white rounded-[32px] border border-black/10 p-8 shadow-lg flex flex-col max-h-[80vh]">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-2">
                   <div className="p-1.5 bg-black rounded-lg text-white"><Gauge size={16} /></div>
-                  <h3 className="text-lg font-heading font-medium text-black">BYTE BILL</h3>
+                  <h3 className="text-lg font-heading font-medium text-black">Custom BYTE Meal #{activeSlot + 1}</h3>
                 </div>
                 <div className="flex gap-3 text-[9px] font-mono font-bold">
                   {['EUR', 'USD', 'IDR'].map(curr => (
