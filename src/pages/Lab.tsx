@@ -9,7 +9,7 @@ const fadeUpVariant = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } }
 };
 
-const RangeSlider = ({ label, value, min, max, onChange, unit = 'G', isDark = false }: any) => {
+const RangeSlider = ({ value, min, max, onChange, unit = 'G', isDark = false }: any) => {
   const percentage = ((value - min) / (max - min)) * 100;
 
   return (
@@ -424,7 +424,6 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                             className="px-8 pb-6 space-y-4 border-t border-black/5 pt-4"
                           >
                             <RangeSlider 
-                              label={item.name} 
                               value={weights[cat]?.[item.name] || 0} 
                               min={cat === 'protein' ? 100 : 1} 
                               max={cat === 'protein' ? 400 : cat === 'carb' && item.name === 'English Muffin' ? 2 : 500} 
