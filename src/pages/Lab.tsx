@@ -394,12 +394,12 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
           </div>
 
           <div className="lg:col-span-4 relative">
-            <div className="flex bg-gray-100/50 rounded-full p-1 border border-black/5 mb-4 w-full justify-center">
+            <div className="flex bg-gray-100/50 rounded-full p-1 border border-black/5 mb-4 w-full">
               {[0, 1, 2].map(i => (
                 <button
                   key={i}
                   onClick={() => setActiveSlot(i)}
-                  className={`px-4 py-1.5 rounded-full text-[10px] font-mono font-bold transition-all ${activeSlot === i ? 'bg-black text-white shadow-md' : 'text-black/40 hover:text-black'}`}
+                  className={`flex-1 py-2 rounded-full text-[10px] font-mono font-bold transition-all ${activeSlot === i ? 'bg-black text-white shadow-md' : 'text-black/40 hover:text-black'}`}
                 >
                   MEAL {i + 1}
                 </button>
