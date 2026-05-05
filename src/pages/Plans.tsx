@@ -61,13 +61,22 @@ const Plans = () => {
       name: 'Pro Pack',
       meals: 20,
       discount: 25,
-      basePrice: 217.3333333, // Results in approx 163.00 after 25% discount
+      basePrice: 217.3333333,
       tag: 'ULTIMATE STACK',
       stats: '3 Meals / Day: ~1,950 Kcal / 160g P',
       features: ['20 Precision Engineered Meals', 'Elite Performance Load', 'Daily Fresh Deliveries', 'Microwaveable Tupperware'],
       color: 'emerald-500'
     }
   ];
+
+  const handleSubscribe = (pkg: any) => {
+    const discountedPrice = pkg.basePrice * (1 - pkg.discount / 100);
+    const formatPrice = (val: number) => `€${val.toFixed(2)}`;
+    
+    const message = `Hello BYTE,%0A%0AI would like to subscribe to the *OnlyPlans ${pkg.name}*.%0A%0A*Package Details:*%0A- Meals: ${pkg.meals} per week%0A- Protocol: ${pkg.stats}%0A- Frequency: ${pkg.features[2]}%0A%0A*Price:* ${formatPrice(discountedPrice)} / week%0A%0APlease let me know the next steps for my onboarding.`;
+    
+    window.open(`https://wa.me/4917684262753?text=${message}`, '_blank');
+  };
 
   return (
     <div className="min-h-screen pt-32 pb-24 bg-white relative overflow-hidden">
@@ -153,8 +162,11 @@ const Plans = () => {
                     ))}
                   </div>
 
-                  <button className="w-full py-4 bg-black text-white rounded-2xl text-[10px] font-mono font-bold tracking-[0.2em] uppercase transition-all hover:bg-[#00aff0] active:scale-95 group-hover:shadow-lg group-hover:shadow-[#00aff0]/10">
-                    Subscribe
+                  <button 
+                    onClick={() => handleSubscribe(pkg)}
+                    className="w-full py-4 bg-black text-white rounded-2xl text-[10px] font-mono font-bold tracking-[0.2em] uppercase transition-all hover:bg-[#00aff0] active:scale-95 group-hover:shadow-lg group-hover:shadow-[#00aff0]/10"
+                  >
+                    Subscribe Now
                   </button>
                 </div>
               </motion.div>
