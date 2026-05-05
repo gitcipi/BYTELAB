@@ -39,7 +39,7 @@ const Plans = () => {
       name: 'Trial Pack',
       meals: 5,
       discount: 10,
-      basePrice: 60,
+      basePrice: 42.50,
       tag: 'Newcomers',
       features: ['5 Macro-Tracked Meals', 'Flexible Delivery', 'Basic Support', 'Daily Prep'],
       color: 'accent'
@@ -49,7 +49,7 @@ const Plans = () => {
       name: 'Growth Pack',
       meals: 10,
       discount: 15,
-      basePrice: 120,
+      basePrice: 85,
       tag: 'Most Popular',
       features: ['10 Macro-Tracked Meals', 'Priority Delivery', 'Standard Support', 'Nutrition Consult'],
       color: 'blue-500'
@@ -59,7 +59,7 @@ const Plans = () => {
       name: 'Pro Pack',
       meals: 20,
       discount: 25,
-      basePrice: 240,
+      basePrice: 170,
       tag: 'Best Value',
       features: ['20 Macro-Tracked Meals', 'Express Delivery', '24/7 Priority Support', 'Free Lab Customization'],
       color: 'emerald-500'
