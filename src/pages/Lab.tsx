@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useCart } from '../context/CartContext';
-import { X, Beef, Wheat, Leaf, Droplets } from 'lucide-react';
+import { X, Beef, Wheat, Leaf, Droplets, ChevronDown } from 'lucide-react';
 
 
 const fadeUpVariant = {
@@ -80,9 +80,20 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
     sauce: []
   });
 
+  const [collapsedCats, setCollapsedCats] = useState<Record<string, boolean>>({
+    protein: false,
+    carb: false,
+    veggies: false,
+    sauce: false
+  });
+
   useEffect(() => {
     setCurrency(initialCurrency);
   }, [initialCurrency]);
+
+  const toggleCollapse = (cat: string) => {
+    setCollapsedCats(prev => ({ ...prev, [cat]: !prev[cat] }));
+  };
 
   const toggleSelection = (cat: string, name: string) => {
     const isSkip = name === 'Skip' || name === 'No Sauce';
@@ -335,122 +346,139 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
 
           return (
             <div key={cat} id={`cat-${cat}`} className="space-y-8 mb-16 scroll-mt-40">
-              <div className="flex items-center gap-4 border-b border-black/5 pb-4">
-                <div className="p-2 rounded-lg bg-black text-white">
-                  {cat === 'protein' ? <Beef size={16} /> : cat === 'carb' ? <Wheat size={16} /> : cat === 'veggies' ? <Leaf size={16} /> : <Droplets size={16} />}
+              <div 
+                className="flex items-center justify-between border-b border-black/5 pb-4 cursor-pointer group"
+                onClick={() => toggleCollapse(cat)}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="p-2 rounded-lg bg-black text-white">
+                    {cat === 'protein' ? <Beef size={16} /> : cat === 'carb' ? <Wheat size={16} /> : cat === 'veggies' ? <Leaf size={16} /> : <Droplets size={16} />}
+                  </div>
+                  <span className="text-xs font-mono tracking-[0.3em] text-black font-bold uppercase">{cat} Engineering</span>
                 </div>
-                <span className="text-xs font-mono tracking-[0.3em] text-black font-bold uppercase">{cat} Engineering</span>
+                <div className={`transition-transform duration-300 ${collapsedCats[cat] ? '' : 'rotate-180'}`}>
+                  <ChevronDown size={18} className="text-black/20 group-hover:text-black" />
+                </div>
               </div>
               
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                {categoryOptions.map(item => {
-                  const isSelected = selectedItems.includes(item.name);
-                  const isGhost = item.name === 'Skip' || item.name === 'No Sauce';
-                  
-                  return (
-                    <button
-                      key={item.name}
-                      onClick={() => toggleSelection(cat, item.name)}
-                      className={`relative px-4 py-5 rounded-2xl border text-[10px] font-mono tracking-widest transition-all duration-300 flex flex-col items-center gap-2 group ${
-                        isSelected 
-                          ? 'bg-black border-black text-white shadow-xl scale-[1.02]' 
-                          : isGhost 
-                            ? 'bg-transparent border-black/10 text-gray-400 hover:border-black/20'
-                            : 'bg-white border-black/10 text-black font-bold hover:border-black/30'
-                      }`}
-                    >
-                      {isSelected && (
-                        <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-accent" />
-                      )}
-                      {item.name.toUpperCase()}
-                      {!isGhost && <span className="opacity-40 text-[8px]">{item.cal} cal / 100g</span>}
-                    </button>
-                  );
-                })}
-              </div>
+              {!collapsedCats[cat] && (
+                <motion.div 
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="space-y-8 overflow-hidden"
+                >
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {categoryOptions.map(item => {
+                      const isSelected = selectedItems.includes(item.name);
+                      const isGhost = item.name === 'Skip' || item.name === 'No Sauce';
+                      
+                      return (
+                        <button
+                          key={item.name}
+                          onClick={() => toggleSelection(cat, item.name)}
+                          className={`relative px-4 py-5 rounded-2xl border text-[10px] font-mono tracking-widest transition-all duration-300 flex flex-col items-center gap-2 group ${
+                            isSelected 
+                              ? 'bg-black border-black text-white shadow-xl scale-[1.02]' 
+                              : isGhost 
+                                ? 'bg-transparent border-black/10 text-gray-400 hover:border-black/20'
+                                : 'bg-white border-black/10 text-black font-bold hover:border-black/30'
+                          }`}
+                        >
+                          {isSelected && (
+                            <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-accent" />
+                          )}
+                          {item.name.toUpperCase()}
+                          {!isGhost && <span className="opacity-40 text-[8px]">{item.cal} cal / 100g</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
 
-              {!isSkip && selectedItems.length > 0 && (
-                <div className="space-y-4 pt-4 border-t border-black/5">
-                  {/* Expanded Items */}
-                  {selectedItems.filter(name => editingItems[cat].includes(name)).map(selectedName => {
-                    const unit = (options[cat as keyof typeof options].find((o: any) => o.name === selectedName) as any)?.unit || 'G';
-                    return (
-                      <div key={selectedName} className="relative bg-black/[0.01] p-6 rounded-[28px] space-y-6 animate-in fade-in slide-in-from-top-1 duration-500 border border-black/5">
-                        <div className="flex justify-between items-center">
-                          <span className="text-[10px] font-mono font-bold text-black/40 uppercase">Fine Tuning: {selectedName}</span>
-                          <button 
-                            onClick={() => minimizeItem(cat, selectedName)}
-                            className="text-black/20 hover:text-black transition-all p-2"
-                          >
-                            <X size={14} />
-                          </button>
-                        </div>
-                        
-                        <RangeSlider 
-                          label={selectedName} 
-                          value={weights[cat]?.[selectedName] || 0} 
-                          min={cat === 'protein' ? 100 : 1} 
-                          max={cat === 'protein' ? 400 : cat === 'carb' && selectedName === 'English Muffin' ? 2 : 500} 
-                          unit={unit}
-                          onChange={(val: number) => setWeights(prev => ({
-                            ...prev,
-                            [cat]: { ...prev[cat], [selectedName]: val }
-                          }))}
-                        />
-
-                        <div className="grid grid-cols-4 md:grid-cols-5 gap-2">
-                          {(cat === 'sauce' ? [25, 50, 75, 100] : cat === 'carb' && selectedName === 'English Muffin' ? [1, 2] : [100, 150, 200, 250, 300]).map(q => {
-                            if (cat === 'protein' && (q < 100 || q > 400)) return null;
-                            const isActive = weights[cat]?.[selectedName] === q;
-                            return (
-                              <button
-                                key={q}
-                                onClick={() => setWeights(prev => ({
-                                  ...prev,
-                                  [cat]: { ...prev[cat], [selectedName]: q }
-                                }))}
-                                className={`py-3 rounded-xl border text-[10px] font-mono transition-all ${
-                                  isActive
-                                    ? 'bg-black text-white border-black shadow-lg shadow-black/10'
-                                    : 'bg-white border-black/5 text-gray-500 hover:border-black/20'
-                                }`}
-                              >
-                                {q}{unit}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    );
-                  })}
-                  
-                  {/* Minimized List - more compact */}
-                  {selectedItems.filter(name => !editingItems[cat].includes(name)).length > 0 && (
-                    <div className="flex flex-wrap gap-2 pt-2">
-                      {selectedItems.filter(name => !editingItems[cat].includes(name)).map(selectedName => {
+                  {!isSkip && selectedItems.length > 0 && (
+                    <div className="space-y-4 pt-4 border-t border-black/5">
+                      {/* Expanded Items */}
+                      {selectedItems.filter(name => editingItems[cat].includes(name)).map(selectedName => {
                         const unit = (options[cat as keyof typeof options].find((o: any) => o.name === selectedName) as any)?.unit || 'G';
-                        const weight = weights[cat]?.[selectedName] || 0;
                         return (
-                          <div
-                            key={selectedName}
-                            className="flex items-center gap-3 pl-4 pr-2 py-2 rounded-xl border border-black/10 bg-white"
-                          >
-                            <span className="text-[9px] font-mono font-bold uppercase text-black/60">{selectedName}</span>
-                            <div className="flex items-center gap-1">
-                              <span className="text-[10px] font-mono font-bold">{weight}{unit}</span>
-                              <button onClick={() => expandItem(cat, selectedName)} className="p-1.5 hover:bg-black/5 rounded-lg transition-colors">
-                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                          <div key={selectedName} className="relative bg-black/[0.01] p-6 rounded-[28px] space-y-6 animate-in fade-in slide-in-from-top-1 duration-500 border border-black/5">
+                            <div className="flex justify-between items-center">
+                              <span className="text-[10px] font-mono font-bold text-black/40 uppercase">Fine Tuning: {selectedName}</span>
+                              <button 
+                                onClick={() => minimizeItem(cat, selectedName)}
+                                className="text-black/20 hover:text-black transition-all p-2"
+                              >
+                                <X size={14} />
                               </button>
-                              <button onClick={() => removeSelection(cat, selectedName)} className="p-1.5 hover:bg-red-50 hover:text-red-500 rounded-lg transition-colors">
-                                <X size={10} />
-                              </button>
+                            </div>
+                            
+                            <RangeSlider 
+                              label={selectedName} 
+                              value={weights[cat]?.[selectedName] || 0} 
+                              min={cat === 'protein' ? 100 : 1} 
+                              max={cat === 'protein' ? 400 : cat === 'carb' && selectedName === 'English Muffin' ? 2 : 500} 
+                              unit={unit}
+                              onChange={(val: number) => setWeights(prev => ({
+                                ...prev,
+                                [cat]: { ...prev[cat], [selectedName]: val }
+                              }))}
+                            />
+
+                            <div className="grid grid-cols-4 md:grid-cols-5 gap-2">
+                              {(cat === 'sauce' ? [25, 50, 75, 100] : cat === 'carb' && selectedName === 'English Muffin' ? [1, 2] : [100, 150, 200, 250, 300]).map(q => {
+                                if (cat === 'protein' && (q < 100 || q > 400)) return null;
+                                const isActive = weights[cat]?.[selectedName] === q;
+                                return (
+                                  <button
+                                    key={q}
+                                    onClick={() => setWeights(prev => ({
+                                      ...prev,
+                                      [cat]: { ...prev[cat], [selectedName]: q }
+                                    }))}
+                                    className={`py-3 rounded-xl border text-[10px] font-mono transition-all ${
+                                      isActive
+                                        ? 'bg-black text-white border-black shadow-lg shadow-black/10'
+                                        : 'bg-white border-black/5 text-gray-500 hover:border-black/20'
+                                    }`}
+                                  >
+                                    {q}{unit}
+                                  </button>
+                                );
+                              })}
                             </div>
                           </div>
                         );
                       })}
+                      
+                      {/* Minimized List - more compact */}
+                      {selectedItems.filter(name => !editingItems[cat].includes(name)).length > 0 && (
+                        <div className="flex flex-wrap gap-2 pt-2">
+                          {selectedItems.filter(name => !editingItems[cat].includes(name)).map(selectedName => {
+                            const unit = (options[cat as keyof typeof options].find((o: any) => o.name === selectedName) as any)?.unit || 'G';
+                            const weight = weights[cat]?.[selectedName] || 0;
+                            return (
+                              <div
+                                key={selectedName}
+                                className="flex items-center gap-3 pl-4 pr-2 py-2 rounded-xl border border-black/10 bg-white"
+                              >
+                                <span className="text-[9px] font-mono font-bold uppercase text-black/60">{selectedName}</span>
+                                <div className="flex items-center gap-1">
+                                  <span className="text-[10px] font-mono font-bold">{weight}{unit}</span>
+                                  <button onClick={() => expandItem(cat, selectedName)} className="p-1.5 hover:bg-black/5 rounded-lg transition-colors">
+                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                                  </button>
+                                  <button onClick={() => removeSelection(cat, selectedName)} className="p-1.5 hover:bg-red-50 hover:text-red-500 rounded-lg transition-colors">
+                                    <X size={10} />
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
                     </div>
                   )}
-                </div>
+                </motion.div>
               )}
             </div>
           );
