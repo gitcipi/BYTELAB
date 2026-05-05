@@ -7,8 +7,8 @@ import { INGREDIENTS } from '../data/ingredients';
 const RangeSlider = ({ label, value, max, onChange, unit = '' }: { label: string, value: number, max: number, onChange: (v: number) => void, unit?: string }) => (
   <div className="space-y-6">
     <div className="flex justify-between items-end">
-      <span className="text-[10px] font-mono tracking-[0.4em] text-white/40 font-black uppercase leading-none">{label}</span>
-      <span className="text-2xl font-mono text-white leading-none font-black">{value}<span className="text-[10px] text-amber-500 ml-1">{unit}</span></span>
+      <span className="text-[10px] font-mono tracking-[0.4em] text-black/40 font-black uppercase leading-none">{label}</span>
+      <span className="text-2xl font-mono text-black leading-none font-black">{value}<span className="text-[10px] text-[#00aff0] ml-1">{unit}</span></span>
     </div>
     <input
       type="range"
@@ -16,7 +16,7 @@ const RangeSlider = ({ label, value, max, onChange, unit = '' }: { label: string
       max={max}
       value={value}
       onChange={(e) => onChange(parseInt(e.target.value))}
-      className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-amber-500"
+      className="w-full h-1 bg-black/5 rounded-lg appearance-none cursor-pointer accent-[#00aff0]"
     />
   </div>
 );
@@ -118,13 +118,10 @@ const MacroGenerator = () => {
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-24 bg-[#050505] relative overflow-hidden text-white font-sans">
-      {/* Background decoration - Amber Glow */}
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-amber-500/10 rounded-full blur-[180px] -z-10 pointer-events-none opacity-50" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-amber-500/5 rounded-full blur-[150px] -z-10 pointer-events-none opacity-30" />
-      
-      {/* Scanline pattern */}
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none -z-5" />
+    <div className="min-h-screen pt-32 pb-24 bg-white relative overflow-hidden text-black font-sans">
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#00aff0]/5 rounded-full blur-[180px] -z-10 pointer-events-none opacity-50" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#00aff0]/3 rounded-full blur-[150px] -z-10 pointer-events-none opacity-30" />
 
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-24">
@@ -133,38 +130,38 @@ const MacroGenerator = () => {
             animate={{ opacity: 1, y: 0 }}
             className="flex flex-col items-center gap-6"
           >
-            <div className="flex items-center gap-4 px-4 py-2 bg-amber-500/10 rounded-full border border-amber-500/20 mb-4">
-              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-              <span className="text-[10px] font-mono font-black tracking-[0.4em] text-amber-500 uppercase">System Status: Ready</span>
+            <div className="flex items-center gap-4 px-4 py-2 bg-[#00aff0]/10 rounded-full border border-[#00aff0]/20 mb-4">
+              <span className="w-2 h-2 rounded-full bg-[#00aff0] animate-pulse" />
+              <span className="text-[10px] font-mono font-black tracking-[0.4em] text-[#00aff0] uppercase">Engine Status: Ready</span>
             </div>
-            <h1 className="text-7xl md:text-9xl font-heading font-black tracking-tighter text-white leading-none">
-              PROTOCOL<span className="text-amber-500">ENGINE.</span>
+            <h1 className="text-7xl md:text-9xl font-heading font-black tracking-tighter text-black leading-none">
+              GENERATE<span className="text-[#00aff0]">MEAL.</span>
             </h1>
             <p className="text-gray-500 max-w-xl mx-auto text-lg font-light leading-relaxed mt-4">
               AI-driven synthesis of high-performance meal protocols. <br />
-              <span className="text-amber-500/60 font-mono text-sm tracking-widest uppercase">Input targets. Synthesize results.</span>
+              <span className="text-[#00aff0]/60 font-mono text-sm tracking-widest uppercase text-center">Define targets. Engineering takes over.</span>
             </p>
           </motion.div>
         </div>
 
-        <div className="bg-[#0f0f0f] p-10 md:p-20 rounded-[64px] border border-white/5 shadow-2xl relative overflow-hidden group">
+        <div className="bg-white p-10 md:p-20 rounded-[64px] border border-black/5 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.05)] relative overflow-hidden group">
           {/* Internal Glow */}
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-amber-500/5 rounded-full blur-[100px] group-hover:bg-amber-500/10 transition-all duration-700" />
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#00aff0]/5 rounded-full blur-[100px] group-hover:bg-[#00aff0]/10 transition-all duration-700" />
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center relative z-10">
             <div className="lg:col-span-5 space-y-16">
               <div className="space-y-12">
-                <div className="p-10 bg-white/[0.02] rounded-[40px] border border-white/5 flex justify-between items-center relative overflow-hidden">
-                  <div className="absolute top-0 left-0 w-1 h-full bg-amber-500/40" />
+                <div className="p-10 bg-gray-50 rounded-[40px] border border-black/5 flex justify-between items-center relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-1 h-full bg-[#00aff0]/40" />
                   <div className="space-y-2">
-                    <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-amber-500 font-bold block">Energy Payload</span>
-                    <div className="text-[9px] font-mono text-white/20 space-y-0.5 leading-tight uppercase tracking-wider">
+                    <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-[#00aff0] font-bold block">Energy Output</span>
+                    <div className="text-[9px] font-mono text-black/20 space-y-0.5 leading-tight uppercase tracking-wider">
                       <p>P: 4kcal/g | C: 4kcal/g | F: 9kcal/g</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-6xl font-mono font-black text-white">{calculatedCals}</span>
-                    <span className="text-xl font-mono text-amber-500 ml-2">KCAL</span>
+                    <span className="text-6xl font-mono font-black text-black">{calculatedCals}</span>
+                    <span className="text-xl font-mono text-[#00aff0] ml-2">KCAL</span>
                   </div>
                 </div>
                 
@@ -178,14 +175,14 @@ const MacroGenerator = () => {
               <button 
                 onClick={generate}
                 disabled={isGenerating}
-                className="w-full py-7 bg-amber-500 text-black rounded-[24px] text-xs font-mono font-black tracking-[0.4em] uppercase hover:bg-white transition-all flex items-center justify-center gap-4 disabled:opacity-50 shadow-[0_0_50px_rgba(251,191,36,0.2)]"
+                className="w-full py-7 bg-black text-white rounded-[24px] text-xs font-mono font-black tracking-[0.4em] uppercase hover:bg-[#00aff0] hover:text-black transition-all flex items-center justify-center gap-4 disabled:opacity-50 shadow-lg shadow-black/5"
               >
                 {isGenerating ? <RotateCcw className="animate-spin" size={20} /> : <Calculator size={20} />}
-                {isGenerating ? 'SYNTHESIZING...' : 'START GENERATION'}
+                {isGenerating ? 'ENGINEERING...' : 'START GENERATION'}
               </button>
             </div>
 
-            <div className="lg:col-span-7 relative min-h-[600px] flex items-center justify-center bg-black/40 rounded-[56px] p-12 border border-white/5 overflow-hidden">
+            <div className="lg:col-span-7 relative min-h-[600px] flex items-center justify-center bg-gray-50 rounded-[56px] p-12 border border-black/5 overflow-hidden">
               <AnimatePresence mode="wait">
                 {!generatedMeal ? (
                   <motion.div 
@@ -195,10 +192,10 @@ const MacroGenerator = () => {
                     exit={{ opacity: 0 }}
                     className="text-center space-y-6"
                   >
-                    <div className="w-24 h-24 rounded-[32px] border-2 border-dashed border-white/10 flex items-center justify-center mx-auto mb-8">
-                      <Wand2 size={36} className="text-white/5" />
+                    <div className="w-24 h-24 rounded-[32px] border-2 border-dashed border-black/10 flex items-center justify-center mx-auto mb-8">
+                      <Wand2 size={36} className="text-black/5" />
                     </div>
-                    <p className="text-[10px] font-mono uppercase tracking-[0.5em] text-white/10 font-black">Awaiting System Input</p>
+                    <p className="text-[10px] font-mono uppercase tracking-[0.5em] text-black/10 font-black">Awaiting System Input</p>
                   </motion.div>
                 ) : (
                   <motion.div 
@@ -210,43 +207,43 @@ const MacroGenerator = () => {
                     <div className="flex justify-between items-start mb-12">
                       <div>
                         <div className="flex items-center gap-3 mb-4">
-                          <span className="w-2 h-2 rounded-full bg-amber-500" />
-                          <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-amber-500 font-bold block">Protocol Synthesized</span>
+                          <span className="w-2 h-2 rounded-full bg-[#00aff0]" />
+                          <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-[#00aff0] font-bold block">Protocol Derived</span>
                         </div>
-                        <h4 className="text-5xl font-heading font-black tracking-tighter text-white uppercase italic">{generatedMeal.name.replace('AI Protocol:', '')}</h4>
+                        <h4 className="text-5xl font-heading font-black tracking-tighter text-black uppercase italic">{generatedMeal.name.replace('AI Protocol:', '')}</h4>
                       </div>
                       <div className="text-right">
-                        <span className="text-[10px] font-mono tracking-widest text-white/20 uppercase block mb-1">Synthesis Cost</span>
-                        <span className="text-4xl font-mono font-black text-white">€{generatedMeal.price.toFixed(2)}</span>
+                        <span className="text-[10px] font-mono tracking-widest text-black/20 uppercase block mb-1">Production Cost</span>
+                        <span className="text-4xl font-mono font-black text-black">€{generatedMeal.price.toFixed(2)}</span>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
                       {[
-                        { label: 'Energy', val: Math.round(generatedMeal.macros.cal), unit: 'kcal', color: 'text-white' },
-                        { label: 'Protein', val: Math.round(generatedMeal.macros.p), unit: 'g', color: 'text-amber-500' },
-                        { label: 'Carbs', val: Math.round(generatedMeal.macros.c), unit: 'g', color: 'text-white/60' },
-                        { label: 'Fats', val: Math.round(generatedMeal.macros.f), unit: 'g', color: 'text-white/40' },
+                        { label: 'Energy', val: Math.round(generatedMeal.macros.cal), unit: 'kcal', color: 'text-black' },
+                        { label: 'Protein', val: Math.round(generatedMeal.macros.p), unit: 'g', color: 'text-[#00aff0]' },
+                        { label: 'Carbs', val: Math.round(generatedMeal.macros.c), unit: 'g', color: 'text-black/60' },
+                        { label: 'Fats', val: Math.round(generatedMeal.macros.f), unit: 'g', color: 'text-black/40' },
                       ].map(stat => (
-                        <div key={stat.label} className="p-6 bg-white/[0.02] rounded-[24px] border border-white/5">
-                          <span className="block text-[8px] font-mono tracking-widest text-white/20 uppercase font-bold mb-2">{stat.label}</span>
+                        <div key={stat.label} className="p-6 bg-white rounded-[24px] border border-black/5 shadow-sm">
+                          <span className="block text-[8px] font-mono tracking-widest text-black/20 uppercase font-bold mb-2">{stat.label}</span>
                           <span className={`text-2xl font-mono font-black ${stat.color}`}>{stat.val}<span className="text-[12px] opacity-40 ml-1 font-normal">{stat.unit}</span></span>
                         </div>
                       ))}
                     </div>
 
                     <div className="space-y-6 mb-16 flex-grow">
-                      <span className="text-[10px] font-mono tracking-[0.5em] uppercase text-white/20 font-black block mb-6">Component Breakdown</span>
+                      <span className="text-[10px] font-mono tracking-[0.5em] uppercase text-black/20 font-black block mb-6">Component Selection</span>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {[
-                          { icon: <Beef size={16}/>, label: 'Amino Profile', name: generatedMeal.details.protein[0].name, weight: generatedMeal.details.protein[0].weight },
-                          { icon: <Wheat size={16}/>, label: 'Glycogen Load', name: generatedMeal.details.carb[0].name, weight: generatedMeal.details.carb[0].weight },
+                          { icon: <Beef size={16}/>, label: 'Protein Source', name: generatedMeal.details.protein[0].name, weight: generatedMeal.details.protein[0].weight },
+                          { icon: <Wheat size={16}/>, label: 'Carb Payload', name: generatedMeal.details.carb[0].name, weight: generatedMeal.details.carb[0].weight },
                         ].map((item, i) => (
-                          <div key={i} className="flex items-center gap-4 p-5 bg-white/[0.03] rounded-[24px] border border-white/5">
-                            <div className="p-3 bg-amber-500 text-black rounded-2xl">{item.icon}</div>
+                          <div key={i} className="flex items-center gap-4 p-5 bg-white rounded-[24px] border border-black/5 shadow-sm">
+                            <div className="p-3 bg-black text-white rounded-2xl">{item.icon}</div>
                             <div>
-                              <span className="block text-[8px] font-mono text-white/20 uppercase tracking-widest leading-none mb-2">{item.label}</span>
-                              <p className="text-[12px] font-mono font-black text-white uppercase">{item.name} <span className="text-amber-500 ml-2">{item.weight}G</span></p>
+                              <span className="block text-[8px] font-mono text-black/20 uppercase tracking-widest leading-none mb-2">{item.label}</span>
+                              <p className="text-[12px] font-mono font-black text-black uppercase">{item.name} <span className="text-[#00aff0] ml-2">{item.weight}G</span></p>
                             </div>
                           </div>
                         ))}
@@ -256,9 +253,9 @@ const MacroGenerator = () => {
                     <div className="flex gap-6">
                       <button 
                         onClick={handleCustomize}
-                        className="flex-1 py-5 rounded-[20px] border border-white/10 text-[10px] font-mono font-bold tracking-[0.3em] uppercase hover:bg-white hover:text-black transition-all flex items-center justify-center gap-3"
+                        className="flex-1 py-5 rounded-[20px] border border-black/10 text-[10px] font-mono font-bold tracking-[0.3em] uppercase hover:bg-black hover:text-white transition-all flex items-center justify-center gap-3"
                       >
-                        <X size={14} className="rotate-45" /> Lab Adjust
+                        <X size={14} className="rotate-45" /> Refine in Lab
                       </button>
                       <button 
                         onClick={() => {
@@ -271,9 +268,9 @@ const MacroGenerator = () => {
                             details: generatedMeal.details
                           });
                         }}
-                        className="flex-1 py-5 rounded-[20px] bg-white text-black text-[10px] font-mono font-black tracking-[0.3em] uppercase hover:bg-amber-500 transition-all flex items-center justify-center gap-3"
+                        className="flex-1 py-5 rounded-[20px] bg-black text-white text-[10px] font-mono font-black tracking-[0.3em] uppercase hover:bg-[#00aff0] hover:text-black transition-all flex items-center justify-center gap-3 shadow-lg shadow-black/5"
                       >
-                        <ShoppingCart size={14} /> Add to Ops
+                        <ShoppingCart size={14} /> Add to Basket
                       </button>
                     </div>
                   </motion.div>

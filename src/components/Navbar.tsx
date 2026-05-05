@@ -36,7 +36,7 @@ export const Navbar = () => {
 
   const navLinks = [
     { name: 'MENU', path: '/menu' },
-    { name: 'MEAL GENERATOR', path: '/macro-generator' },
+    { name: 'GENERATE MEAL', path: '/macro-generator' },
     { name: 'OnlyPlans', path: '/plans' },
     { name: 'LAB', path: '/lab' }
   ];
