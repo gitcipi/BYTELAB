@@ -132,10 +132,10 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
 
       setEditingItems(prev => {
         const currentCat = prev[cat];
-        if (currentCat.includes(name)) {
-          return { ...prev, [cat]: currentCat.filter(n => n !== name) };
-        }
-        return { ...prev, [cat]: [...currentCat, name] };
+        // Always ensure it's REMOVED from editing state if we are toggling it (especially if it was already selected)
+        // If it wasn't selected, we don't want to add it to editingItems here either, 
+        // because the card's onClick will handle the 'expand' if clicked on the box.
+        return { ...prev, [cat]: currentCat.filter(n => n !== name) };
       });
     }
   };
