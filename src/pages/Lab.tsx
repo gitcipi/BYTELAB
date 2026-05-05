@@ -434,7 +434,19 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                               isDark={false}
                             />
 
-                            <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
+                            <div className="grid grid-cols-4 md:grid-cols-9 gap-2">
+                              {/* Add 0g option */}
+                              {!isGhost && (
+                                <button
+                                  onClick={() => {
+                                    toggleSelection(cat, item.name);
+                                    minimizeItem(cat, item.name);
+                                  }}
+                                  className="py-3 rounded-xl border text-[10px] font-mono transition-all bg-red-50 border-red-100 text-red-500 hover:bg-red-100"
+                                >
+                                  0G (REMOVE)
+                                </button>
+                              )}
                               {(cat === 'sauce' ? [25, 50, 75, 100] : item.unit === 'PC' ? [1, 2] : [100, 150, 200, 250, 300, 350, 400]).map(q => {
                                 if (cat === 'protein' && q < 100) return null;
                                 if (cat === 'protein' && q > 400) return null;
@@ -458,7 +470,17 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                               })}
                             </div>
 
-                            <div className="flex justify-center">
+                            <div className="flex justify-center gap-4">
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleSelection(cat, item.name);
+                                  minimizeItem(cat, item.name);
+                                }}
+                                className="px-8 py-4 border border-black/10 text-black/40 text-[10px] font-mono font-bold tracking-[0.3em] uppercase rounded-full hover:bg-red-50 hover:text-red-500 hover:border-red-200 transition-all"
+                              >
+                                Remove Ingredient
+                              </button>
                               <button 
                                 onClick={(e) => {
                                   e.stopPropagation();
