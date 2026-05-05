@@ -77,9 +77,9 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <ScrollToTop />
-      <CartProvider>
+    <CartProvider>
+      <Router>
+        <ScrollToTop />
         <div className="relative min-h-screen bg-transparent">
           <div className="fixed inset-0 -z-50 bg-[#070707]" style={{ 
             background: 'radial-gradient(circle at top right, rgba(46,71,255,0.06), transparent 40%), #070707' 
@@ -97,8 +97,8 @@ function App() {
           </main>
           <Footer />
         </div>
-      </CartProvider>
-    </Router>
+      </Router>
+    </CartProvider>
   );
 }
 

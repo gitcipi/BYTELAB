@@ -45,7 +45,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const expiry = CART_EXPIRY_DAYS * 24 * 60 * 60 * 1000;
       
       if (now - parseInt(savedTime) < expiry) {
-        setItems(JSON.parse(savedCart));
+        try {
+          setItems(JSON.parse(savedCart));
+        } catch (e) {
+          console.error("Cart parse error", e);
+          localStorage.removeItem('byte_cart');
+        }
       } else {
         localStorage.removeItem('byte_cart');
         localStorage.removeItem('byte_cart_timestamp');
