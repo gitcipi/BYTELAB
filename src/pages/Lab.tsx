@@ -143,10 +143,12 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
   };
 
   const expandItem = (cat: string, name: string) => {
-    setEditingItems(prev => ({
-      ...prev,
-      [cat]: [...prev[cat], name]
-    }));
+    setEditingItems({
+      protein: cat === 'protein' ? [name] : [],
+      carb: cat === 'carb' ? [name] : [],
+      veggies: cat === 'veggies' ? [name] : [],
+      sauce: cat === 'sauce' ? [name] : [],
+    });
   };
 
   const options = {
@@ -407,7 +409,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                           <motion.div 
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: 'auto', opacity: 1 }}
-                            className="px-8 pb-8 space-y-8 border-t border-black/5 pt-8"
+                            className="px-8 pb-6 space-y-4 border-t border-black/5 pt-4"
                           >
                             <RangeSlider 
                               label={item.name} 
