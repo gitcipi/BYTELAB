@@ -40,8 +40,8 @@ const Plans = () => {
       meals: 8,
       discount: 10,
       basePrice: 60,
-      tag: 'Ideal for 4 days',
-      features: ['8 Macro-Tracked Meals', 'Flexible Delivery', 'Basic Support', 'Daily Prep'],
+      tag: '10% OFF',
+      features: ['8 Precision Engineered Meals', '10% Scaled Discount', 'Full Macro-Tracked Protocol', 'Microwaveable Tupperware'],
       color: 'accent'
     },
     {
@@ -50,8 +50,8 @@ const Plans = () => {
       meals: 14,
       discount: 15,
       basePrice: 105,
-      tag: 'Complete 1 week',
-      features: ['14 Macro-Tracked Meals', 'Priority Delivery', 'Standard Support', 'Nutrition Consult'],
+      tag: '15% OFF',
+      features: ['14 Precision Engineered Meals', '15% Volume Discount', 'Full Macro-Tracked Protocol', 'Microwaveable Tupperware'],
       color: 'blue-500'
     },
     {
@@ -60,8 +60,8 @@ const Plans = () => {
       meals: 20,
       discount: 25,
       basePrice: 150,
-      tag: 'Peak Performance',
-      features: ['20 Macro-Tracked Meals', 'Express Delivery', '24/7 Priority Support', 'Free Lab Customization'],
+      tag: '25% OFF',
+      features: ['20 Precision Engineered Meals', '25% Maximum Discount', 'Full Macro-Tracked Protocol', 'Microwaveable Tupperware'],
       color: 'emerald-500'
     }
   ];
