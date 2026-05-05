@@ -232,9 +232,9 @@ const MacroGenerator = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {[
                           { icon: <Beef size={14}/>, label: 'Protein Source', name: generatedMeal.details.protein[0].name, weight: generatedMeal.details.protein[0].weight, cal: (generatedMeal.details.protein[0] as any).cal },
-                          { icon: <Wheat size={14}/>, label: 'Carb Payload', name: generatedMeal.details.carb[0].name, weight: generatedMeal.details.carb[0].weight, cal: (generatedMeal.details.carb[0] as any).cal },
-                          { icon: <Droplets size={14}/>, label: 'Enzyme / Sauce', name: generatedMeal.details.sauce[0].name, weight: generatedMeal.details.sauce[0].weight, cal: (generatedMeal.details.sauce[0] as any).cal },
-                          { icon: <Zap size={14}/>, label: 'Micros / Veg', name: generatedMeal.details.veggies[0].name, weight: generatedMeal.details.veggies[0].weight, cal: (generatedMeal.details.veggies[0] as any).cal },
+                          { icon: <Wheat size={14}/>, label: 'Carbs', name: generatedMeal.details.carb[0].name, weight: generatedMeal.details.carb[0].weight, cal: (generatedMeal.details.carb[0] as any).cal },
+                          { icon: <Droplets size={14}/>, label: 'Sauce', name: generatedMeal.details.sauce[0].name, weight: generatedMeal.details.sauce[0].weight, cal: (generatedMeal.details.sauce[0] as any).cal },
+                          { icon: <Zap size={14}/>, label: 'Veggies', name: generatedMeal.details.veggies[0].name, weight: generatedMeal.details.veggies[0].weight, cal: (generatedMeal.details.veggies[0] as any).cal },
                         ].filter(item => item.name !== 'Skip' && item.name !== 'No Sauce').map((item, i) => (
                           <div key={i} className="flex items-center gap-3 p-4 bg-white rounded-[20px] border border-black/5 shadow-sm">
                             <div className="p-2.5 bg-black text-white rounded-xl shrink-0">
