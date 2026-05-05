@@ -292,10 +292,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                         <div key={opt.name} className={`relative rounded-[24px] border transition-all duration-300 ${isSelected ? 'bg-white border-black/20 shadow-sm' : 'bg-gray-50/80 border-black/5 hover:border-black/10'}`}>
                           <div className="p-6 flex justify-between items-start">
                             <button 
-                              onClick={() => {
-                                if (!isSelected) toggleSelection(cat, opt.name);
-                                updateSlot({ activeEditingItem: isEditing ? null : opt.name });
-                              }}
+                              onClick={() => updateSlot({ activeEditingItem: isEditing ? null : opt.name })}
                               className="flex-grow text-left"
                             >
                               <div className="flex items-center gap-2 mb-1">
@@ -318,7 +315,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                                 </button>
                               )}
                               <button 
-                                onClick={() => toggleSelection(cat, opt.name)} 
+                                onClick={(e) => { e.stopPropagation(); toggleSelection(cat, opt.name); }} 
                                 className={`w-6 h-6 rounded-full border flex items-center justify-center transition-all ${isSelected ? 'bg-black border-black text-white shadow-sm' : 'border-black/10 text-black/20 hover:text-black/40 hover:border-black/20'}`}
                               >
                                 {isSelected ? (
@@ -332,7 +329,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                             </div>
                           </div>
                           <AnimatePresence>
-                            {isEditing && isSelected && opt.name !== 'Skip' && opt.name !== 'No Sauce' && (
+                            {isEditing && opt.name !== 'Skip' && opt.name !== 'No Sauce' && (
                               <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="border-t border-black/5 overflow-hidden">
                                 <div className="p-5 space-y-5">
                                   {opt.max !== 1 && (
