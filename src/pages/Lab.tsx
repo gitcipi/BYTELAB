@@ -74,6 +74,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
   const [collapsedCats, setCollapsedCats] = useState<Record<string, boolean>>({
     protein: false, carb: false, veggies: false, sauce: false
   });
+  const [showSelectedOnly, setShowSelectedOnly] = useState(false);
 
   useEffect(() => {
     setCurrency(initialCurrency);
@@ -279,8 +280,23 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
               ))}
             </div>
 
+            <div className="flex justify-start pb-2">
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <div className={`w-8 h-4 rounded-full transition-colors relative ${showSelectedOnly ? 'bg-black' : 'bg-gray-200'}`}>
+                  <div className={`w-3 h-3 bg-white rounded-full absolute top-0.5 transition-transform ${showSelectedOnly ? 'translate-x-4.5 left-[1px]' : 'left-[2px]'}`} />
+                </div>
+                <span className={`text-[9px] font-mono font-bold tracking-widest uppercase transition-colors ${showSelectedOnly ? 'text-black' : 'text-black/40 group-hover:text-black/60'}`}>Show Selected</span>
+                <input type="checkbox" className="hidden" checked={showSelectedOnly} onChange={(e) => setShowSelectedOnly(e.target.checked)} />
+              </label>
+            </div>
+
             {['protein', 'carb', 'veggies', 'sauce'].map((cat) => {
-              const catOptions = options[cat as keyof typeof options] as any[];
+              let catOptions = options[cat as keyof typeof options] as any[];
+              if (showSelectedOnly) {
+                catOptions = catOptions.filter(opt => selections[cat].includes(opt.name));
+              }
+              if (catOptions.length === 0 && showSelectedOnly) return null;
+
               const groupedOptions = (cat === 'protein' || cat === 'carb') 
                 ? catOptions.reduce((acc: any, opt: any) => {
                     const sub = opt.subCategory || 'OTHER';

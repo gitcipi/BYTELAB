@@ -166,88 +166,151 @@ const MenuGrid = () => {
 
 const Home = () => {
   return (
-    <div className="relative">
-      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-white">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 text-center">
-          <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="max-w-4xl mx-auto pt-20">
-            <motion.div variants={fadeUpVariant} className="flex flex-col mb-8">
-              <h1 className="text-4xl md:text-6xl lg:text-[72px] font-heading font-semibold text-black tracking-tight leading-[1.1]">
-                Eat clean.
-              </h1>
-              <h1 className="text-4xl md:text-6xl lg:text-[72px] font-heading font-semibold text-black tracking-tight leading-[1.1]">
-                Think sharp.
-              </h1>
-              <h1 className="text-4xl md:text-6xl lg:text-[72px] font-heading font-semibold text-black tracking-tight leading-[1.1]">
-                Stay fit.
-              </h1>
-            </motion.div>
-
-            <motion.p 
-              variants={fadeUpVariant}
-              className="text-lg md:text-xl text-black/50 font-sans font-normal tracking-wide mb-8 max-w-xl mx-auto leading-relaxed"
-            >
-              Engineered Nutrition based in Ubud. <br />
-              Sourced from Ubud.
-            </motion.p>
-
+    <div className="relative bg-white overflow-hidden">
+      {/* Premium Hero Section */}
+      <section className="relative min-h-[90vh] flex items-center pt-20">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-8 items-center">
+            
+            {/* Left Column: Brand & Messaging */}
             <motion.div 
-              variants={fadeUpVariant}
-              className="flex flex-col items-center gap-6 mb-12"
+              initial="hidden" 
+              animate="visible" 
+              variants={staggerContainer}
+              className="z-10"
             >
-              <div className="flex flex-wrap justify-center gap-3">
-                {['High Protein', 'Macro Tracked', 'Delivered Fresh'].map((text) => (
-                  <div 
-                    key={text}
-                    className="px-4 py-1.5 rounded-full border border-black/10 bg-black/5 text-[9px] font-mono font-bold tracking-[0.2em] text-black/40 uppercase"
+              <motion.div variants={fadeUpVariant} className="flex items-center gap-3 mb-8">
+                <div className="w-10 h-10 rounded-full border-2 border-black flex items-center justify-center">
+                  <span className="text-sm font-mono font-black tracking-tighter">B /</span>
+                </div>
+                <span className="text-[10px] font-mono tracking-[0.4em] text-black/40 uppercase font-bold">Byte Lab Nutrition</span>
+              </motion.div>
+
+              <motion.h1 
+                variants={fadeUpVariant}
+                className="text-6xl md:text-7xl lg:text-8xl font-heading font-light tracking-tight text-black mb-8 leading-[0.95]"
+              >
+                Food, <br />
+                <span className="italic font-medium text-accent-light">engineered.</span>
+              </motion.h1>
+
+              <motion.p 
+                variants={fadeUpVariant}
+                className="text-xl md:text-2xl text-black/60 font-sans font-light tracking-wide mb-12 max-w-lg leading-relaxed"
+              >
+                Precision meals built around your body, your goals, and your protocol.
+              </motion.p>
+
+              <motion.div 
+                variants={fadeUpVariant}
+                className="flex flex-wrap gap-4 mb-16"
+              >
+                <Link to="/menu" className="px-8 py-4 bg-black text-white rounded-full text-[11px] tracking-[0.2em] uppercase font-bold hover:bg-accent-light transition-all shadow-xl shadow-black/10">
+                  Explore Menu
+                </Link>
+                <Link to="/lab" className="px-8 py-4 bg-white text-black border border-black/10 rounded-full text-[11px] tracking-[0.2em] uppercase font-bold hover:border-black transition-all">
+                  Build Meal
+                </Link>
+                <Link to="/generate-meal" className="px-8 py-4 bg-white text-black border border-black/10 rounded-full text-[11px] tracking-[0.2em] uppercase font-bold hover:border-black transition-all">
+                  Generate Meals
+                </Link>
+              </motion.div>
+
+              {/* Trust Metrics */}
+              <motion.div 
+                variants={fadeUpVariant}
+                className="grid grid-cols-2 md:flex items-center gap-x-12 gap-y-6 pt-12 border-t border-black/5"
+              >
+                {[
+                  { val: '48g', label: 'Avg Protein' },
+                  { val: '16', label: 'Chef Built' },
+                  { val: 'Macro', label: 'Tracked' },
+                  { val: 'Local', label: 'Delivery' }
+                ].map((stat, i) => (
+                  <motion.div 
+                    key={i}
+                    whileHover={{ y: -5 }}
+                    className="flex flex-col gap-1 cursor-default group"
                   >
-                    {text}
-                  </div>
+                    <span className="text-xs font-mono font-bold text-black uppercase tracking-widest group-hover:text-accent-light transition-colors">{stat.val}</span>
+                    <span className="text-[9px] font-mono text-black/40 uppercase tracking-widest font-medium group-hover:text-black/60 transition-colors">{stat.label}</span>
+                  </motion.div>
                 ))}
-              </div>
-              <div className="px-4 py-1.5 rounded-full bg-[#00B14F] text-[9px] font-mono font-bold tracking-[0.2em] text-white uppercase shadow-lg shadow-green-500/20">
-                Delivery by Grab/Gojek
-              </div>
+              </motion.div>
             </motion.div>
 
+            {/* Right Column: Premium Visual */}
             <motion.div 
-              variants={fadeUpVariant}
-              className="flex flex-col sm:flex-row items-center justify-center gap-6"
+              initial={{ opacity: 0, scale: 0.9, x: 50 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              className="relative group"
             >
-              <Link to="/lab" className="w-full sm:w-auto px-12 py-5 bg-black text-white rounded-full text-[12px] tracking-[0.2em] uppercase font-bold hover:bg-black/90 transition-all text-center">
-                Build Yours
-              </Link>
-              <Link to="/menu" className="w-full sm:w-auto px-12 py-5 bg-transparent border border-black/20 text-black rounded-full text-[12px] tracking-[0.2em] uppercase font-bold hover:bg-black hover:text-white transition-all text-center">
-                Explore Menu
-              </Link>
+              <div className="relative aspect-[4/5] md:aspect-square rounded-[48px] overflow-hidden bg-gray-50 shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]">
+                <img 
+                  src="/premium_byte_meal_hero.png" 
+                  alt="Premium Engineered Meal" 
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent"></div>
+              </div>
+
+              {/* Nutrition Card Overlay */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -10, scale: 1.05 }}
+                transition={{ 
+                  delay: 0.8, 
+                  duration: 0.8,
+                  whileHover: { duration: 0.3 }
+                }}
+                className="absolute -bottom-6 -left-6 md:-left-12 bg-white/90 backdrop-blur-2xl p-8 rounded-[32px] border border-black/5 shadow-2xl z-20 min-w-[280px] cursor-pointer"
+              >
+                <div className="flex justify-between items-start mb-6">
+                  <div>
+                    <span className="text-[10px] font-mono tracking-widest text-black/40 uppercase block mb-1">Synthesized Profile</span>
+                    <h4 className="text-2xl font-heading font-medium text-black tracking-tight leading-none">Optimal Bowl.</h4>
+                  </div>
+                  <div className="w-8 h-8 rounded-full border border-black/5 flex items-center justify-center">
+                    <Activity size={14} className="text-accent-light" />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-y-6 gap-x-8">
+                  <div className="flex flex-col group/stat">
+                    <span className="text-[9px] font-mono font-bold text-black/30 uppercase tracking-widest mb-1 transition-colors group-hover/stat:text-black/50">Energy</span>
+                    <span className="text-lg font-mono font-bold text-black">620 <span className="text-[10px] text-black/20">KCAL</span></span>
+                  </div>
+                  <div className="flex flex-col group/stat">
+                    <span className="text-[9px] font-mono font-bold text-accent-light uppercase tracking-widest mb-1">Protein</span>
+                    <span className="text-lg font-mono font-bold text-black">48 <span className="text-[10px] text-black/20">G</span></span>
+                  </div>
+                  <div className="flex flex-col group/stat">
+                    <span className="text-[9px] font-mono font-bold text-orange-500 uppercase tracking-widest mb-1">Carbs</span>
+                    <span className="text-lg font-mono font-bold text-black">61 <span className="text-[10px] text-black/20">G</span></span>
+                  </div>
+                  <div className="flex flex-col group/stat">
+                    <span className="text-[9px] font-mono font-bold text-emerald-500 uppercase tracking-widest mb-1">Fats</span>
+                    <span className="text-lg font-mono font-bold text-black">14 <span className="text-[10px] text-black/20">G</span></span>
+                  </div>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
+
+          </div>
         </div>
       </section>
 
-      <LabPreview />
-
-      <section className="h-24 md:h-32 bg-white border-y border-black/5 relative overflow-hidden flex items-center">
-        <div className="absolute inset-0 marquee-mask-white z-10 pointer-events-none"></div>
-        <div className="flex animate-marquee whitespace-nowrap items-center hover:pause">
-          {[...Array(2)].map((_, i) => (
-            <div key={i} className="flex items-center">
-              {[
-                { icon: <Leaf size={18} />, text: "CLEAN INGREDIENTS" },
-                { icon: <Activity size={18} />, text: "MACRO TRACKED" },
-                { icon: <Truck size={18} />, text: "DELIVERED FRESH" },
-                { icon: <Zap size={18} />, text: "HIGH PROTEIN" },
-                { icon: <CircleSlash size={18} />, text: "NO PROCESSED SUGAR" },
-                { icon: <Timer size={18} />, text: "DAILY PREP" },
-                { icon: <MapPin size={18} />, text: "LOCAL DELIVERY" },
-                { icon: <Gauge size={18} />, text: "PERFORMANCE FOCUSED" }
-              ].map((item, idx) => (
-                <div key={idx} className="flex items-center mx-12 group transition-all">
-                  <span className="text-accent-light mr-4 group-hover:scale-125 transition-transform">{item.icon}</span>
-                  <span className="text-[12px] font-mono tracking-[0.2em] text-black/40 group-hover:text-black transition-colors">{item.text}</span>
-                </div>
-              ))}
-            </div>
-          ))}
+      {/* Protocol Strip */}
+      <section className="py-12 md:py-20 border-y border-black/5">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 text-center">
+          <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 mb-8 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
+            {['CORE', 'LEAN', 'ZERO', 'MASS', 'BOOST', 'READY'].map((p) => (
+              <span key={p} className="text-lg md:text-xl font-heading font-light tracking-[0.3em] text-black cursor-default hover:text-accent-light transition-colors">{p}</span>
+            ))}
+          </div>
+          <p className="text-[10px] font-mono tracking-[0.5em] text-black/30 uppercase font-bold">6 protocols. One system.</p>
         </div>
       </section>
 
@@ -274,32 +337,6 @@ const Home = () => {
 
       <About />
 
-      <section className="section-padding bg-white relative border-y border-black/5">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 text-center">
-          <h2 className="text-3xl md:text-4xl font-heading font-light tracking-tight mb-4 text-black">High performance feedback.</h2>
-          <p className="text-gray-600 tracking-wide mb-16">Don't just take our word for it.</p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { name: "Marcus T.", role: "Triathlete", text: "BYTE changed how I train. The macro precision is unmatched, and the ingredients taste like they came from a Michelin kitchen." },
-              { name: "Sarah L.", role: "Executive", text: "As a founder, I don't have time to cook, but I refuse to compromise on nutrition. BYTE delivers consistency every single week." },
-              { name: "David K.", role: "Fitness Coach", text: "I recommend BYTE to all my high-end clients. It's the only meal prep service that actually hits the macros they claim." }
-            ].map((review, idx) => (
-              <div key={idx} className="bg-gray-50 border border-black/5 p-8 rounded-[32px] text-left transition-all">
-                <div className="flex text-accent-light mb-6">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" /></svg>
-                  ))}
-                </div>
-                <p className="text-gray-600 font-light leading-relaxed mb-8 text-sm italic">"{review.text}"</p>
-                <div>
-                  <p className="font-mono text-sm text-black tracking-wide">{review.name}</p>
-                  <p className="text-xs text-gray-400 uppercase tracking-widest mt-1">{review.role}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section className="py-32 bg-white relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[150px] z-0 pointer-events-none"></div>
