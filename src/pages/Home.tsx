@@ -335,7 +335,7 @@ const Home = () => {
             <span className="text-[10px] font-mono tracking-[0.4em] text-[#00aff0] uppercase mb-4 block font-bold">Protocol Subscription</span>
             <h2 className="text-4xl md:text-6xl font-heading font-black tracking-tight mb-6 text-black">Only<span className="text-[#00aff0]">Plans</span></h2>
             <p className="text-lg text-gray-500 font-light mb-12 leading-relaxed">
-              Unlock exclusive weekly meal protocols engineered for peak performance. Targeting <span className="text-black font-medium">600-700 kcal</span> and a massive <span className="text-accent font-medium">60g protein</span> per meal. Save up to 25% with our subscription packages.
+              Unlock exclusive weekly meal protocols engineered for peak performance. 2 Meals / Day: <span className="text-black font-medium">~1,300 Kcal</span> / <span className="text-accent font-medium">120g P</span>. Save up to 25% with our subscription packages.
             </p>
             <Link
               to="/plans"
