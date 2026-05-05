@@ -143,6 +143,15 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
   };
 
   const expandItem = (cat: string, name: string) => {
+    // Initialize weight if not exists so it stays stored even before confirmation
+    if (!weights[cat][name]) {
+      const defaultWeight = (options[cat as keyof typeof options].find((o: any) => o.name === name) as any)?.unit === 'PC' ? 1 : 100;
+      setWeights(prev => ({
+        ...prev,
+        [cat]: { ...prev[cat], [name]: defaultWeight }
+      }));
+    }
+
     setEditingItems({
       protein: cat === 'protein' ? [name] : [],
       carb: cat === 'carb' ? [name] : [],
@@ -371,14 +380,15 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                           className="h-full p-4 md:p-5 cursor-pointer flex justify-between items-center text-black"
                           onClick={() => {
                             if (!isSelected) {
-                              toggleSelection(cat, item.name);
-                              if (!isGhost) expandItem(cat, item.name);
+                              if (!isGhost) {
+                                expandItem(cat, item.name);
+                              } else {
+                                toggleSelection(cat, item.name);
+                              }
                             } else if (!isEditing && !isGhost) {
                               expandItem(cat, item.name);
                             } else if (isEditing) {
                               minimizeItem(cat, item.name);
-                            } else {
-                              toggleSelection(cat, item.name);
                             }
                           }}
                         >
@@ -390,18 +400,20 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                             {isSelected && !isGhost && (
                               <span className="text-xs font-mono font-bold text-accent">{weights[cat]?.[item.name]}g</span>
                             )}
-                            <button 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                toggleSelection(cat, item.name);
-                                if (isEditing) minimizeItem(cat, item.name);
-                              }}
-                              className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all hover:scale-110 active:scale-95 ${
-                                isSelected ? 'bg-accent border-accent' : 'border-black/10'
-                              }`}
-                            >
-                              {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
-                            </button>
+                            {isSelected ? (
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleSelection(cat, item.name);
+                                  if (isEditing) minimizeItem(cat, item.name);
+                                }}
+                                className="w-6 h-6 rounded-full border-2 bg-accent border-accent flex items-center justify-center transition-all hover:scale-110 active:scale-95"
+                              >
+                                <div className="w-2 h-2 rounded-full bg-white" />
+                              </button>
+                            ) : (
+                              <div className="w-6 h-6 rounded-full border-2 border-black/10" />
+                            )}
                           </div>
                         </div>
 
@@ -474,6 +486,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                               <button 
                                 onClick={(e) => {
                                   e.stopPropagation();
+                                  if (!isSelected) toggleSelection(cat, item.name);
                                   minimizeItem(cat, item.name);
                                 }}
                                 className="px-12 py-4 bg-accent text-white text-[10px] font-mono font-bold tracking-[0.3em] uppercase rounded-full hover:bg-accent-light transition-all shadow-xl shadow-accent/20"
