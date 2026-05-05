@@ -214,7 +214,7 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
     if (currentSlot.name) return currentSlot.name;
     const p = selections.protein;
     if (p.length === 0 || p.includes('Skip')) return 'Custom Engineering Build';
-    return `${p.join(' & ')} Performance Bowl`;
+    return `${p.join(' & ')} Performance`;
   }, [selections.protein, currentSlot.name]);
 
   return (
