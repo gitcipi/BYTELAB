@@ -336,7 +336,17 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                         <div key={opt.name} className={`relative rounded-[24px] border transition-all duration-300 ${isSelected ? 'bg-white border-black/20 shadow-sm' : 'bg-gray-50/80 border-black/5 hover:border-black/10'}`}>
                           <div className="p-6 flex justify-between items-start">
                             <button 
-                              onClick={() => updateSlot({ activeEditingItem: isEditing ? null : opt.name })}
+                              onClick={() => {
+                                if (!isEditing && !weights[cat][opt.name]) {
+                                  const defaultWeight = opt.min || (opt.unit === 'PC' ? 1 : (cat === 'protein' || cat === 'carb' ? 100 : 50));
+                                  updateSlot({ 
+                                    activeEditingItem: opt.name,
+                                    weights: { ...weights, [cat]: { ...weights[cat], [opt.name]: defaultWeight } }
+                                  });
+                                } else {
+                                  updateSlot({ activeEditingItem: isEditing ? null : opt.name });
+                                }
+                              }}
                               className="flex-grow text-left"
                             >
                               <div className="flex items-center gap-2 mb-1">
