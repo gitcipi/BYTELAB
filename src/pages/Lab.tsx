@@ -339,12 +339,17 @@ const ByteLab = ({ currency: initialCurrency }: { currency: string }) => {
                                             const step = opt.step || (opt.unit === 'PC' ? 1 : 50);
                                             updateWeight(cat, opt.name, Math.max(minVal, (weights[cat][opt.name] || 0) - step));
                                           }}><Minus size={14} /></button>
-                                          <span className="text-base font-mono font-bold">
-                                            {weights[cat][opt.name] || 0}
-                                            <span className="text-[10px] ml-0.5 opacity-40">{opt.unit || 'G'}</span>
-                                            {opt.weightPerPc && (
-                                              <span className="text-[9px] ml-1.5 opacity-30">({(weights[cat][opt.name] || 0) * opt.weightPerPc}G)</span>
-                                            )}
+                                          <span className="text-base font-mono font-bold flex items-baseline gap-2">
+                                            <span>
+                                              {weights[cat][opt.name] || 0}
+                                              <span className="text-[10px] ml-0.5 opacity-40">{opt.unit || 'G'}</span>
+                                              {opt.weightPerPc && (
+                                                <span className="text-[9px] ml-1.5 opacity-30">({(weights[cat][opt.name] || 0) * opt.weightPerPc}G)</span>
+                                              )}
+                                            </span>
+                                            <span className="text-[9px] text-[#00aff0] font-black tracking-widest">
+                                              {Math.round(opt.cal * ((weights[cat][opt.name] || 0) / (opt.unit === 'PC' ? 1 : 100)))} KCAL
+                                            </span>
                                           </span>
                                           <button onClick={() => {
                                             const maxVal = opt.max || (opt.unit === 'PC' ? 5 : 400);
