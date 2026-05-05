@@ -58,21 +58,11 @@ const Plans = () => {
       id: 'pro',
       name: 'Pro Pack',
       meals: 20,
-      discount: 20,
+      discount: 25,
       basePrice: 240,
       tag: 'Best Value',
       features: ['20 Macro-Tracked Meals', 'Express Delivery', '24/7 Priority Support', 'Free Lab Customization'],
       color: 'emerald-500'
-    },
-    {
-      id: 'elite',
-      name: 'Elite Pack',
-      meals: 30,
-      discount: 25,
-      basePrice: 360,
-      tag: 'High Performance',
-      features: ['30 Macro-Tracked Meals', 'Dedicated Courier', 'VIP Support', 'Custom Macro Scaling'],
-      color: 'orange-500'
     }
   ];
 
@@ -110,7 +100,7 @@ const Plans = () => {
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-1 md:grid-cols-3 gap-8"
         >
           {mealPackages.map((pkg) => {
             const discountedPrice = pkg.basePrice * (1 - pkg.discount / 100);
@@ -135,9 +125,9 @@ const Plans = () => {
                   </div>
 
                   <div className="mb-10">
-                    <div className="flex items-baseline gap-2 mb-1">
-                      <span className="text-4xl font-mono font-bold text-black">{formatPrice(discountedPrice)}</span>
-                      <span className="text-sm font-mono text-gray-300 line-through">{formatPrice(pkg.basePrice)}</span>
+                    <div className="flex flex-col mb-2">
+                      <span className="text-4xl font-mono font-bold text-black tracking-tighter leading-none mb-2">{formatPrice(discountedPrice)}</span>
+                      <span className="text-sm font-mono text-gray-300 line-through leading-none">{formatPrice(pkg.basePrice)}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] font-mono font-bold text-[#00aff0] bg-[#00aff0]/5 px-2 py-0.5 rounded">SAVE {pkg.discount}%</span>
