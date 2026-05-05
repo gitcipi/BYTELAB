@@ -14,20 +14,6 @@ const RangeSlider = ({ label, value, min, max, onChange, unit = 'G', isDark = fa
 
   return (
     <div className="space-y-4 pt-2">
-      <div className="flex justify-between items-center">
-        <span className={`text-[10px] font-mono tracking-widest uppercase font-bold ${isDark ? 'text-white/40' : 'text-black/40'}`}>Fine Tune / {label}</span>
-        <div className="flex items-center gap-2">
-          <input 
-            type="number" 
-            value={value}
-            onChange={(e) => onChange(Math.max(min, Math.min(max, parseInt(e.target.value) || 0)))}
-            className={`w-16 bg-transparent border-b text-right font-mono text-sm outline-none transition-colors ${
-              isDark ? 'border-white/10 text-white focus:border-accent' : 'border-black/10 text-black focus:border-accent-light'
-            }`}
-          />
-          <span className={`text-xs font-mono font-bold ${isDark ? 'text-white' : 'text-black'}`}>{unit}</span>
-        </div>
-      </div>
       <div className="relative h-12 flex flex-col justify-end">
         <div 
           className="absolute top-0 mb-2 transition-all duration-75"
