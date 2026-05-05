@@ -41,7 +41,7 @@ const Plans = () => {
       discount: 10,
       basePrice: 60,
       tag: '10% OFF',
-      features: ['8 Precision Engineered Meals', '10% Scaled Discount', 'Full Macro-Tracked Protocol', 'Microwaveable Tupperware'],
+      features: ['8 Precision Engineered Meals', 'Ideal for 4 Full Days', '2 Fresh Deliveries / Week', 'Microwaveable Tupperware'],
       color: 'accent'
     },
     {
@@ -51,7 +51,7 @@ const Plans = () => {
       discount: 15,
       basePrice: 105,
       tag: '15% OFF',
-      features: ['14 Precision Engineered Meals', '15% Volume Discount', 'Full Macro-Tracked Protocol', 'Microwaveable Tupperware'],
+      features: ['14 Precision Engineered Meals', 'Complete 7-Day Protocol', '4 Fresh Deliveries / Week', 'Microwaveable Tupperware'],
       color: 'blue-500'
     },
     {
@@ -61,7 +61,7 @@ const Plans = () => {
       discount: 25,
       basePrice: 150,
       tag: '25% OFF',
-      features: ['20 Precision Engineered Meals', '25% Maximum Discount', 'Full Macro-Tracked Protocol', 'Microwaveable Tupperware'],
+      features: ['20 Precision Engineered Meals', 'Elite Performance Load', 'Daily Fresh Deliveries', 'Microwaveable Tupperware'],
       color: 'emerald-500'
     }
   ];
